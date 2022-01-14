@@ -39,6 +39,11 @@ class AuthController extends Controller
             ]);
         }
 
+        /**
+         * Preventing multiple token creation.
+         */
+        $user->tokens()->delete();
+
         return response([
             'data'    => new UserResource($user),
             'message' => __('rest-api::app.common-response.success.login'),
