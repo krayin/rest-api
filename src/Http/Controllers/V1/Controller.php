@@ -26,7 +26,7 @@ class Controller extends RestApiController
      *
      * @return void
      */
-    public function addEntityTypeInRequest($entityType)
+    protected function addEntityTypeInRequest($entityType)
     {
         request()->request->add(['entity_type' => $entityType]);
     }
@@ -37,7 +37,7 @@ class Controller extends RestApiController
      * @param  \Webkul\Core\Eloquent\Repository  $repository
      * @return Illuminate\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection
      */
-    public function allResources(Repository $repository)
+    protected function allResources(Repository $repository)
     {
         $query = $repository->query();
 

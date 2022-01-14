@@ -41,7 +41,7 @@ class AuthController extends Controller
 
         return response([
             'data'    => new UserResource($user),
-            'message' => 'Logged in successfully.',
+            'message' => __('rest-api::app.common-response.success.login'),
             'token'   => $user->createToken($request->device_name)->plainTextToken,
         ]);
     }
@@ -59,7 +59,7 @@ class AuthController extends Controller
         $customer->tokens()->delete();
 
         return response([
-            'message' => 'Logged out successfully.',
+            'message' => __('rest-api::app.common-response.success.logout'),
         ]);
     }
 
