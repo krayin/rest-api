@@ -27,6 +27,15 @@ namespace Webkul\RestApi\Docs\Controllers;
  *     name="Leads",
  *     description="API Endpoints for Leads, Quotes, and Tags."
  * )
+ * 
+ * @OA\Tag(
+ *     name="Settings",
+ *     description="API Endpoints for Settings"
+ * )
+ *  * @OA\Tag(
+ *     name="Quotes",
+ *     description="API Endpoints for Quotes"
+ * )
  */
 class Controller
 {

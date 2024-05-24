@@ -86,7 +86,7 @@ class TagController extends Controller
     public function update($id)
     {
         $this->validate(request(), [
-            'name' => 'required|unique:tags,name',
+            'name' => 'required|unique:tags,name,'.$id,
         ]);
 
         Event::dispatch('settings.tag.update.before', $id);
