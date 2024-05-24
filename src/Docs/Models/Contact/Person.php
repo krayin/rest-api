@@ -33,16 +33,30 @@ class Person
      */
     private $name;
 
-    /**
+    /*
      * @OA\Property(
-     *     title="Email",
-     *     description="Email of the lead",
-     *     example="john@doe.com"
-     * )
-     *
-     * @var string
+     *    property="emails",
+     *    type="array",
+     *    description="Contact Emails",
+     *    @OA\Items(
+     *        type="object",
+     *        @OA\Property(
+     *            property="label",
+     *            type="string",
+     *            description="Label for the contact number (e.g., 'work')"
+     *        ),
+     *        @OA\Property(
+     *            property="value",
+     *            type="string",
+     *            description="The contact email"
+     *        )
+     *    ),
+     *    example={
+     *        {"label": "work", "value": "jhone@doe.com"},
+     *    }
+     *)
      */
-    private $email;
+    private $emails;
 
     /*
      * @OA\Property(
@@ -74,10 +88,8 @@ class Person
      * @OA\Property(
      *     title="Organization",
      *     description="Organization",
-     *     example={
-     *       {"label": "work", "value": "9999999999"},
-     *       {"label": "home", "value": "8888888888"}
-     *    }
+     *     nullable=true,
+     *     example=null 
      * )
      *
      * @var object

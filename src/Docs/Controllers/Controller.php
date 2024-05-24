@@ -20,12 +20,12 @@ namespace Webkul\RestApi\Docs\Controllers;
  *
  * @OA\Tag(
  *     name="Authentication",
- *     description="API Endpoints for Leads, Quotes, and Tags"
+ *     description="API Endpoints for Authentication."
  * )
  * 
  * @OA\Tag(
  *     name="Leads",
- *     description="API Endpoints for Leads, Quotes, and Tags"
+ *     description="API Endpoints for Leads, Quotes, and Tags."
  * )
  */
 class Controller
