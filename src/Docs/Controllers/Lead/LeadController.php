@@ -144,7 +144,7 @@ class LeadController
      *                      @OA\Property(
      *                          property="name",
      *                          type="string",
-     *                          example="Jhon Doe",
+     *                          example="John Doe",
      *                     ),
      *                  @OA\Property(
      *                       property="emails",
@@ -156,12 +156,12 @@ class LeadController
      *                               property="value",
      *                               type="string",
      *                               description="Email address",
-     *                               example="jhon@mail.com"
+     *                               example="John@mail.com"
      *                           ),
      *                           @OA\Property(
      *                               property="label",
      *                               type="string",
-     *                               description="Email adderss",
+     *                               description="Email address",
      *                               example="work"
      *                           )
      *                        ),
@@ -183,7 +183,7 @@ class LeadController
      *                           @OA\Property(
      *                               property="label",
      *                               type="string",
-     *                               description="Email adderss",
+     *                               description="Email address",
      *                               example="work"
      *                           )
      *                        ),
@@ -316,7 +316,7 @@ class LeadController
      *                      @OA\Property(
      *                          property="name",
      *                          type="string",
-     *                          example="Jhon Doe",
+     *                          example="John Doe",
      *                     ),
      *                     @OA\Property(
      *                          property="id",
@@ -333,12 +333,12 @@ class LeadController
      *                               property="value",
      *                               type="string",
      *                               description="Email address",
-     *                               example="jhon@mail.com"
+     *                               example="John@mail.com"
      *                           ),
      *                           @OA\Property(
      *                               property="label",
      *                               type="string",
-     *                               description="Email adderss",
+     *                               description="Email address",
      *                               example="work"
      *                           )
      *                        ),
@@ -360,7 +360,7 @@ class LeadController
      *                           @OA\Property(
      *                               property="label",
      *                               type="string",
-     *                               description="Email adderss",
+     *                               description="Email address",
      *                               example="work"
      *                           )
      *                        ),

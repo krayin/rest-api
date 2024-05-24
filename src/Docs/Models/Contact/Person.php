@@ -26,7 +26,7 @@ class Person
      * @OA\Property(
      *     title="Name",
      *     description="Name of the lead",
-     *     example="Jhon Doe"
+     *     example="John Doe"
      * )
      *
      * @var string
@@ -52,7 +52,7 @@ class Person
      *        )
      *    ),
      *    example={
-     *        {"label": "work", "value": "jhone@doe.com"},
+     *        {"label": "work", "value": "Johne@doe.com"},
      *    }
      *)
      */
