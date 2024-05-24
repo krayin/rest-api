@@ -62,7 +62,7 @@ class User
      *     description="Admin user's role"
      * )
      *
-     * @var \Webkul\RestApi\Docs\Admin\Models\User\Role
+     * @var \Webkul\RestApi\Docs\Models\User\Role
      */
     private $role;
 
