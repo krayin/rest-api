@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\RestApi\Docs\Controllers\Settings\Tags;
+namespace Webkul\RestApi\Docs\Controllers\Settings;
 
 
 class TagController
@@ -9,7 +9,7 @@ class TagController
      * @OA\Get(
      *      path="/api/v1/settings/tags",
      *      operationId="tagList",
-     *      tags={"Settings"},
+     *      tags={"Tag"},
      *      summary="Get list of leads",
      *      security={ {"sanctum_admin": {} }},
      *      @OA\Response(
@@ -37,7 +37,7 @@ class TagController
      * @OA\Post(
      *      path="/api/v1/settings/tags",
      *      operationId="storeTag",
-     *      tags={"Settings"},
+     *      tags={"Tag"},
      *      summary="Store the Tags",
      *      description="Store the Tags",
      *      security={ {"sanctum_admin": {} }},
@@ -83,7 +83,7 @@ class TagController
      * @OA\Get(
      *      path="/api/v1/settings/tags/{id}",
      *      operationId="showTag",
-     *      tags={"Settings"},
+     *      tags={"Tag"},
      *      summary="Get Tag by id",
      *      description="Get Tag by id",
      *      security={ {"sanctum_admin": {} }},
@@ -117,7 +117,7 @@ class TagController
      * @OA\Put(
      *      path="/api/v1/settings/tags/{id}",
      *      operationId="updateTag",
-     *      tags={"Settings"},
+     *      tags={"Tag"},
      *      summary="Update the Tags",
      *      description="Update the Tags",
      *      security={ {"sanctum_admin": {} }},
@@ -172,7 +172,7 @@ class TagController
      * @OA\Delete(
      *      path="/api/v1/settings/tags/{id}",
      *      operationId="deleteTag",
-     *      tags={"Settings"},
+     *      tags={"Tag"},
      *      summary="Delete the Tags",
      *      description="Delete the Tags",
      *      security={ {"sanctum_admin": {} }},
@@ -206,7 +206,7 @@ class TagController
      * @OA\Post(
      *      path="/api/v1/settings/tags/mass-destroy",
      *      operationId="massDestroyTag",
-     *      tags={"Settings"},
+     *      tags={"Tag"},
      *      summary="Mass Delete the Tags",
      *      description="Mass Delete the Tags",
      *      security={ {"sanctum_admin": {} }},

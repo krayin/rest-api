@@ -120,7 +120,7 @@ class Lead
     *     description="User ID",
     * )
     *
-    * @var \Webkul\RestApi\Docs\Models\User\User
+    * @var \Webkul\RestApi\Docs\Models\Settings\User
     */
     private $user_id;
 

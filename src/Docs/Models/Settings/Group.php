@@ -4,18 +4,29 @@ namespace Webkul\RestApi\Docs\Models\Settings;
 
 /**
  * @OA\Schema(
- *     title="Tag",
- *     description="Tag Model",
+ *     title="Group",
+ *     description="Group Model",
  * )
  */
-class Tag
+class Group
 {
     /**
      * @OA\Property(
-     *     title="name",
-     *     description="Name of the tag",
-     *     example="Active",
-     *     type="string"
+     *     title="ID",
+     *     description="ID",
+     *     format="int64",
+     *     example=1
+     * )
+     *
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @OA\Property(
+     *     title="Name",
+     *     description="Name",
+     *     example="Group Name"
      * )
      *
      * @var string
@@ -24,27 +35,16 @@ class Tag
 
     /**
      * @OA\Property(
-     *     title="color",
-     *     description="Color of the tag",
-     *     example="#FEBF00",
-     *     type="string"
+     *     title="Description",
+     *     description="Description",
+     *     example="Group Description",
      * )
      *
      * @var string
      */
-    private $color;
+    private $description;
 
-    /**
-     * @OA\Property(
-     *     title="user_id",
-     *     description="User ID",
-     * )
-     *
-     * @var \Webkul\RestApi\Docs\Models\Settings\User
-     */
-    private $user_id;
-
-    /**
+     /**
      * @OA\Property(
      *     title="Created at",
      *     description="Created at",

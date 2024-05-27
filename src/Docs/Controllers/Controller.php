@@ -29,7 +29,7 @@ namespace Webkul\RestApi\Docs\Controllers;
  * )
  * 
  * @OA\Tag(
- *     name="Settings",
+ *     name="Tag",
  *     description="API Endpoints for Settings"
  * )
  * 
@@ -51,6 +51,21 @@ namespace Webkul\RestApi\Docs\Controllers;
  * @OA\Tag(
  *     name="Configuration",
  *     description="API Endpoints for Configuration"
+ * )
+ * 
+ * @OA\Tag(
+ *     name="Group",
+ *     description="API Endpoints for Group"
+ * )
+ * 
+ * @OA\Tag(
+ *     name="Role",
+ *     description="API Endpoints for Group"
+ * )
+ * 
+ *  @OA\Tag(
+ *     name="User",
+ *     description="API Endpoints for User"
  * )
  */
 class Controller
