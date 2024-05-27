@@ -12,10 +12,10 @@ Route::group([
      * Person routes.
      */
     Route::get('persons', [PersonController::class, 'index']);
+    
+    Route::get('persons/search', [PersonController::class, 'search'])->where('query', '[A-Za-z0–9\-]+');
 
-    Route::get('persons/{id}', [PersonController::class, 'show']);
-
-    Route::get('persons/search', [PersonController::class, 'search']);
+    Route::get('persons/{id}', [PersonController::class, 'show'])->where('id', '[0-9]+');
 
     Route::post('persons', [PersonController::class, 'store']);
 

@@ -11,17 +11,14 @@ class QuoteController
      *      tags={"Quotes"},
      *      summary="Get list of quotes",
      *      security={ {"sanctum_admin": {} }},
-     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *
      *          @OA\JsonContent(
-     *
      *               @OA\Property(
      *                  property="data",
-     *                  type="object",
-     *                  ref="#/components/schemas/Quote"
+     *                  type="array",
+     *                  @OA\Items(ref="#/components/schemas/Quote")
      *              )
      *          )
      *      ),

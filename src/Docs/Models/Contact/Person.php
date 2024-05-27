@@ -10,7 +10,7 @@ namespace Webkul\RestApi\Docs\Models\Contact;
  */
 class Person
 {
-        /**
+    /**
      * @OA\Property(
      *     title="ID",
      *     description="ID of the lead",
@@ -33,7 +33,7 @@ class Person
      */
     private $name;
 
-    /*
+   /**
      * @OA\Property(
      *    property="emails",
      *    type="array",
@@ -43,22 +43,25 @@ class Person
      *        @OA\Property(
      *            property="label",
      *            type="string",
-     *            description="Label for the contact number (e.g., 'work')"
+     *            description="Label for the contact emails (e.g., 'work', 'home')",
+     *            example="work"
      *        ),
      *        @OA\Property(
      *            property="value",
      *            type="string",
-     *            description="The contact email"
+     *            description="The contact email",
+     *            example="example2@gmail.com"
      *        )
      *    ),
      *    example={
-     *        {"label": "work", "value": "Johne@doe.com"},
+     *        {"label": "work", "value": "example1@gmail.com"},
+     *        {"label": "home", "value": "example2@gmail.com"}
      *    }
-     *)
+     * )
      */
     private $emails;
 
-    /*
+    /**
      * @OA\Property(
      *    property="contact_numbers",
      *    type="array",
@@ -68,19 +71,21 @@ class Person
      *        @OA\Property(
      *            property="label",
      *            type="string",
-     *            description="Label for the contact number (e.g., 'work', 'home')"
+     *            description="Label for the contact number (e.g., 'work', 'home')",
+     *            example="work"
      *        ),
      *        @OA\Property(
      *            property="value",
      *            type="string",
-     *            description="The contact number"
+     *            description="The contact number",
+     *            example="9999999999"
      *        )
      *    ),
      *    example={
      *        {"label": "work", "value": "9999999999"},
      *        {"label": "home", "value": "8888888888"}
      *    }
-     *)
+     * )
      */
     private $contact_numbers;
 
@@ -88,13 +93,11 @@ class Person
      * @OA\Property(
      *     title="Organization",
      *     description="Organization",
-     *     nullable=true,
-     *     example=null 
      * )
      *
-     * @var object
+     * @var \Webkul\RestApi\Docs\Models\Contact\Organization
      */
-    private $organization_id;
+    private $organization;
 
     /**
      * @OA\Property(

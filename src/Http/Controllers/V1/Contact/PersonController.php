@@ -56,6 +56,20 @@ class PersonController extends Controller
     }
 
     /**
+     * Search person results.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search()
+    {
+        $persons = $this->personRepository->findWhere([
+            ['name', 'like', '%' . urldecode(request()->input('query')) . '%']
+        ]);
+
+        return PersonResource::collection($persons);
+    }
+
+    /**
      * Create the person.
      *
      * @param  \Webkul\Attribute\Http\Requests\AttributeForm  $request

@@ -17,8 +17,8 @@ class LeadController
      *          @OA\JsonContent(
      *               @OA\Property(
      *                  property="data",
-     *                  type="object",
-     *                  ref="#/components/schemas/Lead"
+     *                  type="array",
+     *                  @OA\Items(ref="#/components/schemas/Lead")
      *              )
      *          )
      *      ),

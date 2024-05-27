@@ -12,29 +12,45 @@ namespace Webkul\RestApi\Docs\Controllers;
  *          email="admin@example.com"
  *      )
  * )
- *
+ * 
  * @OA\Server(
  *      url=APP_URL,
  *      description="Krayin Rest API"
  * )
- *
+ * 
  * @OA\Tag(
  *     name="Authentication",
- *     description="API Endpoints for Authentication."
+ *     description="API Endpoints for Authentication"
  * )
  * 
  * @OA\Tag(
  *     name="Leads",
- *     description="API Endpoints for Leads, Quotes, and Tags."
+ *     description="API Endpoints for Leads, Quotes, and Tags"
  * )
  * 
  * @OA\Tag(
  *     name="Settings",
  *     description="API Endpoints for Settings"
  * )
- *  * @OA\Tag(
+ * 
+ * @OA\Tag(
  *     name="Quotes",
  *     description="API Endpoints for Quotes"
+ * )
+ * 
+ * @OA\Tag(
+ *     name="Contacts",
+ *     description="API Endpoints for Contacts and Organizations"
+ * )
+ * 
+ * @OA\Tag(
+ *     name="Products",
+ *     description="API Endpoints for Products"
+ * )
+ * 
+ * @OA\Tag(
+ *     name="Configuration",
+ *     description="API Endpoints for Configuration"
  * )
  */
 class Controller

@@ -25,7 +25,7 @@ class Quote
      * @OA\Property(
      *     title="Billing Address",
      *     description="Quote Billing Address",
-     *     example="This is a quote billing address.",
+     *     example="7436 Olaf Ford\nLake Robertofort, WA 84080-7752",
      * )
      *
      * @var string
@@ -36,7 +36,7 @@ class Quote
      * @OA\Property(
      *     title="Shipping Address",
      *     description="Quote Shipping Address",
-     *     example="This is a quote shipping address.",
+     *     example="7436 Olaf Ford\nLake Robertofort, WA 84080-7752",
      * )
      *
      * @var string
@@ -47,7 +47,7 @@ class Quote
      * @OA\Property(
      *     title="Discount Percent",
      *     description="Quote Discount Percent",
-     *     example="This is a quote discount percent.",
+     *     example="10",
      * )
      *
      * @var string
@@ -58,7 +58,7 @@ class Quote
      * @OA\Property(
      *     title="Discount Amount",
      *     description="Quote Discount Amount",
-     *     example="This is a quote discount amount.",
+     *     example="10",
      * )
      *
      * @var string
@@ -69,7 +69,7 @@ class Quote
      * @OA\Property(
      *     title="Tax Amount",
      *     description="Quote Tax Amount",
-     *     example="This is a quote tax amount.",
+     *     example="10",
      * )
      *
      * @var string
@@ -80,7 +80,7 @@ class Quote
      * @OA\Property(
      *     title="Adjustment Amount",
      *     description="Quote Adjustment Amount",
-     *     example="This is a quote adjustment amount.",
+     *     example="10",
      * )
      *
      * @var string
@@ -91,7 +91,7 @@ class Quote
      * @OA\Property(
      *     title="Sub Total",
      *     description="Quote Sub Total",
-     *     example="This is a quote sub total.",
+     *     example="90",
      * )
      *
      * @var string
@@ -102,7 +102,7 @@ class Quote
      * @OA\Property(
      *     title="Grand Total",
      *     description="Quote Grand Total",
-     *     example="This is a quote grand total.",
+     *     example="90",
      * )
      *
      * @var string
@@ -113,7 +113,7 @@ class Quote
      * @OA\Property(
      *     title="Expired At",
      *     description="Quote Expired At",
-     *     example="This is a quote expired at.",
+     *     example="2024-05-27T12:34:56Z",
      * )
      *
      * @var string
@@ -124,7 +124,7 @@ class Quote
      * @OA\Property(
      *     title="User ID",
      *     description="Quote User ID",
-     *     example="This is a quote user id.",
+     *     example="1",
      * )
      *
      * @var string
@@ -135,7 +135,7 @@ class Quote
      * @OA\Property(
      *     title="Person ID",
      *     description="Quote Person ID",
-     *     example="This is a quote person id.",
+     *     example="1",
      * )
      *
      * @var string

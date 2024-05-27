@@ -18,8 +18,8 @@ class TagController
      *          @OA\JsonContent(
      *               @OA\Property(
      *                  property="data",
-     *                  type="object",
-     *                  ref="#/components/schemas/Tag"
+     *                  type="array",
+     *                  @OA\Items(ref="#/components/schemas/Tag")
      *              )
      *          )
      *      ),

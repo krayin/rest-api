@@ -71,7 +71,7 @@ class Lead
      * @OA\Property(
      *     title="Lead Reason",
      *     description="Lost Reason",
-     *     example="Not intresting",
+     *     example="Not interesting",
      * )
      *
      * @var string
