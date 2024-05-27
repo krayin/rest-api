@@ -4,11 +4,11 @@ namespace Webkul\RestApi\Docs\Models\Settings;
 
 /**
  * @OA\Schema(
- *     title="Tag",
- *     description="Tag Model",
+ *     title="Source",
+ *     description="Source Model",
  * )
  */
-class Tag
+class Source
 {
     /**
      * @OA\Property(
@@ -25,36 +25,14 @@ class Tag
     /**
      * @OA\Property(
      *     title="name",
-     *     description="Name of the tag",
-     *     example="Active",
+     *     description="Name",
+     *     example="Via Phone",
      *     type="string"
      * )
      *
      * @var string
      */
     private $name;
-
-    /**
-     * @OA\Property(
-     *     title="color",
-     *     description="Color of the tag",
-     *     example="#FEBF00",
-     *     type="string"
-     * )
-     *
-     * @var string
-     */
-    private $color;
-
-    /**
-     * @OA\Property(
-     *     title="user_id",
-     *     description="User ID",
-     * )
-     *
-     * @var \Webkul\RestApi\Docs\Models\Settings\User
-     */
-    private $user_id;
 
     /**
      * @OA\Property(
@@ -68,6 +46,7 @@ class Tag
      * @var \DateTime
      */
     private $created_at;
+
 
     /**
      * @OA\Property(

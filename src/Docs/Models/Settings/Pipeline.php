@@ -4,11 +4,11 @@ namespace Webkul\RestApi\Docs\Models\Settings;
 
 /**
  * @OA\Schema(
- *     title="Tag",
- *     description="Tag Model",
+ *     title="Pipeline",
+ *     description="Pipeline Model",
  * )
  */
-class Tag
+class Pipeline
 {
     /**
      * @OA\Property(
@@ -25,8 +25,8 @@ class Tag
     /**
      * @OA\Property(
      *     title="name",
-     *     description="Name of the tag",
-     *     example="Active",
+     *     description="Name",
+     *     example="Lost",
      *     type="string"
      * )
      *
@@ -36,25 +36,28 @@ class Tag
 
     /**
      * @OA\Property(
-     *     title="color",
-     *     description="Color of the tag",
-     *     example="#FEBF00",
+     *     title="name",
+     *     description="Rotten Days",
+     *     example="30",
      *     type="string"
      * )
      *
      * @var string
      */
-    private $color;
+    private $rotten_days;
+
 
     /**
      * @OA\Property(
-     *     title="user_id",
-     *     description="User ID",
+     *     title="name",
+     *     description="Is Default",
+     *     example="30",
+     *     type="string"
      * )
      *
-     * @var \Webkul\RestApi\Docs\Models\Settings\User
+     * @var string
      */
-    private $user_id;
+    private $is_default;
 
     /**
      * @OA\Property(
@@ -68,6 +71,7 @@ class Tag
      * @var \DateTime
      */
     private $created_at;
+
 
     /**
      * @OA\Property(

@@ -67,6 +67,11 @@ namespace Webkul\RestApi\Docs\Controllers;
  *     name="User",
  *     description="API Endpoints for User"
  * )
+ *   
+ *  @OA\Tag(
+ *     name="Source",
+ *     description="API Endpoints for Source"
+ * )
  */
 class Controller
 {

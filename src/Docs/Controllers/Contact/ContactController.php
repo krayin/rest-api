@@ -119,7 +119,7 @@ class ContactController
     *                   property="name",
     *                   type="string",
     *                   description="Name of the person",
-    *                   example="Suraj Kashyap"
+    *                   example="Role"
     *             ),
      *            @OA\Property(
      *                 property="emails",
@@ -127,7 +127,7 @@ class ContactController
      *                 description="Email addresses of the person",
      *                 @OA\Items(
      *                     required={"value", "label"},
-     *                     @OA\Property(property="value", type="string", description="Email address", example="suraj.kashyap370@webkul.in"),
+     *                     @OA\Property(property="value", type="string", description="Email address", example="jhon.doe@mail.com"),
      *                     @OA\Property(property="label", type="string", description="Label for the email address", example="work")
      *                 )
      *            ),
@@ -199,7 +199,7 @@ class ContactController
      *                      property="name",
      *                      type="string",
      *                      description="Name of the person",
-     *                      example="Suraj Kashyap"
+     *                      example="John Doe"
      *                ),
      *               @OA\Property(
      *                    property="emails",
@@ -207,7 +207,7 @@ class ContactController
      *                    description="Email addresses of the person",
      *                    @OA\Items(
      *                        required={"value", "label"},
-     *                        @OA\Property(property="value", type="string", description="Email address", example="suraj.kashyap370@webkul.in"),
+     *                        @OA\Property(property="value", type="string", description="Email address", example="jhon.doe@mail.com"),
      *                        @OA\Property(property="label", type="string", description="Label for the email address", example="work")
      *                    )
      *               ),
