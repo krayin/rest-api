@@ -5,6 +5,34 @@ namespace Webkul\RestApi\Docs\Controllers\Settings;
 class PipelineController
 {
     /**
+     * @OA\Get(
+     *     path="/api/v1/settings/pipelines",
+     *     operationId="getPipelines",
+     *     tags={"Pipeline"},
+     *     summary="Get all pipelines",
+     *     security={ {"sanctum_admin": {} }},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Pipelines fetched successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Pipeline")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
+     * )
+     */
+    public function index()
+    {
+    }
+
+    /**
      * @OA\Post(
      *     path="/api/v1/settings/pipelines",
      *     operationId="createPipeline",
@@ -95,20 +123,89 @@ class PipelineController
     }
 
     /**
-     * @OA\Get(
-     *     path="/api/v1/settings/pipelines",
-     *     operationId="getPipelines",
+     * @OA\Put(
+     *     path="/api/v1/settings/pipelines/{id}",
+     *     operationId="updatePipeline",
      *     tags={"Pipeline"},
-     *     summary="Get all pipelines",
+     *     summary="Update a pipeline",
      *     security={ {"sanctum_admin": {} }},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the pipeline",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Pipeline details",
+     *         @OA\JsonContent(
+     *             required={"name", "rotten_days", "is_default", "stages"},
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 description="Name of the pipeline",
+     *                 example="Test"
+     *             ),
+     *             @OA\Property(
+     *                 property="rotten_days",
+     *                 type="integer",
+     *                 description="Number of days after which the pipeline is considered rotten",
+     *                 example=30
+     *             ),
+     *             @OA\Property(
+     *                 property="is_default",
+     *                 type="string",
+     *                 description="Indicates if the pipeline is the default one",
+     *                 example="on"
+     *             ),
+     *             @OA\Property(
+     *                 property="stages",
+     *                 type="object",
+     *                 description="Stages of the pipeline",
+     *                 @OA\Property(
+     *                     property="stage_1",
+     *                     type="object",
+     *                     @OA\Property(property="code", type="string", example="new"),
+     *                     @OA\Property(property="name", type="string", example="New"),
+     *                     @OA\Property(property="sort_order", type="integer", example=1),
+     *                     @OA\Property(property="probability", type="integer", example=100)
+     *                 ),
+     *                 @OA\Property(
+     *                     property="stage_2",
+     *                     type="object",
+     *                     @OA\Property(property="code", type="string", example="test"),
+     *                     @OA\Property(property="name", type="string", example="test"),
+     *                     @OA\Property(property="sort_order", type="integer", example=2),
+     *                     @OA\Property(property="probability", type="integer", example=100)
+     *                 ),
+     *                 @OA\Property(
+     *                     property="stage_99",
+     *                     type="object",
+     *                     @OA\Property(property="code", type="string", example="won"),
+     *                     @OA\Property(property="name", type="string", example="Won"),
+     *                     @OA\Property(property="sort_order", type="integer", example=3),
+     *                     @OA\Property(property="probability", type="integer", example=100)
+     *                 ),
+     *                 @OA\Property(
+     *                     property="stage_100",
+     *                     type="object",
+     *                     @OA\Property(property="code", type="string", example="lost"),
+     *                     @OA\Property(property="name", type="string", example="Lost"),
+     *                     @OA\Property(property="sort_order", type="integer", example=4),
+     *                     @OA\Property(property="probability", type="integer", example=0)
+     *                 )
+     *             )
+     *         )
+     *     ),
      *     @OA\Response(
-     *         response=200,
-     *         description="Pipelines fetched successfully",
+     *         response=201,
+     *         description="Pipeline updated successfully",
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(ref="#/components/schemas/Pipeline")
+     *                 type="object",
+     *                 ref="#/components/schemas/Pipeline"
      *             )
      *         )
      *     ),
@@ -118,7 +215,7 @@ class PipelineController
      *     )
      * )
      */
-    public function index()
+    public function update()
     {
     }
 
@@ -188,4 +285,6 @@ class PipelineController
     public function destroy()
     {
     }
+
+
 }

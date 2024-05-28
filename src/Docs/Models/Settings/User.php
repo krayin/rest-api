@@ -2,7 +2,6 @@
 
 namespace Webkul\RestApi\Docs\Models\Settings;
 
-
 /**
  * @OA\Schema(
  *     title="User",
