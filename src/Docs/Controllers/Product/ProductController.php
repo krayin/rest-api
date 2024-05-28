@@ -50,15 +50,14 @@ class ProductController
      *          )
      *      ),
      *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="Object",
-     *                 ref="#/components/schemas/Product"
-     *             )
-     *       ),
-     *
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\Property(
+     *             property="data",
+     *             type="Object",
+     *             ref="#/components/schemas/Product"
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
