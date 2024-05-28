@@ -72,6 +72,26 @@ namespace Webkul\RestApi\Docs\Controllers;
  *     name="Source",
  *     description="API Endpoints for Source"
  * )
+ * 
+ *  @OA\Tag(
+ *     name="Attribute",
+ *     description="API Endpoints for Attribute"
+ * )
+ * 
+ *  @OA\Tag(
+ *     name="Pipeline",
+ *     description="API Endpoints for Pipeline"
+ * )
+ * 
+ *  @OA\Tag(
+ *     name="Type",
+ *     description="API Endpoints for Type"
+ * ) 
+ * 
+ *  @OA\Tag(
+ *     name="EmailTemplate",
+ *     description="API Endpoints for EmailTemplate"
+ * )
  */
 class Controller
 {
