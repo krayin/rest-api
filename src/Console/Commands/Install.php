@@ -26,29 +26,38 @@ class Install extends Command
     public function handle()
     {
         $this->warn('🔧 Step 1: Publishing L5Swagger Provider File...');
-
-        $result = shell_exec('php artisan vendor:publish --tag=krayin-rest-api-swagger');
-
-        if ($result) {
+    
+        $output = [];
+        $exitStatus = null;
+        
+        exec('php artisan vendor:publish --tag=krayin-rest-api-swagger', $output, $exitStatus);
+    
+        if ($exitStatus === 0) {
             $this->info('📄 Provider file published successfully! 🚀');
         } else {
             $this->error('❌ Failed to publish the provider file. Please check the error logs.');
+
+            exit;
         }
-        
+    
         $this->warn('🔧 Step 2: Generating L5-Swagger Docs for Admin...');
-
-        $result = shell_exec('php artisan l5-swagger:generate --all');
-
-        if ($result) {
+    
+        $output = [];
+        $exitStatus = null;
+        exec('php artisan l5-swagger:generate --all', $output, $exitStatus);
+    
+        if ($exitStatus === 0) {
             $this->info('📚 Swagger documentation generated successfully! 📘');
         } else {
             $this->error('❌ Failed to generate Swagger documentation. Please check the error logs.');
+
+            exit;
         }
-        
+    
         $this->comment('-----------------------------');
-
+    
         $this->comment('🎉 Success! Krayin REST API has been configured successfully.');
-
+    
         $this->comment('You can now access your newly documented API at: ' . config('app.url') . '/api/documentation 🚀✨');
     }
 }

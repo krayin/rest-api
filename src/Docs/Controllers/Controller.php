@@ -29,6 +29,11 @@ namespace Webkul\RestApi\Docs\Controllers;
  * )
  * 
  * @OA\Tag(
+ *     name="Mail",
+ *     description="API Endpoints for Mail."
+ * )
+ * 
+ * @OA\Tag(
  *     name="Tag",
  *     description="API Endpoints for Settings."
  * )
