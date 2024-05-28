@@ -63,6 +63,10 @@ namespace Webkul\RestApi\Docs\Controllers;
  *     description="API Endpoints for Activities."
  * )
  * 
+ *  @OA\Tag(
+ *     name="WebForm",
+ *     description="API Endpoints for WebForm."
+ * )
  * 
  * @OA\Tag(
  *     name="Group",
