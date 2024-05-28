@@ -34,22 +34,80 @@ class Quote
     private $description;
 
     /**
-     * @OA\Property(
-     *     title="Billing Address",
-     *     description="Quote Billing Address",
-     *     example="7436 Olaf Ford\nLake Robertofort, WA 84080-7752",
-     * )
+     *  @OA\Property(
+     *      property="billing_address",
+     *      description="Billing address details",
+     *      @OA\Property( 
+     *          property="address", 
+     *          type="string", 
+     *          description="Street address", 
+     *          example="Bheem Nagar" 
+     *      ), 
+     *      @OA\Property( 
+     *          property="country", 
+     *          type="string", 
+     *          description="Country code", 
+     *          example="IN" 
+     *      ), 
+     *      @OA\Property( 
+     *          property="state", 
+     *          type="string", 
+     *          description="State code", 
+     *          example="UP" 
+     *      ), 
+     *      @OA\Property( 
+     *          property="city", 
+     *          type="string", 
+     *          description="City name", 
+     *          example="Ghaziabad" 
+     *      ), 
+     *      @OA\Property( 
+     *          property="postcode", 
+     *          type="string", 
+     *          description="Postal code", 
+     *          example="201009" 
+     *      )
+     *  ),
      *
      * @var string
      */
     private $billing_address;
 
     /**
-     * @OA\Property(
-     *     title="Shipping Address",
-     *     description="Quote Shipping Address",
-     *     example="7436 Olaf Ford\nLake Robertofort, WA 84080-7752",
-     * )
+     *  @OA\Property(
+     *      property="shipping_address",
+     *      description="Shipping address details",
+     *      @OA\Property( 
+     *          property="address", 
+     *          type="string", 
+     *          description="Street address", 
+     *          example="Bheem Nagar" 
+     *      ), 
+     *      @OA\Property( 
+     *          property="country", 
+     *          type="string", 
+     *          description="Country code", 
+     *          example="IN" 
+     *      ), 
+     *      @OA\Property( 
+     *          property="state", 
+     *          type="string", 
+     *          description="State code", 
+     *          example="UP" 
+     *      ), 
+     *      @OA\Property( 
+     *          property="city", 
+     *          type="string", 
+     *          description="City name", 
+     *          example="Ghaziabad" 
+     *      ), 
+     *      @OA\Property( 
+     *          property="postcode", 
+     *          type="string", 
+     *          description="Postal code", 
+     *          example="201009" 
+     *      )
+     *  ),
      *
      * @var string
      */
