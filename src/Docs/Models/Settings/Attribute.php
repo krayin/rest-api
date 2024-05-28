@@ -10,7 +10,6 @@ namespace Webkul\RestApi\Docs\Models\Settings;
  */
 class Attribute
 {
-
     /**
      * @OA\Property(
      *     title="ID",

@@ -15,82 +15,86 @@ namespace Webkul\RestApi\Docs\Controllers;
  * 
  * @OA\Server(
  *      url=APP_URL,
- *      description="Krayin Rest API"
+ *      description="Krayin Rest API."
  * )
  * 
  * @OA\Tag(
  *     name="Authentication",
- *     description="API Endpoints for Authentication"
+ *     description="API Endpoints for Authentication."
  * )
  * 
  * @OA\Tag(
  *     name="Leads",
- *     description="API Endpoints for Leads, Quotes, and Tags"
+ *     description="API Endpoints for Leads, Quotes, and Tags."
  * )
  * 
  * @OA\Tag(
  *     name="Tag",
- *     description="API Endpoints for Settings"
+ *     description="API Endpoints for Settings."
  * )
  * 
  * @OA\Tag(
  *     name="Quotes",
- *     description="API Endpoints for Quotes"
+ *     description="API Endpoints for Quotes."
  * )
  * 
  * @OA\Tag(
  *     name="Contacts",
- *     description="API Endpoints for Contacts and Organizations"
+ *     description="API Endpoints for Contacts and Organizations."
  * )
  * 
  * @OA\Tag(
  *     name="Products",
- *     description="API Endpoints for Products"
+ *     description="API Endpoints for Products."
  * )
  * 
  * @OA\Tag(
  *     name="Configuration",
- *     description="API Endpoints for Configuration"
+ *     description="API Endpoints for Configuration."
  * )
  * 
  * @OA\Tag(
  *     name="Group",
- *     description="API Endpoints for Group"
+ *     description="API Endpoints for Group."
  * )
  * 
  * @OA\Tag(
  *     name="Role",
- *     description="API Endpoints for Group"
+ *     description="API Endpoints for Group."
  * )
  * 
- *  @OA\Tag(
+ * @OA\Tag(
  *     name="User",
- *     description="API Endpoints for User"
+ *     description="API Endpoints for User."
  * )
  *   
- *  @OA\Tag(
+ * @OA\Tag(
  *     name="Source",
- *     description="API Endpoints for Source"
+ *     description="API Endpoints for Source."
  * )
  * 
- *  @OA\Tag(
+ * @OA\Tag(
  *     name="Attribute",
- *     description="API Endpoints for Attribute"
+ *     description="API Endpoints for Attribute."
  * )
  * 
- *  @OA\Tag(
+ * @OA\Tag(
  *     name="Pipeline",
- *     description="API Endpoints for Pipeline"
+ *     description="API Endpoints for Pipeline."
  * )
  * 
- *  @OA\Tag(
+ * @OA\Tag(
  *     name="Type",
- *     description="API Endpoints for Type"
+ *     description="API Endpoints for Type."
  * ) 
  * 
- *  @OA\Tag(
+ * @OA\Tag(
+ *     name="Workflow",
+ *     description="API Endpoints for Workflow."
+ * )
+ * @OA\Tag(
  *     name="EmailTemplate",
- *     description="API Endpoints for EmailTemplate"
+ *     description="API Endpoints for EmailTemplate."
  * )
  */
 class Controller
