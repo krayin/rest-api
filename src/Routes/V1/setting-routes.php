@@ -155,4 +155,9 @@ Route::group([
     Route::delete('tags/{id}', [TagController::class, 'destroy']);
 
     Route::post('tags/mass-destroy', [TagController::class, 'massDestroy']);
+
+    /**
+     * WebForms routes.
+     */
+    Route::get('webforms', [WebFormController::class, 'index']);
 });

@@ -59,6 +59,12 @@ namespace Webkul\RestApi\Docs\Controllers;
  * )
  * 
  * @OA\Tag(
+ *     name="Activity",
+ *     description="API Endpoints for Activities."
+ * )
+ * 
+ * 
+ * @OA\Tag(
  *     name="Group",
  *     description="API Endpoints for Group."
  * )
