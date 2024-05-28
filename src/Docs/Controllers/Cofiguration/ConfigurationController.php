@@ -49,7 +49,5 @@ class ConfigurationController
      */
     public function store()
     {
-        // Your implementation here
     }
-
 }
