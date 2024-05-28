@@ -186,10 +186,3 @@ class Attribute
      */
     private $updated_at;
 }
-// 'type',
-// 'lookup_type',
-// 'is_required',
-// 'is_unique',
-// 'quick_add',
-// 'validation',
-// 'is_user_defined',
