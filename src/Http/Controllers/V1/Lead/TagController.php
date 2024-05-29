@@ -38,7 +38,7 @@ class TagController extends Controller
 
         return response([
             'data'    => new LeadResource($lead),
-            'message' => __('admin::app.leads.tag-create-success'),
+            'message' => trans('admin::app.leads.tag-create-success'),
         ]);
     }
 
@@ -60,7 +60,7 @@ class TagController extends Controller
 
         return response([
             'data'    => new LeadResource($lead),
-            'message' => __('admin::app.leads.tag-destroy-success'),
+            'message' => trans('admin::app.leads.tag-destroy-success'),
         ]);
     }
 }

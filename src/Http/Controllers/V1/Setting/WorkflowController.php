@@ -61,7 +61,7 @@ class WorkflowController extends Controller
 
         return response([
             'data'    => new WorkflowResource($workflow),
-            'message' => __('admin::app.settings.workflows.create-success'),
+            'message' => trans('admin::app.settings.workflows.create-success'),
         ]);
     }
 
@@ -85,7 +85,7 @@ class WorkflowController extends Controller
 
         return response([
             'data'    => new WorkflowResource($workflow),
-            'message' => __('admin::app.settings.workflows.update-success'),
+            'message' => trans('admin::app.settings.workflows.update-success'),
         ]);
     }
 
@@ -105,11 +105,11 @@ class WorkflowController extends Controller
             Event::dispatch('settings.workflow.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.settings.workflows.delete-success'),
+                'message' => trans('admin::app.settings.workflows.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.settings.workflows.delete-failed'),
+                'message' => trans('admin::app.settings.workflows.delete-failed'),
             ], 500);
         }
     }

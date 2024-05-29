@@ -61,7 +61,7 @@ class TypeController extends Controller
 
         return response([
             'data'    => new TypeResource($type),
-            'message' => __('admin::app.settings.types.create-success'),
+            'message' => trans('admin::app.settings.types.create-success'),
         ]);
     }
 
@@ -85,7 +85,7 @@ class TypeController extends Controller
 
         return response([
             'data'    => new TypeResource($type),
-            'message' => __('admin::app.settings.types.update-success'),
+            'message' => trans('admin::app.settings.types.update-success'),
         ]);
     }
 
@@ -105,11 +105,11 @@ class TypeController extends Controller
             Event::dispatch('settings.type.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.settings.types.delete-success'),
+                'message' => trans('admin::app.settings.types.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.settings.types.delete-failed'),
+                'message' => trans('admin::app.settings.types.delete-failed'),
             ], 500);
         }
     }

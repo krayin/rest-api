@@ -105,7 +105,7 @@ class Activity
      * @OA\Property(
      *     title="Is Done",
      *     description="Status of the task",
-     *     example=false
+     *     example="0"
      * )
      *
      * @var bool
@@ -117,7 +117,7 @@ class Activity
      *     title="User ID",
      *     description="ID of the user assigned to the task",
      *     format="int64",
-     *     example=123
+     *     example=1
      * )
      *
      * @var int

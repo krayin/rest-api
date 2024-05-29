@@ -102,13 +102,13 @@ class EmailController extends Controller
         if (request('is_draft')) {
             return response([
                 'data'    => new EmailResource($email),
-                'message' => __('admin::app.mail.saved-to-draft'),
+                'message' => trans('admin::app.mail.saved-to-draft'),
             ]);
         }
 
         return response([
             'data'    => new EmailResource($email),
-            'message' => __('admin::app.mail.create-success'),
+            'message' => trans('admin::app.mail.create-success'),
         ]);
     }
 
@@ -147,19 +147,19 @@ class EmailController extends Controller
             if (request('is_draft')) {
                 return response([
                     'data'    => new EmailResource($email),
-                    'message' => __('admin::app.mail.saved-to-draft'),
+                    'message' => trans('admin::app.mail.saved-to-draft'),
                 ]);
             } else {
                 return response([
                     'data'    => new EmailResource($email),
-                    'message' => __('admin::app.mail.create-success'),
+                    'message' => trans('admin::app.mail.create-success'),
                 ]);
             }
         }
 
         $response = [
             'data'    => new EmailResource($email),
-            'message' => __('admin::app.mail.update-success'),
+            'message' => trans('admin::app.mail.update-success'),
         ];
 
         if (request('lead_id')) {
@@ -196,11 +196,11 @@ class EmailController extends Controller
             Event::dispatch('email.'.request('type').'.after', $id);
 
             return response([
-                'message' => __('admin::app.mail.delete-success'),
+                'message' => trans('admin::app.mail.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.mail.delete-failed'),
+                'message' => trans('admin::app.mail.delete-failed'),
             ], 500);
         }
     }
@@ -223,7 +223,7 @@ class EmailController extends Controller
         }
 
         return response([
-            'message' => __('admin::app.mail.mass-update-success'),
+            'message' => trans('admin::app.mail.mass-update-success'),
         ]);
     }
 
@@ -249,7 +249,7 @@ class EmailController extends Controller
         }
 
         return response([
-            'message' => __('admin::app.mail.destroy-success'),
+            'message' => trans('admin::app.mail.destroy-success'),
         ]);
     }
 

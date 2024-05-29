@@ -61,7 +61,7 @@ class GroupController extends Controller
 
         return response([
             'data'    => new GroupResource($group),
-            'message' => __('admin::app.settings.groups.create-success'),
+            'message' => trans('admin::app.settings.groups.create-success'),
         ]);
     }
 
@@ -85,7 +85,7 @@ class GroupController extends Controller
 
         return response([
             'data'    => new GroupResource($group),
-            'message' => __('admin::app.settings.groups.update-success'),
+            'message' => trans('admin::app.settings.groups.update-success'),
         ]);
     }
 
@@ -105,11 +105,11 @@ class GroupController extends Controller
             Event::dispatch('settings.group.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.settings.groups.destroy-success'),
+                'message' => trans('admin::app.settings.groups.destroy-success'),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.settings.groups.delete-failed'),
+                'message' => trans('admin::app.settings.groups.delete-failed'),
             ], 500);
         }
     }

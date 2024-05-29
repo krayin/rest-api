@@ -68,7 +68,7 @@ class QuoteController extends Controller
 
         return response([
             'data'    => new QuoteResource($quote),
-            'message' => __('admin::app.quotes.create-success'),
+            'message' => trans('admin::app.quotes.create-success'),
         ]);
     }
 
@@ -96,7 +96,7 @@ class QuoteController extends Controller
 
         return response([
             'data'    => new QuoteResource($quote),
-            'message' => __('admin::app.quotes.update-success'),
+            'message' => trans('admin::app.quotes.update-success'),
         ]);
     }
 
@@ -118,11 +118,11 @@ class QuoteController extends Controller
             Event::dispatch('quote.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.quotes.quote')]),
+                'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.quotes.quote')]),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.response.destroy-failed', ['name' => __('admin::app.quotes.quote')]),
+                'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.quotes.quote')]),
             ], 500);
         }
     }
@@ -143,7 +143,7 @@ class QuoteController extends Controller
         }
 
         return response([
-            'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.quotes.title')]),
+            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.quotes.title')]),
         ]);
     }
 }

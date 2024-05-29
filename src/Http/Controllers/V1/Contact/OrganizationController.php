@@ -59,7 +59,7 @@ class OrganizationController extends Controller
 
         return response([
             'data'    => new OrganizationResource($organization),
-            'message' => __('admin::app.contacts.organizations.create-success'),
+            'message' => trans('admin::app.contacts.organizations.create-success'),
         ]);
     }
 
@@ -79,7 +79,7 @@ class OrganizationController extends Controller
 
         return response([
             'data'    => new OrganizationResource($organization),
-            'message' => __('admin::app.contacts.organizations.update-success'),
+            'message' => trans('admin::app.contacts.organizations.update-success'),
         ]);
     }
 
@@ -99,11 +99,11 @@ class OrganizationController extends Controller
             Event::dispatch('contact.organization.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.contacts.organizations.organization')]),
+                'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.contacts.organizations.organization')]),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.response.destroy-failed', ['name' => __('admin::app.contacts.organizations.organization')]),
+                'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.contacts.organizations.organization')]),
             ], 500);
         }
     }
@@ -124,7 +124,7 @@ class OrganizationController extends Controller
         }
 
         return response([
-            'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.contacts.organizations.title')]),
+            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.contacts.organizations.title')]),
         ]);
     }
 }

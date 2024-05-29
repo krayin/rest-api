@@ -44,7 +44,7 @@ class AuthController extends Controller
 
         return response([
             'data'    => new UserResource($user),
-            'message' => __('rest-api::app.common-response.success.login'),
+            'message' => trans('rest-api::app.common-response.success.login'),
             'token'   => $user->createToken($request->device_name)->plainTextToken,
         ]);
     }
@@ -61,7 +61,7 @@ class AuthController extends Controller
         $customer->tokens()->delete();
 
         return response([
-            'message' => __('rest-api::app.common-response.success.logout'),
+            'message' => trans('rest-api::app.common-response.success.logout'),
         ]);
     }
 
@@ -82,12 +82,12 @@ class AuthController extends Controller
 
         if ($response == Password::RESET_LINK_SENT) {
             return response([
-                'message' => __('admin::app.sessions.forgot-password.reset-link-sent'),
+                'message' => trans('admin::app.sessions.forgot-password.reset-link-sent'),
             ]);
         }
 
         return response([
-            'message' => __('admin::app.sessions.forgot-password.email-not-exist'),
+            'message' => trans('admin::app.sessions.forgot-password.email-not-exist'),
         ], 400);
     }
 }

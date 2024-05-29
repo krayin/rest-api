@@ -92,7 +92,7 @@ class UserController extends Controller
 
         return response([
             'data'    => new UserResource($admin),
-            'message' => __('admin::app.settings.users.create-success'),
+            'message' => trans('admin::app.settings.users.create-success'),
         ]);
     }
 
@@ -138,7 +138,7 @@ class UserController extends Controller
 
         return response([
             'data'    => new UserResource($admin),
-            'message' => __('admin::app.settings.users.update-success'),
+            'message' => trans('admin::app.settings.users.update-success'),
         ]);
     }
 
@@ -152,11 +152,11 @@ class UserController extends Controller
     {
         if (auth()->guard()->user()->id == $id) {
             return response([
-                'message' => __('admin::app.settings.users.delete-failed'),
+                'message' => trans('admin::app.settings.users.delete-failed'),
             ], 400);
         } elseif ($this->userRepository->count() == 1) {
             return response([
-                'message' => __('admin::app.settings.users.last-delete-error'),
+                'message' => trans('admin::app.settings.users.last-delete-error'),
             ], 400);
         } else {
             Event::dispatch('settings.user.delete.before', $id);
@@ -167,7 +167,7 @@ class UserController extends Controller
                 Event::dispatch('settings.user.delete.after', $id);
 
                 return response([
-                    'message' => __('admin::app.settings.users.delete-success'),
+                    'message' => trans('admin::app.settings.users.delete-success'),
                 ]);
             } catch (\Exception $exception) {
                 return response([
@@ -204,12 +204,12 @@ class UserController extends Controller
 
         if (! $count) {
             return response([
-                'message' => __('admin::app.settings.users.mass-update-failed'),
+                'message' => trans('admin::app.settings.users.mass-update-failed'),
             ], 500);
         }
 
         return response([
-            'message' => __('admin::app.settings.users.mass-update-success'),
+            'message' => trans('admin::app.settings.users.mass-update-success'),
         ]);
     }
 
@@ -238,12 +238,12 @@ class UserController extends Controller
 
         if (! $count) {
             return response([
-                'message' => __('admin::app.settings.users.mass-delete-failed'),
+                'message' => trans('admin::app.settings.users.mass-delete-failed'),
             ], 500);
         }
 
         return response([
-            'message' => __('admin::app.settings.users.mass-delete-success'),
+            'message' => trans('admin::app.settings.users.mass-delete-success'),
         ]);
     }
 }

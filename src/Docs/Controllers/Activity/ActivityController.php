@@ -58,12 +58,15 @@ class ActivityController
      *
      *     @OA\Response(
      *         response=200,
-     *         description="Successful response",
+     *         description="Successful operation",
      *
      *         @OA\JsonContent(
-     *             type="array",
      *
-     *             @OA\Items(ref="#/components/schemas/Activity")
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="Object",
+     *                 ref="#/components/schemas/Activity"
+     *             )
      *         )
      *     ),
      *
@@ -168,26 +171,45 @@ class ActivityController
      *                  example="Lorem Ipsum"
      *              ),
      *              @OA\Property(
-     *                 property="persons",
-     *                 type="array",
+     *                  property="participants",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="persons",
+     *                      type="array",
      *
-     *                 @OA\Items(
-     *                     type="string",
-     *                     example="1"
-     *                 ),
-     *                 description="List of person IDs"
-     *             ),
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="1"
+     *                      ),
+     *                      description="List of person IDs"
+     *                  ),
+     *
+     *                  @OA\Property(
+     *                      property="users",
+     *                      type="array",
+     *
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="1"
+     *                      ),
+     *                      description="List of user IDs"
+     *                  ),
+     *                  description="Participants object containing users"
+     *              ),
      *          ),
      *     ),
      *
      *     @OA\Response(
      *         response=200,
-     *         description="Successful response",
+     *         description="Successful operation",
      *
      *         @OA\JsonContent(
-     *             type="array",
      *
-     *             @OA\Items(ref="#/components/schemas/Activity")
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="Object",
+     *                 ref="#/components/schemas/Activity"
+     *             )
      *         )
      *     ),
      *
@@ -268,26 +290,45 @@ class ActivityController
      *                  example="Lorem Ipsum"
      *              ),
      *              @OA\Property(
-     *                 property="persons",
-     *                 type="array",
+     *                  property="participants",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="persons",
+     *                      type="array",
      *
-     *                 @OA\Items(
-     *                     type="string",
-     *                     example="1"
-     *                 ),
-     *                 description="List of person IDs"
-     *             ),
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="1"
+     *                      ),
+     *                      description="List of person IDs"
+     *                  ),
+     *
+     *                  @OA\Property(
+     *                      property="users",
+     *                      type="array",
+     *
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="1"
+     *                      ),
+     *                      description="List of user IDs"
+     *                  ),
+     *                  description="Participants object containing users"
+     *              ),
      *          ),
      *     ),
      *
      *     @OA\Response(
      *         response=200,
-     *         description="Successful response",
+     *         description="Successful operation",
      *
      *         @OA\JsonContent(
-     *             type="array",
      *
-     *             @OA\Items(ref="#/components/schemas/Activity")
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="Object",
+     *                 ref="#/components/schemas/Activity"
+     *             )
      *         )
      *     ),
      *
@@ -350,12 +391,16 @@ class ActivityController
      *
      *     @OA\Response(
      *         response=200,
-     *         description="Successful response",
+     *         description="Successful operation",
      *
      *         @OA\JsonContent(
-     *             type="array",
      *
-     *             @OA\Items(ref="#/components/schemas/Activity")
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Success message",
+     *                 example="File(s) uploaded successfully."
+     *             ),
      *         )
      *     ),
      *
@@ -390,12 +435,15 @@ class ActivityController
      *
      *     @OA\Response(
      *         response=200,
-     *         description="Successful response",
+     *         description="File downloaded successfully",
      *
-     *         @OA\JsonContent(
-     *             type="array",
+     *         @OA\MediaType(
+     *             mediaType="application/octet-stream",
      *
-     *             @OA\Items(ref="#/components/schemas/Activity")
+     *             @OA\Schema(
+     *                 type="string",
+     *                 format="binary"
+     *             )
      *         )
      *     ),
      *
@@ -456,7 +504,7 @@ class ActivityController
      *         @OA\JsonContent(
      *
      *             @OA\Property(
-     *                 property="rows",
+     *                 property="indices",
      *                 type="array",
      *                 description="IDs of the Activities to be updated",
      *
@@ -503,7 +551,7 @@ class ActivityController
      *         @OA\JsonContent(
      *
      *             @OA\Property(
-     *                 property="rows",
+     *                 property="indices",
      *                 type="array",
      *                 description="IDs of the Activities to be deleted",
      *

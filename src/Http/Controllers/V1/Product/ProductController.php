@@ -59,7 +59,7 @@ class ProductController extends Controller
 
         return response([
             'data'    => new ProductResource($product),
-            'message' => __('admin::app.products.create-success'),
+            'message' => trans('admin::app.products.create-success'),
         ]);
     }
 
@@ -79,7 +79,7 @@ class ProductController extends Controller
 
         return response([
             'data'    => new ProductResource($product),
-            'message' => __('admin::app.products.update-success'),
+            'message' => trans('admin::app.products.update-success'),
         ]);
     }
 
@@ -99,11 +99,11 @@ class ProductController extends Controller
             Event::dispatch('settings.products.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.products.product')]),
+                'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.products.product')]),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.response.destroy-failed', ['name' => __('admin::app.products.product')]),
+                'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.products.product')]),
             ], 500);
         }
     }
@@ -124,7 +124,7 @@ class ProductController extends Controller
         }
 
         return response([
-            'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.products.title')]),
+            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.products.title')]),
         ]);
     }
 }

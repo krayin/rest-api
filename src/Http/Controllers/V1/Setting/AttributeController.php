@@ -79,7 +79,7 @@ class AttributeController extends Controller
 
         return response([
             'data'    => new AttributeResource($attribute),
-            'message' => __('admin::app.settings.attributes.create-success'),
+            'message' => trans('admin::app.settings.attributes.create-success'),
         ]);
     }
 
@@ -105,7 +105,7 @@ class AttributeController extends Controller
 
         return response([
             'data'    => new AttributeResource($attribute),
-            'message' => __('admin::app.settings.attributes.update-success'),
+            'message' => trans('admin::app.settings.attributes.update-success'),
         ]);
     }
 
@@ -121,7 +121,7 @@ class AttributeController extends Controller
 
         if (! $attribute->is_user_defined) {
             return response([
-                'message' => __('admin::app.settings.attributes.user-define-error'),
+                'message' => trans('admin::app.settings.attributes.user-define-error'),
             ], 400);
         }
 
@@ -133,11 +133,11 @@ class AttributeController extends Controller
             Event::dispatch('settings.attribute.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.settings.attributes.attribute')]),
+                'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.settings.attributes.attribute')]),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.settings.attributes.delete-failed'),
+                'message' => trans('admin::app.settings.attributes.delete-failed'),
             ], 500);
         }
     }
@@ -169,12 +169,12 @@ class AttributeController extends Controller
 
         if (! $count) {
             return response([
-                'message' => __('admin::app.settings.attributes.mass-delete-failed'),
+                'message' => trans('admin::app.settings.attributes.mass-delete-failed'),
             ], 500);
         }
 
         return response([
-            'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.settings.attributes.title')]),
+            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.settings.attributes.title')]),
         ]);
     }
 }

@@ -62,7 +62,7 @@ class PipelineController extends Controller
 
         return response([
             'data'    => new PipelineResource($pipeline),
-            'message' => __('admin::app.settings.pipelines.create-success'),
+            'message' => trans('admin::app.settings.pipelines.create-success'),
         ]);
     }
 
@@ -86,7 +86,7 @@ class PipelineController extends Controller
 
         return response([
             'data'    => new PipelineResource($pipeline),
-            'message' => __('admin::app.settings.pipelines.update-success'),
+            'message' => trans('admin::app.settings.pipelines.update-success'),
         ]);
     }
 
@@ -102,7 +102,7 @@ class PipelineController extends Controller
 
         if ($pipeline->is_default) {
             return response([
-                'message' => __('admin::app.settings.pipelines.default-delete-error'),
+                'message' => trans('admin::app.settings.pipelines.default-delete-error'),
             ], 400);
         } else {
             $defaultPipeline = $this->pipelineRepository->getDefaultPipeline();
@@ -121,11 +121,11 @@ class PipelineController extends Controller
             Event::dispatch('settings.pipeline.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.settings.pipelines.delete-success'),
+                'message' => trans('admin::app.settings.pipelines.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.settings.pipelines.delete-failed'),
+                'message' => trans('admin::app.settings.pipelines.delete-failed'),
             ], 500);
         }
     }

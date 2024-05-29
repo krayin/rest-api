@@ -63,7 +63,7 @@ class TagController extends Controller
 
         return response([
             'data'    => new TagResource($tag),
-            'message' => __('admin::app.settings.tags.create-success'),
+            'message' => trans('admin::app.settings.tags.create-success'),
         ]);
     }
 
@@ -87,7 +87,7 @@ class TagController extends Controller
 
         return response([
             'data'    => new TagResource($tag),
-            'message' => __('admin::app.settings.tags.update-success'),
+            'message' => trans('admin::app.settings.tags.update-success'),
         ]);
     }
 
@@ -107,11 +107,11 @@ class TagController extends Controller
             Event::dispatch('settings.tag.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.settings.tags.delete-success'),
+                'message' => trans('admin::app.settings.tags.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.settings.tags.delete-failed'),
+                'message' => trans('admin::app.settings.tags.delete-failed'),
             ], 500);
         }
     }
@@ -132,7 +132,7 @@ class TagController extends Controller
         }
 
         return response([
-            'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.settings.tags.title')]),
+            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.settings.tags.title')]),
         ]);
     }
 }

@@ -41,7 +41,7 @@ class QuoteController extends Controller
 
         return response([
             'data'    => new LeadResource($lead),
-            'message' => __('admin::app.leads.quote-create-success'),
+            'message' => trans('admin::app.leads.quote-create-success'),
         ]);
     }
 
@@ -64,7 +64,7 @@ class QuoteController extends Controller
 
         return response([
             'data'    => new LeadResource($lead),
-            'message' => __('admin::app.leads.quote-destroy-success'),
+            'message' => trans('admin::app.leads.quote-destroy-success'),
         ]);
     }
 }

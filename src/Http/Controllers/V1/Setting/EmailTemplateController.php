@@ -66,7 +66,7 @@ class EmailTemplateController extends Controller
 
         return response([
             'data'    => new EmailTemplateResource($emailTemplate),
-            'message' => __('admin::app.settings.email-templates.create-success'),
+            'message' => trans('admin::app.settings.email-templates.create-success'),
         ]);
     }
 
@@ -92,7 +92,7 @@ class EmailTemplateController extends Controller
 
         return response([
             'data'    => new EmailTemplateResource($emailTemplate),
-            'message' => __('admin::app.settings.email-templates.update-success'),
+            'message' => trans('admin::app.settings.email-templates.update-success'),
         ]);
     }
 
@@ -112,11 +112,11 @@ class EmailTemplateController extends Controller
             Event::dispatch('settings.email_templates.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.settings.email-templates.delete-success'),
+                'message' => trans('admin::app.settings.email-templates.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.settings.email-templates.delete-failed'),
+                'message' => trans('admin::app.settings.email-templates.delete-failed'),
             ], 500);
         }
     }

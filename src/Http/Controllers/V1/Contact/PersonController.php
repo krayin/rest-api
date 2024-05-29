@@ -73,7 +73,7 @@ class PersonController extends Controller
 
         return response([
             'data'    => new PersonResource($person),
-            'message' => __('admin::app.contacts.persons.create-success'),
+            'message' => trans('admin::app.contacts.persons.create-success'),
         ]);
     }
 
@@ -93,7 +93,7 @@ class PersonController extends Controller
 
         return response([
             'data'    => new PersonResource($person),
-            'message' => __('admin::app.contacts.persons.update-success'),
+            'message' => trans('admin::app.contacts.persons.update-success'),
         ]);
     }
 
@@ -113,11 +113,11 @@ class PersonController extends Controller
             Event::dispatch('contacts.person.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.contacts.persons.person')]),
+                'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.contacts.persons.person')]),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.response.destroy-failed', ['name' => __('admin::app.contacts.persons.person')]),
+                'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.contacts.persons.person')]),
             ], 500);
         }
     }
@@ -138,7 +138,7 @@ class PersonController extends Controller
         }
 
         return response([
-            'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.contacts.persons.title')]),
+            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.contacts.persons.title')]),
         ]);
     }
 

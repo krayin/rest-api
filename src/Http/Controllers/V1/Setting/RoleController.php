@@ -70,7 +70,7 @@ class RoleController extends Controller
 
         return response([
             'data'    => new RoleResource($role),
-            'message' => __('admin::app.settings.roles.create-success'),
+            'message' => trans('admin::app.settings.roles.create-success'),
         ]);
     }
 
@@ -103,7 +103,7 @@ class RoleController extends Controller
 
         return response([
             'data'    => new RoleResource($role),
-            'message' => __('admin::app.settings.roles.update-success'),
+            'message' => trans('admin::app.settings.roles.update-success'),
         ]);
     }
 
@@ -120,15 +120,15 @@ class RoleController extends Controller
         $role = $this->roleRepository->findOrFail($id);
 
         if ($role->admins && $role->admins->count() >= 1) {
-            $response['message'] = __('admin::app.settings.roles.being-used');
+            $response['message'] = trans('admin::app.settings.roles.being-used');
         } elseif ($this->roleRepository->count() == 1) {
-            $response['message'] = __('admin::app.settings.roles.last-delete-error');
+            $response['message'] = trans('admin::app.settings.roles.last-delete-error');
         } else {
             try {
                 Event::dispatch('settings.role.delete.before', $id);
 
                 if (auth()->guard()->user()->role_id == $id) {
-                    $response['message'] = __('admin::app.settings.roles.current-role-delete-error');
+                    $response['message'] = trans('admin::app.settings.roles.current-role-delete-error');
                 } else {
                     $this->roleRepository->delete($id);
 
@@ -136,7 +136,7 @@ class RoleController extends Controller
 
                     $response = [
                         'code'    => 200,
-                        'message' => __('admin::app.settings.roles.delete-success'),
+                        'message' => trans('admin::app.settings.roles.delete-success'),
                     ];
                 }
             } catch (\Exception $exception) {

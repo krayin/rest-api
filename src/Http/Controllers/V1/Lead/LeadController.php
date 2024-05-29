@@ -88,7 +88,7 @@ class LeadController extends Controller
 
         return response([
             'data'    => new LeadResource($lead),
-            'message' => __('admin::app.leads.create-success'),
+            'message' => trans('admin::app.leads.create-success'),
         ]);
     }
 
@@ -125,7 +125,7 @@ class LeadController extends Controller
 
         return response([
             'data'    => new LeadResource($lead),
-            'message' => __('admin::app.leads.update-success'),
+            'message' => trans('admin::app.leads.update-success'),
         ]);
     }
 
@@ -147,11 +147,11 @@ class LeadController extends Controller
             Event::dispatch('lead.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.leads.lead')]),
+                'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.leads.lead')]),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.response.destroy-failed', ['name' => __('admin::app.leads.lead')]),
+                'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.leads.lead')]),
             ], 500);
         }
     }
@@ -176,7 +176,7 @@ class LeadController extends Controller
         }
 
         return response([
-            'message' => __('admin::app.response.update-success', ['name' => __('admin::app.leads.title')]),
+            'message' => trans('admin::app.response.update-success', ['name' => trans('admin::app.leads.title')]),
         ]);
     }
 
@@ -196,7 +196,7 @@ class LeadController extends Controller
         }
 
         return response([
-            'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.leads.title')]),
+            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.leads.title')]),
         ]);
     }
 }

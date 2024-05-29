@@ -61,7 +61,7 @@ class SourceController extends Controller
 
         return response([
             'data'    => new SourceResource($source),
-            'message' => __('admin::app.settings.sources.create-success'),
+            'message' => trans('admin::app.settings.sources.create-success'),
         ]);
     }
 
@@ -85,7 +85,7 @@ class SourceController extends Controller
 
         return response([
             'data'    => new SourceResource($source),
-            'message' => __('admin::app.settings.sources.update-success'),
+            'message' => trans('admin::app.settings.sources.update-success'),
         ]);
     }
 
@@ -105,11 +105,11 @@ class SourceController extends Controller
             Event::dispatch('settings.source.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.settings.sources.delete-success'),
+                'message' => trans('admin::app.settings.sources.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.settings.sources.delete-failed'),
+                'message' => trans('admin::app.settings.sources.delete-failed'),
             ], 500);
         }
     }

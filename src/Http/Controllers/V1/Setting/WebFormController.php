@@ -82,7 +82,7 @@ class WebFormController extends Controller
 
         return response([
             'data'    => new WebFormResource($webForm),
-            'message' => __('admin::app.settings.web-forms.create-success'),
+            'message' => trans('admin::app.settings.web-forms.create-success'),
         ]);
     }
 
@@ -113,7 +113,7 @@ class WebFormController extends Controller
 
         return response([
             'data'    => new WebFormResource($webForm),
-            'message' => __('admin::app.settings.web-forms.update-success'),
+            'message' => trans('admin::app.settings.web-forms.update-success'),
         ]);
     }
 
