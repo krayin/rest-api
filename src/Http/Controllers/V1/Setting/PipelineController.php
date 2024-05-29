@@ -11,20 +11,12 @@ use Webkul\RestApi\Http\Resources\V1\Setting\PipelineResource;
 class PipelineController extends Controller
 {
     /**
-     * Pipeline repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\PipelineRepository
-     */
-    protected $pipelineRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(PipelineRepository $pipelineRepository)
+    public function __construct(protected PipelineRepository $pipelineRepository)
     {
-        $this->pipelineRepository = $pipelineRepository;
     }
 
     /**

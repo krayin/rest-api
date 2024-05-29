@@ -10,20 +10,12 @@ use Webkul\RestApi\Http\Resources\V1\Setting\TypeResource;
 class TypeController extends Controller
 {
     /**
-     * Type repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\TypeRepository
-     */
-    protected $typeRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(TypeRepository $typeRepository)
+    public function __construct(protected TypeRepository $typeRepository)
     {
-        $this->typeRepository = $typeRepository;
     }
 
     /**

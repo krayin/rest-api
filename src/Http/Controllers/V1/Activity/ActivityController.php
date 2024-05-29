@@ -13,42 +13,15 @@ use Webkul\RestApi\Http\Resources\V1\Activity\ActivityResource;
 class ActivityController extends Controller
 {
     /**
-     * File repository instance.
-     *
-     * @var \Webkul\Activity\Repositories\FileRepository
-     */
-    protected $fileRepository;
-
-    /**
-     * Activity repository instance.
-     *
-     * @var \Webkul\Activity\Repositories\ActivityRepository
-     */
-    protected $activityRepository;
-
-    /**
-     * Lead repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\LeadRepository
-     */
-    protected $leadRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Activity\Repositories\LeadRepository  $leadRepository
      * @return void
      */
     public function __construct(
-        ActivityRepository $activityRepository,
-        FileRepository $fileRepository,
-        LeadRepository $leadRepository
+        protected ActivityRepository $activityRepository,
+        protected FileRepository $fileRepository,
+        protected LeadRepository $leadRepository
     ) {
-        $this->activityRepository = $activityRepository;
-
-        $this->fileRepository = $fileRepository;
-
-        $this->leadRepository = $leadRepository;
     }
 
     /**

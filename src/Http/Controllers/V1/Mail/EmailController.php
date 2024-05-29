@@ -15,41 +15,15 @@ use Webkul\RestApi\Http\Resources\V1\Email\EmailResource;
 class EmailController extends Controller
 {
     /**
-     * Lead repository instance.
-     *
-     * @var \Webkul\Email\Repositories\LeadRepository
-     */
-    protected $leadRepository;
-
-    /**
-     * Email repository instance.
-     *
-     * @var \Webkul\Email\Repositories\EmailRepository
-     */
-    protected $emailRepository;
-
-    /**
-     * Attachment repository instance.
-     *
-     * @var \Webkul\Email\Repositories\AttachmentRepository
-     */
-    protected $attachmentRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct(
-        LeadRepository $leadRepository,
-        EmailRepository $emailRepository,
-        AttachmentRepository $attachmentRepository
+        protected LeadRepository $leadRepository,
+        protected EmailRepository $emailRepository,
+        protected AttachmentRepository $attachmentRepository
     ) {
-        $this->leadRepository = $leadRepository;
-
-        $this->emailRepository = $emailRepository;
-
-        $this->attachmentRepository = $attachmentRepository;
     }
 
     /**

@@ -11,21 +11,12 @@ use Webkul\RestApi\Http\Resources\V1\Contact\OrganizationResource;
 class OrganizationController extends Controller
 {
     /**
-     * Organization repository instance.
-     *
-     * @var \Webkul\Contact\Repositories\OrganizationRepository
-     */
-    protected $organizationRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(OrganizationRepository $organizationRepository)
+    public function __construct(protected OrganizationRepository $organizationRepository)
     {
-        $this->organizationRepository = $organizationRepository;
-
         $this->addEntityTypeInRequest('organizations');
     }
 

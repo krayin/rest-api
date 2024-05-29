@@ -10,20 +10,12 @@ use Webkul\User\Repositories\GroupRepository;
 class GroupController extends Controller
 {
     /**
-     * Group repository instance.
-     *
-     * @var \Webkul\User\Repositories\GroupRepository
-     */
-    protected $groupRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(GroupRepository $groupRepository)
+    public function __construct(protected GroupRepository $groupRepository)
     {
-        $this->groupRepository = $groupRepository;
     }
 
     /**

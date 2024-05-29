@@ -11,21 +11,12 @@ use Webkul\RestApi\Http\Resources\V1\Contact\PersonResource;
 class PersonController extends Controller
 {
     /**
-     * Person repository instance.
-     *
-     * @var \Webkul\Contact\Repositories\PersonRepository
-     */
-    protected $personRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(PersonRepository $personRepository)
+    public function __construct(protected PersonRepository $personRepository)
     {
-        $this->personRepository = $personRepository;
-
         $this->addEntityTypeInRequest('persons');
     }
 

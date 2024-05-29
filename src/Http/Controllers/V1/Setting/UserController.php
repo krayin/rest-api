@@ -14,34 +14,15 @@ use Webkul\User\Repositories\UserRepository;
 class UserController extends Controller
 {
     /**
-     * User repository instance.
-     *
-     * @var \Webkul\User\Repositories\UserRepository
-     */
-    protected $userRepository;
-
-    /**
-     * Role repository instance.
-     *
-     * @var \Webkul\User\Repositories\RoleRepository
-     */
-    protected $roleRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct(
-        UserRepository $userRepository,
-        GroupRepository $groupRepository,
-        RoleRepository $roleRepository
+        protected UserRepository $userRepository,
+        protected GroupRepository $groupRepository,
+        protected RoleRepository $roleRepository
     ) {
-        $this->userRepository = $userRepository;
-
-        $this->groupRepository = $groupRepository;
-
-        $this->roleRepository = $roleRepository;
     }
 
     /**

@@ -11,32 +11,14 @@ use Webkul\Workflow\Helpers\Entity;
 class EmailTemplateController extends Controller
 {
     /**
-     * Email template repository instance.
-     *
-     * @var \Webkul\EmailTemplate\Repositories\EmailTemplateRepository
-     */
-    protected $emailTemplateRepository;
-
-    /**
-     * Entity instance.
-     *
-     * @var \Workflow\Workflow\Repositories\Entity
-     */
-    protected $workflowEntityHelper;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Workflow\Workflow\Repositories\Entity  $workflowEntityHelper
      * @return void
      */
     public function __construct(
-        EmailTemplateRepository $emailTemplateRepository,
-        Entity $workflowEntityHelper
+        protected EmailTemplateRepository $emailTemplateRepository,
+        protected Entity $workflowEntityHelper
     ) {
-        $this->emailTemplateRepository = $emailTemplateRepository;
-
-        $this->workflowEntityHelper = $workflowEntityHelper;
     }
 
     /**

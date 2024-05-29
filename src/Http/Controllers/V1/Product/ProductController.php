@@ -11,21 +11,12 @@ use Webkul\RestApi\Http\Resources\V1\Product\ProductResource;
 class ProductController extends Controller
 {
     /**
-     * Product repository instance.
-     *
-     * @var \Webkul\Product\Repositories\ProductRepository
-     */
-    protected $productRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(protected ProductRepository $productRepository)
     {
-        $this->productRepository = $productRepository;
-
         $this->addEntityTypeInRequest('products');
     }
 

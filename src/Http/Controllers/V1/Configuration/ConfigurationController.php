@@ -9,20 +9,12 @@ use Webkul\RestApi\Http\Controllers\V1\Controller;
 class ConfigurationController extends Controller
 {
     /**
-     * Configuration repository instance.
-     *
-     * @var \Webkul\Core\Repositories\CoreConfigRepository
-     */
-    protected $configurationRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(ConfigurationRepository $configurationRepository)
+    public function __construct(protected ConfigurationRepository $configurationRepository)
     {
-        $this->configurationRepository = $configurationRepository;
     }
 
     /**

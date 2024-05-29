@@ -16,81 +16,19 @@ use Webkul\WebForm\Repositories\WebFormRepository;
 class WebFormController extends Controller
 {
     /**
-     * AttributeRepository object
-     *
-     * @var \Webkul\Attribute\Repositories\AttributeRepository
-     */
-    protected $attributeRepository;
-
-    /**
-     * WebFormRepository object
-     *
-     * @var \Webkul\WebForm\Repositories\WebFormRepository
-     */
-    protected $webFormRepository;
-
-    /**
-     * LeadRepository object
-     *
-     * @var \Webkul\Lead\Repositories\LeadRepository
-     */
-    protected $leadRepository;
-
-    /**
-     * Pipeline repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\PipelineRepository
-     */
-    protected $pipelineRepository;
-
-    /**
-     * PersonRepository object
-     *
-     * @var \Webkul\Contact\Repositories\PersonRepository
-     */
-    protected $personRepository;
-
-    /**
-     * SourceRepository object
-     *
-     * @var \Webkul\Lead\Repositories\SourceRepository
-     */
-    protected $sourceRepository;
-
-    /**
-     * TypeRepository object
-     *
-     * @var \Webkul\Lead\Repositories\TypeRepository
-     */
-    protected $typeRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct(
-        AttributeRepository $attributeRepository,
-        WebFormRepository $webFormRepository,
-        PersonRepository $personRepository,
-        LeadRepository $leadRepository,
-        PipelineRepository $pipelineRepository,
-        SourceRepository $sourceRepository,
-        TypeRepository $typeRepository
+        protected AttributeRepository $attributeRepository,
+        protected WebFormRepository $webFormRepository,
+        protected PersonRepository $personRepository,
+        protected LeadRepository $leadRepository,
+        protected PipelineRepository $pipelineRepository,
+        protected SourceRepository $sourceRepository,
+        protected TypeRepository $typeRepository
     ) {
-        $this->attributeRepository = $attributeRepository;
-
-        $this->webFormRepository = $webFormRepository;
-
-        $this->personRepository = $personRepository;
-
-        $this->leadRepository = $leadRepository;
-
-        $this->pipelineRepository = $pipelineRepository;
-
-        $this->sourceRepository = $sourceRepository;
-
-        $this->typeRepository = $typeRepository;
     }
 
     /**

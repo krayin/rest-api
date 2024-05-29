@@ -10,20 +10,12 @@ use Webkul\RestApi\Http\Resources\V1\Lead\LeadResource;
 class TagController extends Controller
 {
     /**
-     * Lead repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\LeadRepository
-     */
-    protected $leadRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(LeadRepository $leadRepository)
+    public function __construct(protected LeadRepository $leadRepository)
     {
-        $this->leadRepository = $leadRepository;
     }
 
     /**

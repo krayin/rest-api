@@ -11,20 +11,12 @@ use Webkul\RestApi\Http\Resources\V1\Setting\AttributeResource;
 class AttributeController extends Controller
 {
     /**
-     * Attribute repository instance.
-     *
-     * @var \Webkul\Attribute\Repositories\AttributeRepository
-     */
-    protected $attributeRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(AttributeRepository $attributeRepository)
+    public function __construct(protected AttributeRepository $attributeRepository)
     {
-        $this->attributeRepository = $attributeRepository;
     }
 
     /**

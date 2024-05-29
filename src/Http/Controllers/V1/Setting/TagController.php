@@ -10,20 +10,12 @@ use Webkul\Tag\Repositories\TagRepository;
 class TagController extends Controller
 {
     /**
-     * Tag repository instance.
-     *
-     * @var \Webkul\Tag\Repositories\TagRepository
-     */
-    protected $tagRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(TagRepository $tagRepository)
+    public function __construct(protected TagRepository $tagRepository)
     {
-        $this->tagRepository = $tagRepository;
     }
 
     /**

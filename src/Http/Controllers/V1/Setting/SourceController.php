@@ -10,20 +10,12 @@ use Webkul\RestApi\Http\Resources\V1\Setting\SourceResource;
 class SourceController extends Controller
 {
     /**
-     * Source repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\SourceRepository
-     */
-    protected $sourceRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(SourceRepository $sourceRepository)
+    public function __construct(protected SourceRepository $sourceRepository)
     {
-        $this->sourceRepository = $sourceRepository;
     }
 
     /**

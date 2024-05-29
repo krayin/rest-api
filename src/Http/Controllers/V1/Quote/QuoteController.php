@@ -12,32 +12,14 @@ use Webkul\RestApi\Http\Resources\V1\Quote\QuoteResource;
 class QuoteController extends Controller
 {
     /**
-     * Quote repository instance.
-     *
-     * @var \Webkul\Quote\Repositories\QuoteRepository
-     */
-    protected $quoteRepository;
-
-    /**
-     * Lead repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\LeadRepository
-     */
-    protected $leadRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct(
-        QuoteRepository $quoteRepository,
-        LeadRepository $leadRepository
+        protected QuoteRepository $quoteRepository,
+        protected LeadRepository $leadRepository
     ) {
-        $this->quoteRepository = $quoteRepository;
-
-        $this->leadRepository = $leadRepository;
-
         $this->addEntityTypeInRequest('quotes');
     }
 

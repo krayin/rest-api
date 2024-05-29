@@ -14,42 +14,15 @@ use Webkul\RestApi\Http\Resources\V1\Lead\LeadResource;
 class LeadController extends Controller
 {
     /**
-     * Lead repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\LeadRepository
-     */
-    protected $leadRepository;
-
-    /**
-     * Pipeline repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\PipelineRepository
-     */
-    protected $pipelineRepository;
-
-    /**
-     * Stage repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\StageRepository
-     */
-    protected $stageRepository;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct(
-        LeadRepository $leadRepository,
-        PipelineRepository $pipelineRepository,
-        StageRepository $stageRepository
+        protected LeadRepository $leadRepository,
+        protected PipelineRepository $pipelineRepository,
+        protected StageRepository $stageRepository
     ) {
-        $this->leadRepository = $leadRepository;
-
-        $this->pipelineRepository = $pipelineRepository;
-
-        $this->stageRepository = $stageRepository;
-
         $this->addEntityTypeInRequest('leads');
     }
 
