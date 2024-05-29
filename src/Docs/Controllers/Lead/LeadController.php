@@ -232,7 +232,7 @@ class LeadController
      *
      *          @OA\JsonContent(
      *
-     *              @OA\Property(property="message", type="string", example="Leads Created Successfully."),
+     *              @OA\Property(property="message", type="string", example="Lead Created Successfully."),
      *              @OA\Property(property="data", type="object", ref="#/components/schemas/Lead")
      *          )
      *      ),
@@ -419,7 +419,7 @@ class LeadController
      *
      *          @OA\JsonContent(
      *
-     *              @OA\Property(property="message", type="string", example="Leads Updated Successfully."),
+     *              @OA\Property(property="message", type="string", example="Lead Updated Successfully."),
      *              @OA\Property(property="data", type="object", ref="#/components/schemas/Lead")
      *          )
      *      ),
@@ -460,7 +460,7 @@ class LeadController
      *
      *          @OA\JsonContent(
      *
-     *              @OA\Property(property="message", type="string", example="Leads Deleted Successfully.")
+     *              @OA\Property(property="message", type="string", example="Lead Deleted Successfully.")
      *          )
      *      ),
      *
@@ -471,6 +471,59 @@ class LeadController
      * )
      */
     public function destroy()
+    {
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/v1/leads/mass-update",
+     *      operationId="massUpdateLeads",
+     *      tags={"Leads"},
+     *      summary="Mass update Leads",
+     *      description="Mass update Leads",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\RequestBody(
+     *          required=true,
+     * 
+     *          @OA\JsonContent(
+     * 
+     *              @OA\Property(
+     *                  property="indices",
+     *                  type="array",
+     *                  description="IDs of the Leads to be updated",
+     * 
+     *                  @OA\Items(
+     *                      type="integer",
+     *                      example=1
+     *                  )
+     *              ),
+     * 
+     *              @OA\Property(
+     *                  property="value",
+     *                  type="string",
+     *                  description="Value to be update",
+     *                  example="1"
+     *              )
+     *          )
+     *      ),
+     * 
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Leads updated successfully."),
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function massUpdate()
     {
     }
 
@@ -491,12 +544,12 @@ class LeadController
      *              @OA\Schema(
      *
      *                  @OA\Property(
-     *                      property="rows",
-     *                      description="Leads's Ids `CommaSeperated`",
+     *                      property="indices",
+     *                      description="Leads's Ids `CommaSeparated`",
      *                      type="string",
-     *                      example={1,2}
+     *                      example={1}
      *                  ),
-     *                  required={"rows"}
+     *                  required={"indices"}
      *              )
      *          )
      *      ),
@@ -510,7 +563,7 @@ class LeadController
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
-     *                  example="Selected leads successfully deleted."),
+     *                  example="Leads deleted successfully."),
      *              )
      *          )
      *      )

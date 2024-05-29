@@ -3,12 +3,15 @@
 namespace Webkul\RestApi\Http\Controllers\V1\Lead;
 
 use Carbon\Carbon;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Requests\LeadForm;
 use Webkul\Lead\Repositories\LeadRepository;
 use Webkul\Lead\Repositories\PipelineRepository;
 use Webkul\Lead\Repositories\StageRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
+use Webkul\RestApi\Http\Request\MassDestroyRequest;
+use Webkul\RestApi\Http\Request\MassUpdateRequest;
 use Webkul\RestApi\Http\Resources\V1\Lead\LeadResource;
 
 class LeadController extends Controller
@@ -86,7 +89,7 @@ class LeadController extends Controller
 
         Event::dispatch('lead.create.after', $lead);
 
-        return response([
+        return new JsonResource([
             'data'    => new LeadResource($lead),
             'message' => trans('admin::app.leads.create-success'),
         ]);
@@ -123,7 +126,7 @@ class LeadController extends Controller
 
         Event::dispatch('lead.update.after', $lead);
 
-        return response([
+        return new JsonResource([
             'data'    => new LeadResource($lead),
             'message' => trans('admin::app.leads.update-success'),
         ]);
@@ -137,20 +140,20 @@ class LeadController extends Controller
      */
     public function destroy($id)
     {
-        $this->leadRepository->findOrFail($id);
+        $lead = $this->leadRepository->findOrFail($id);
 
         try {
             Event::dispatch('lead.delete.before', $id);
 
-            $this->leadRepository->delete($id);
+            $lead->delete();
 
             Event::dispatch('lead.delete.after', $id);
 
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.leads.lead')]),
             ]);
         } catch (\Exception $exception) {
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.leads.lead')]),
             ], 500);
         }
@@ -161,21 +164,25 @@ class LeadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massUpdate()
+    public function massUpdate(MassUpdateRequest $massUpdateRequest)
     {
-        $data = request()->all();
+        $leadIds = $massUpdateRequest->input('indices', []);
 
-        foreach ($data['rows'] as $leadId) {
-            Event::dispatch('lead.update.before', $leadId);
-
+        foreach ($leadIds as $leadId) {
             $lead = $this->leadRepository->find($leadId);
 
-            $lead->update(['lead_pipeline_stage_id' => $data['value']]);
+            if (! $lead) {
+                continue;
+            }
+
+            Event::dispatch('lead.update.before', $leadId);
+
+            $lead->update(['lead_pipeline_stage_id' => $massUpdateRequest->input('value')]);
 
             Event::dispatch('lead.update.before', $leadId);
         }
 
-        return response([
+        return new JsonResource([
             'message' => trans('admin::app.response.update-success', ['name' => trans('admin::app.leads.title')]),
         ]);
     }
@@ -185,9 +192,17 @@ class LeadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massDestroy()
+    public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        foreach (request('rows') as $leadId) {
+        $leadIds = $massDestroyRequest->input('indices', []);
+
+        foreach ($leadIds as $leadId) {
+            $lead = $this->leadRepository->find($leadId);
+
+            if (! $lead) {
+                continue;
+            }
+
             Event::dispatch('lead.delete.before', $leadId);
 
             $this->leadRepository->delete($leadId);
@@ -195,7 +210,7 @@ class LeadController extends Controller
             Event::dispatch('lead.delete.after', $leadId);
         }
 
-        return response([
+        return new JsonResource([
             'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.leads.title')]),
         ]);
     }

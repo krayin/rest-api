@@ -246,7 +246,7 @@ class ActivityController extends Controller
      */
     public function massUpdate(MassUpdateRequest $massUpdateRequest)
     {
-        $activityIds = $massUpdateRequest->input('indices');
+        $activityIds = $massUpdateRequest->input('indices', []);
 
         foreach ($activityIds as $activityId) {
             $activity = $this->activityRepository->find($activityId);
@@ -276,7 +276,7 @@ class ActivityController extends Controller
      */
     public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        $activityIds = $massDestroyRequest->input('indices');
+        $activityIds = $massDestroyRequest->input('indices', []);
 
         foreach ($activityIds as $activityId) {
             $activity = $this->activityRepository->find($activityId);
