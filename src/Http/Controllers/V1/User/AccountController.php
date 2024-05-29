@@ -13,7 +13,6 @@ class AccountController extends Controller
     /**
      * Get the details for current logged in user.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function get(Request $request)
@@ -26,7 +25,6 @@ class AccountController extends Controller
     /**
      * Update the details for current logged in user.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -37,7 +35,7 @@ class AccountController extends Controller
 
         $data = $request->validate([
             'name'             => 'required',
-            'email'            => 'email|unique:users,email,' . $user->id,
+            'email'            => 'email|unique:users,email,'.$user->id,
             'password'         => 'nullable|min:6|confirmed',
             'current_password' => 'nullable|required|min:6',
         ]);

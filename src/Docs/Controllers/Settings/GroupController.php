@@ -11,17 +11,22 @@ class GroupController
      *      tags={"Group"},
      *      summary="Get list of Group",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Group")
      *              )
      *          )
      *      ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -39,10 +44,14 @@ class GroupController
      *      tags={"Group"},
      *      summary="Create new Group",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="name",
      *                      description="Group Name",
@@ -59,10 +68,13 @@ class GroupController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="Object",
@@ -70,6 +82,7 @@ class GroupController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=422,
      *          description="Validation error"
@@ -87,19 +100,24 @@ class GroupController
      *      tags={"Group"},
      *      summary="Get Group based on id",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Group Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="Object",
@@ -107,6 +125,7 @@ class GroupController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=404,
      *          description="Group not found"
@@ -124,19 +143,25 @@ class GroupController
      *      tags={"Group"},
      *      summary="Update existing Group",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Group Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="name",
      *                      description="Group Name",
@@ -153,10 +178,13 @@ class GroupController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="Object",
@@ -164,6 +192,7 @@ class GroupController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=422,
      *          description="Validation error"
@@ -181,19 +210,24 @@ class GroupController
      *      tags={"Group"},
      *      summary="Delete existing Group",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Group Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
@@ -201,6 +235,7 @@ class GroupController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=404,
      *          description="Group not found"

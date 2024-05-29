@@ -19,7 +19,6 @@ class SourceController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Lead\Repositories\SourceRepository  $sourceRepository
      * @return void
      */
     public function __construct(SourceRepository $sourceRepository)
@@ -42,7 +41,6 @@ class SourceController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -84,7 +82,7 @@ class SourceController extends Controller
     public function update($id)
     {
         $this->validate(request(), [
-            'name' => 'required|unique:lead_sources,name,' . $id,
+            'name' => 'required|unique:lead_sources,name,'.$id,
         ]);
 
         Event::dispatch('settings.source.update.before', $id);

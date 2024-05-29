@@ -46,7 +46,6 @@ class Pipeline
      */
     private $rotten_days;
 
-
     /**
      * @OA\Property(
      *     title="name",
@@ -71,7 +70,6 @@ class Pipeline
      * @var \DateTime
      */
     private $created_at;
-
 
     /**
      * @OA\Property(

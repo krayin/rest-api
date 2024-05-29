@@ -11,17 +11,22 @@ class EmailController
      *      tags={"Mail"},
      *      summary="Get list of mails",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Email")
      *              )
      *          )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -40,9 +45,12 @@ class EmailController
      *     description="Store an email with the provided data",
      *     operationId="storeEmail",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="is_draft",
      *                 type="integer",
@@ -60,25 +68,31 @@ class EmailController
      *                 title="Reply To",
      *                 description="Reply To email addresses",
      *                 type="array",
+     *
      *                 @OA\Items(type="string"),
      *                 example={"reply1@example.com", "reply2@example.com"}
      *             ),
+     *
      *             @OA\Property(
      *                 property="cc",
      *                 description="List of email addresses to CC",
      *                 title="CC",
      *                 type="array",
+     *
      *                 @OA\Items(type="string"),
      *                 example={"cc1@example.com", "cc2@example.com"}
      *             ),
+     *
      *             @OA\Property(
      *                 property="bcc",
      *                 description="List of email addresses to BCC",
      *                 title="BCC",
      *                 type="array",
+     *
      *                 @OA\Items(type="string"),
      *                 example={"bcc1@example.com", "bcc2@example.com"}
      *             ),
+     *
      *             @OA\Property(
      *                 property="subject",
      *                 type="string",
@@ -93,17 +107,22 @@ class EmailController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(
+     *
      *              @OA\Property(
      *                 property="data",
      *                 type="array",
+     *
      *                 @OA\Items(ref="#/components/schemas/Email")
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -121,24 +140,29 @@ class EmailController
      *      tags={"Mail"},
      *      summary="Get mail information",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Mail Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\Property(
      *              property="data",
      *              type="Object",
      *              ref="#/components/schemas/Email"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -156,18 +180,23 @@ class EmailController
      *      tags={"Mail"},
      *      summary="Update existing mail",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Mail Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="is_draft",
      *                  type="integer",
@@ -185,25 +214,31 @@ class EmailController
      *                  title="Reply To",
      *                  description="Reply To email addresses",
      *                  type="array",
+     *
      *                  @OA\Items(type="string"),
      *                  example={"reply1@example.com", "reply2@example.com"}
      *              ),
+     *
      *              @OA\Property(
      *                  property="cc",
      *                  description="List of email addresses to CC",
      *                  title="CC",
      *                  type="array",
+     *
      *                  @OA\Items(type="string"),
      *                  example={"cc1@example.com", "cc2@example.com"}
      *              ),
+     *
      *              @OA\Property(
      *                  property="bcc",
      *                  description="List of email addresses to BCC",
      *                  title="BCC",
      *                  type="array",
+     *
      *                  @OA\Items(type="string"),
      *                  example={"bcc1@example.com", "bcc2@example.com"}
      *              ),
+     *
      *              @OA\Property(
      *                  property="subject",
      *                  type="string",
@@ -218,11 +253,14 @@ class EmailController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Email")
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -240,20 +278,25 @@ class EmailController
      *      tags={"Mail"},
      *      summary="Delete existing mail",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Mail Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Email")
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -271,16 +314,21 @@ class EmailController
      *      tags={"Mail"},
      *      summary="Mass update mails",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="rows",
      *                  type="array",
+     *
      *                  @OA\Items(
      *                      type="integer"
      *                  )
      *              ),
+     *
      *            @OA\Property(
      *                  property="value",
      *                  type="string",
@@ -289,6 +337,7 @@ class EmailController
      *              @OA\Property(
      *                  property="folders",
      *                  type="array",
+     *
      *                  @OA\Items(
      *                      type="string",
      *                      example="inbox"
@@ -296,17 +345,22 @@ class EmailController
      *              ),
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Email")
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -324,29 +378,38 @@ class EmailController
      *      tags={"Mail"},
      *      summary="Mass delete mails",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="rows",
      *                  type="array",
+     *
      *                  @OA\Items(
      *                      type="integer"
      *                  )
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Email")
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -364,24 +427,29 @@ class EmailController
      *      tags={"Mail"},
      *      summary="Download attachment",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Attachment Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\Property(
      *              property="data",
      *              type="file",
      *              format="binary"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"

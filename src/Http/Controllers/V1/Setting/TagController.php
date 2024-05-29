@@ -19,7 +19,6 @@ class TagController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Tag\Repositories\TagRepository  $tagRepository
      * @return void
      */
     public function __construct(TagRepository $tagRepository)
@@ -42,7 +41,6 @@ class TagController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)

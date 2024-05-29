@@ -19,7 +19,6 @@ class WorkflowController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Workflow\Repositories\WorkflowRepository  $workflowRepository
      * @return void
      */
     public function __construct(WorkflowRepository $workflowRepository)
@@ -42,7 +41,6 @@ class WorkflowController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)

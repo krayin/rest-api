@@ -22,7 +22,6 @@ class CoreConfig
      */
     private $id;
 
-
     /**
      * @OA\Property(
      *     title="Code",

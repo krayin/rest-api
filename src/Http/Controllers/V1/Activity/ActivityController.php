@@ -36,8 +36,6 @@ class ActivityController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Activity\Repositories\ActivityRepository  $activityRepository
-     * @param  \Webkul\Activity\Repositories\FileRepository  $fileRepository
      * @param  \Webkul\Activity\Repositories\LeadRepository  $leadRepository
      * @return void
      */
@@ -68,7 +66,6 @@ class ActivityController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -148,7 +145,7 @@ class ActivityController extends Controller
 
         return response([
             'data'    => new ActivityResource($activity),
-            'message' => __('admin::app.activities.create-success', ['type' => __('admin::app.activities.' . $activity->type)]),
+            'message' => __('admin::app.activities.create-success', ['type' => __('admin::app.activities.'.$activity->type)]),
         ]);
     }
 
@@ -196,7 +193,7 @@ class ActivityController extends Controller
 
         return response([
             'data'    => new ActivityResource($activity),
-            'message' => __('admin::app.activities.update-success', ['type' => __('admin::app.activities.' . $activity->type)]),
+            'message' => __('admin::app.activities.update-success', ['type' => __('admin::app.activities.'.$activity->type)]),
         ]);
     }
 
@@ -265,11 +262,11 @@ class ActivityController extends Controller
             Event::dispatch('activity.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.activities.destroy-success', ['type' => __('admin::app.activities.' . $activity->type)]),
+                'message' => __('admin::app.activities.destroy-success', ['type' => __('admin::app.activities.'.$activity->type)]),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.activities.destroy-failed', ['type' => __('admin::app.activities.' . $activity->type)]),
+                'message' => __('admin::app.activities.destroy-failed', ['type' => __('admin::app.activities.'.$activity->type)]),
             ], 500);
         }
     }

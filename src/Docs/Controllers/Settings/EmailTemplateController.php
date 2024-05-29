@@ -11,17 +11,22 @@ class EmailTemplateController
      *      tags={"EmailTemplate"},
      *      summary="Get list of email templates",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/EmailTemplate")
      *              )
      *          )
      *      ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -39,20 +44,25 @@ class EmailTemplateController
      *      tags={"EmailTemplate"},
      *      summary="Get email template by id",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="EmailTemplate Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/EmailTemplate")
      *       ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -70,10 +80,14 @@ class EmailTemplateController
      *      tags={"EmailTemplate"},
      *      summary="Create new email template",
      *      security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="name",
      *                      description="name",
@@ -95,11 +109,14 @@ class EmailTemplateController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/EmailTemplate")
      *       ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -117,19 +134,25 @@ class EmailTemplateController
      *      tags={"EmailTemplate"},
      *      summary="Update existing email template",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="EmailTemplate Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="name",
      *                      description="name",
@@ -151,11 +174,14 @@ class EmailTemplateController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/EmailTemplate")
      *       ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -173,20 +199,25 @@ class EmailTemplateController
      *      tags={"EmailTemplate"},
      *      summary="Delete one email template",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="EmailTemplate Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/EmailTemplate")
      *       ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"

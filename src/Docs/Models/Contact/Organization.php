@@ -17,6 +17,7 @@ class Organization
      *     format="int64",
      *     example="1"
      * )
+     *
      * @var string
      */
     private $id;
@@ -38,7 +39,9 @@ class Organization
      *     property="address",
      *     type="array",
      *     description="Organization Address",
+     *
      *     @OA\Items(
+     *
      *        @OA\Property(
      *            property="city",
      *            type="string",

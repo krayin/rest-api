@@ -11,13 +11,17 @@ class QuoteController
      *      tags={"Quotes"},
      *      summary="Get list of quotes",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Quote")
      *              )
      *          )
@@ -41,10 +45,13 @@ class QuoteController
      *      summary="Store the Quote",
      *      description="Store the Quote",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
      *         required=true,
      *         description="Store Quote",
+     *
      *         @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="description",
      *                  type="string",
@@ -85,35 +92,35 @@ class QuoteController
      *              @OA\Property(
      *                  property="billing_address",
      *                  description="Billing address details",
-     *                  @OA\Property( 
-     *                      property="address", 
-     *                      type="string", 
-     *                      description="Street address", 
-     *                      example="Bheem Nagar" 
-     *                  ), 
-     *                  @OA\Property( 
-     *                      property="country", 
-     *                      type="string", 
-     *                      description="Country code", 
-     *                      example="IN" 
-     *                  ), 
-     *                  @OA\Property( 
-     *                      property="state", 
-     *                      type="string", 
-     *                      description="State code", 
-     *                      example="UP" 
-     *                  ), 
-     *                  @OA\Property( 
-     *                      property="city", 
-     *                      type="string", 
-     *                      description="City name", 
-     *                      example="Ghaziabad" 
-     *                  ), 
-     *                  @OA\Property( 
-     *                      property="postcode", 
-     *                      type="string", 
-     *                      description="Postal code", 
-     *                      example="201009" 
+     *                  @OA\Property(
+     *                      property="address",
+     *                      type="string",
+     *                      description="Street address",
+     *                      example="Bheem Nagar"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="country",
+     *                      type="string",
+     *                      description="Country code",
+     *                      example="IN"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="state",
+     *                      type="string",
+     *                      description="State code",
+     *                      example="UP"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="city",
+     *                      type="string",
+     *                      description="City name",
+     *                      example="Ghaziabad"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="postcode",
+     *                      type="string",
+     *                      description="Postal code",
+     *                      example="201009"
      *                  )
      *              ),
      *              @OA\Property(
@@ -232,11 +239,14 @@ class QuoteController
      *              )
      *           )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Quote created successfully",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Quote")
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Bad request"
@@ -255,19 +265,24 @@ class QuoteController
      *      summary="Get quote information",
      *      description="Get quote information",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Quote Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -275,6 +290,7 @@ class QuoteController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=404,
      *          description="Quote not found"
@@ -293,19 +309,24 @@ class QuoteController
      *      summary="Update the Quote",
      *      description="Update the Quote",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Quote Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
-      *      @OA\RequestBody(
+     *
+     *      @OA\RequestBody(
      *         required=true,
      *         description="Store Quote",
+     *
      *         @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="description",
      *                  type="string",
@@ -346,35 +367,35 @@ class QuoteController
      *              @OA\Property(
      *                  property="billing_address",
      *                  description="Billing address details",
-     *                  @OA\Property( 
-     *                      property="address", 
-     *                      type="string", 
-     *                      description="Street address", 
-     *                      example="Bheem Nagar" 
-     *                  ), 
-     *                  @OA\Property( 
-     *                      property="country", 
-     *                      type="string", 
-     *                      description="Country code", 
-     *                      example="IN" 
-     *                  ), 
-     *                  @OA\Property( 
-     *                      property="state", 
-     *                      type="string", 
-     *                      description="State code", 
-     *                      example="UP" 
-     *                  ), 
-     *                  @OA\Property( 
-     *                      property="city", 
-     *                      type="string", 
-     *                      description="City name", 
-     *                      example="Ghaziabad" 
-     *                  ), 
-     *                  @OA\Property( 
-     *                      property="postcode", 
-     *                      type="string", 
-     *                      description="Postal code", 
-     *                      example="201009" 
+     *                  @OA\Property(
+     *                      property="address",
+     *                      type="string",
+     *                      description="Street address",
+     *                      example="Bheem Nagar"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="country",
+     *                      type="string",
+     *                      description="Country code",
+     *                      example="IN"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="state",
+     *                      type="string",
+     *                      description="State code",
+     *                      example="UP"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="city",
+     *                      type="string",
+     *                      description="City name",
+     *                      example="Ghaziabad"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="postcode",
+     *                      type="string",
+     *                      description="Postal code",
+     *                      example="201009"
      *                  )
      *              ),
      *              @OA\Property(
@@ -493,11 +514,14 @@ class QuoteController
      *              )
      *           )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Quote updated successfully",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Quote")
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Bad request"
@@ -516,15 +540,18 @@ class QuoteController
      *      summary="Delete the Quote",
      *      description="Delete the Quote",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Quote Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Quote deleted successfully"
@@ -547,14 +574,18 @@ class QuoteController
      *     summary="Delete the Quote",
      *     description="Delete the Quote",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
      *         required=true,
      *         description="Quote details",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="rows",
      *                 type="array",
      *                 description="Quote IDs",
+     *
      *                 @OA\Items(
      *                     type="integer",
      *                     example="1"
@@ -562,10 +593,13 @@ class QuoteController
      *             ),
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(
+     *
      *              @OA\Property(
      *                 property="data",
      *                 type="Object",
@@ -573,6 +607,7 @@ class QuoteController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"

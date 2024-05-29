@@ -77,24 +77,28 @@ class Workflow
      */
     private $condition_type;
 
-
     /**
      * @OA\Property(
      *     property="conditions",
      *     type="array",
      *     description="Conditions",
+     *
      *     @OA\Items(
+     *
      *         @OA\Schema(
      *             schema="ConditionItem",
      *             type="object",
      *             description="A condition item object",
+     *
      *             @OA\Property(
      *                 property="value",
      *                 type="array",
+     *
      *                 @OA\Items(type="string"),
      *                 description="The values associated with the condition",
      *                 example={"call", "meeting", "lunch"}
      *             ),
+     *
      *             @OA\Property(
      *                 property="operator",
      *                 type="string",
@@ -132,11 +136,14 @@ class Workflow
      *     property="actions",
      *     type="array",
      *     description="Actions",
+     *
      *     @OA\Items(
+     *
      *         @OA\Schema(
      *             schema="ActionItem",
      *             type="object",
      *             description="An action item object",
+     *
      *             @OA\Property(
      *                 property="id",
      *                 type="string",

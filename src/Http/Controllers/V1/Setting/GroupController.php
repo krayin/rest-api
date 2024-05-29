@@ -19,7 +19,6 @@ class GroupController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\User\Repositories\GroupRepository  $groupRepository
      * @return void
      */
     public function __construct(GroupRepository $groupRepository)
@@ -42,7 +41,6 @@ class GroupController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -84,7 +82,7 @@ class GroupController extends Controller
     public function update($id)
     {
         $this->validate(request(), [
-            'name' => 'required|unique:groups,name,' . $id,
+            'name' => 'required|unique:groups,name,'.$id,
         ]);
 
         Event::dispatch('settings.group.update.before', $id);

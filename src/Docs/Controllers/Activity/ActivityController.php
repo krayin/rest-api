@@ -4,7 +4,6 @@ namespace Webkul\RestApi\Docs\Controllers\Activity;
 
 class ActivityController
 {
-
     /**
      * @OA\Get(
      *     path="/api/v1/activities",
@@ -12,17 +11,22 @@ class ActivityController
      *     tags={"Activity"},
      *     summary="Get list of activities",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="array",
+     *
      *                 @OA\Items(ref="#/components/schemas/Activity")
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -40,23 +44,29 @@ class ActivityController
      *     tags={"Activity"},
      *     summary="Fetch activity",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="Activity Id",
      *         required=true,
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful response",
+     *
      *         @OA\JsonContent(
      *             type="array",
+     *
      *             @OA\Items(ref="#/components/schemas/Activity")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -74,18 +84,24 @@ class ActivityController
      *     tags={"Activity"},
      *     summary="Check if activity is overlapping",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Activity")
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful response",
+     *
      *         @OA\JsonContent(
      *             type="array",
+     *
      *             @OA\Items(ref="#/components/schemas/Activity")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -103,8 +119,11 @@ class ActivityController
      *     tags={"Activity"},
      *     summary="Create activity",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
+     *
      *         @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="lead_id",
      *                  title="Lead ID",
@@ -151,6 +170,7 @@ class ActivityController
      *              @OA\Property(
      *                 property="persons",
      *                 type="array",
+     *
      *                 @OA\Items(
      *                     type="string",
      *                     example="1"
@@ -159,14 +179,18 @@ class ActivityController
      *             ),
      *          ),
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful response",
+     *
      *         @OA\JsonContent(
      *             type="array",
+     *
      *             @OA\Items(ref="#/components/schemas/Activity")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -184,17 +208,22 @@ class ActivityController
      *     tags={"Activity"},
      *     summary="Update activity",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="Activity Id",
      *         required=true,
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\RequestBody(
+     *
      *         @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="lead_id",
      *                  title="Lead ID",
@@ -241,6 +270,7 @@ class ActivityController
      *              @OA\Property(
      *                 property="persons",
      *                 type="array",
+     *
      *                 @OA\Items(
      *                     type="string",
      *                     example="1"
@@ -249,14 +279,18 @@ class ActivityController
      *             ),
      *          ),
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful response",
+     *
      *         @OA\JsonContent(
      *             type="array",
+     *
      *             @OA\Items(ref="#/components/schemas/Activity")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -274,10 +308,14 @@ class ActivityController
      *     tags={"Activity"},
      *     summary="Upload file",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="type",
      *                      type="string",
@@ -309,14 +347,18 @@ class ActivityController
      *              )
      *          )
      *      ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful response",
+     *
      *         @OA\JsonContent(
      *             type="array",
+     *
      *             @OA\Items(ref="#/components/schemas/Activity")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -334,23 +376,29 @@ class ActivityController
      *     tags={"Activity"},
      *     summary="Download file",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="Activity Id",
      *         required=true,
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful response",
+     *
      *         @OA\JsonContent(
      *             type="array",
+     *
      *             @OA\Items(ref="#/components/schemas/Activity")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -361,7 +409,6 @@ class ActivityController
     {
     }
 
-
     /**
      * @OA\Delete(
      *     path="/api/v1/activities/{id}",
@@ -369,15 +416,18 @@ class ActivityController
      *     tags={"Activity"},
      *     summary="Delete activity",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="Activity Id",
      *         required=true,
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation"
@@ -399,18 +449,23 @@ class ActivityController
      *     tags={"Activity"},
      *     summary="Mass update activities",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="rows",
      *                 type="array",
      *                 description="IDs of the Activities to be updated",
+     *
      *                 @OA\Items(
      *                     type="integer",
      *                     example=1
      *                 )
      *             ),
+     *
      *             @OA\Property(
      *                 property="value",
      *                 type="string",
@@ -419,6 +474,7 @@ class ActivityController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation"
@@ -440,13 +496,17 @@ class ActivityController
      *     tags={"Activity"},
      *     summary="Mass destroy activities",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="rows",
      *                 type="array",
      *                 description="IDs of the Activities to be deleted",
+     *
      *                 @OA\Items(
      *                     type="integer",
      *                     example=1
@@ -454,6 +514,7 @@ class ActivityController
      *             ),
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation"

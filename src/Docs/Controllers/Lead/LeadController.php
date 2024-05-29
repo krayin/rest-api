@@ -11,17 +11,22 @@ class LeadController
      *     tags={"Leads"},
      *     summary="Get list of leads",
      *     security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Lead")
      *              )
      *          )
      *      ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -40,19 +45,24 @@ class LeadController
      *      summary="Get the particular Lead",
      *      description="Get the particular Lead",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Lead ID",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -74,10 +84,14 @@ class LeadController
      *      summary="Store the Leads",
      *      description="Store the Leads",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="title",
      *                      type="string",
@@ -150,8 +164,10 @@ class LeadController
      *                       property="emails",
      *                       type="array",
      *                       description="List of person email addresses",
+     *
      *                       @OA\Items(
      *                           type="object",
+     *
      *                           @OA\Property(
      *                               property="value",
      *                               type="string",
@@ -213,7 +229,9 @@ class LeadController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="message", type="string", example="Leads Created Successfully."),
      *              @OA\Property(property="data", type="object", ref="#/components/schemas/Lead")
      *          )
@@ -237,19 +255,25 @@ class LeadController
      *      summary="Store the Leads",
      *      description="Store the Leads",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Lead ID",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="title",
      *                      type="string",
@@ -327,8 +351,10 @@ class LeadController
      *                       property="emails",
      *                       type="array",
      *                       description="List of person email addresses",
+     *
      *                       @OA\Items(
      *                           type="object",
+     *
      *                           @OA\Property(
      *                               property="value",
      *                               type="string",
@@ -390,7 +416,9 @@ class LeadController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="message", type="string", example="Leads Updated Successfully."),
      *              @OA\Property(property="data", type="object", ref="#/components/schemas/Lead")
      *          )
@@ -414,22 +442,28 @@ class LeadController
      *      summary="Delete the Leads",
      *      description="Delete the Leads",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Lead ID",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="message", type="string", example="Leads Deleted Successfully.")
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
@@ -448,10 +482,14 @@ class LeadController
      *      summary="Mass delete Leads",
      *      description="Mass delete Leads",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="rows",
      *                      description="Leads's Ids `CommaSeperated`",
@@ -462,10 +500,13 @@ class LeadController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="message",
      *                  type="string",

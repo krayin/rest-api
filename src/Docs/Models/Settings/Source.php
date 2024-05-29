@@ -47,7 +47,6 @@ class Source
      */
     private $created_at;
 
-
     /**
      * @OA\Property(
      *     title="Updated at",

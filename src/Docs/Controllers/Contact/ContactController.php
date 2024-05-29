@@ -11,17 +11,22 @@ class ContactController
      *     tags={"Contacts"},
      *     summary="Get list of contact person",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="array",
+     *
      *                 @OA\Items(ref="#/components/schemas/Person")
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -40,20 +45,25 @@ class ContactController
      *     operationId="getPersonBySearchQuery",
      *     tags={"Contacts"},
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Parameter(
      *         name="query",
      *         in="query",
      *         description="Search query for the person",
      *         required=true,
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful response",
+     *
      *         @OA\JsonContent(
      *             type="array",
+     *
      *             @OA\Items(ref="#/components/schemas/Person")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=404,
      *         description="[]"
@@ -75,19 +85,24 @@ class ContactController
      *     tags={"Contacts"},
      *     summary="Get contact person by id",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="ID of contact person",
      *         required=true,
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="Object",
@@ -95,6 +110,7 @@ class ContactController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -112,21 +128,26 @@ class ContactController
      *     tags={"Contacts"},
      *     summary="Create new contact person",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
+     *
      *            @OA\Property(
-    *                   property="name",
-    *                   type="string",
-    *                   description="Name of the person",
-    *                   example="Role"
-    *             ),
+     *                   property="name",
+     *                   type="string",
+     *                   description="Name of the person",
+     *                   example="Role"
+     *             ),
      *            @OA\Property(
      *                 property="emails",
      *                 type="array",
      *                 description="Email addresses of the person",
+     *
      *                 @OA\Items(
      *                     required={"value", "label"},
+     *
      *                     @OA\Property(property="value", type="string", description="Email address", example="jhon.doe@mail.com"),
      *                     @OA\Property(property="label", type="string", description="Label for the email address", example="work")
      *                 )
@@ -135,8 +156,10 @@ class ContactController
      *                property="contact_numbers",
      *                type="array",
      *                description="Contact numbers of the person",
+     *
      *                @OA\Items(
      *                    required={"value", "label"},
+     *
      *                    @OA\Property(property="value", type="string", description="Contact number", example="09315981404"),
      *                    @OA\Property(property="label", type="string", description="Label for the contact number", example="work")
      *                )
@@ -155,10 +178,13 @@ class ContactController
      *            )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="Object",
@@ -166,6 +192,7 @@ class ContactController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -183,18 +210,23 @@ class ContactController
      *     tags={"Contacts"},
      *     summary="Update contact person",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="ID of contact person",
      *         required=true,
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\RequestBody(
      *            required=true,
+     *
      *            @OA\JsonContent(
+     *
      *               @OA\Property(
      *                      property="name",
      *                      type="string",
@@ -205,8 +237,10 @@ class ContactController
      *                    property="emails",
      *                    type="array",
      *                    description="Email addresses of the person",
+     *
      *                    @OA\Items(
      *                        required={"value", "label"},
+     *
      *                        @OA\Property(property="value", type="string", description="Email address", example="jhon.doe@mail.com"),
      *                        @OA\Property(property="label", type="string", description="Label for the email address", example="work")
      *                    )
@@ -215,8 +249,10 @@ class ContactController
      *                   property="contact_numbers",
      *                   type="array",
      *                   description="Contact numbers of the person",
+     *
      *                   @OA\Items(
      *                       required={"value", "label"},
+     *
      *                       @OA\Property(property="value", type="string", description="Contact number", example="09315981404"),
      *                       @OA\Property(property="label", type="string", description="Label for the contact number", example="work")
      *                   )
@@ -235,10 +271,13 @@ class ContactController
      *               )
      *            )
      *        ),
+     *
      *        @OA\Response(
      *            response=200,
      *            description="Successful operation",
+     *
      *            @OA\JsonContent(
+     *
      *                @OA\Property(
      *                    property="data",
      *                    type="Object",
@@ -246,6 +285,7 @@ class ContactController
      *                )
      *            )
      *        ),
+     *
      *        @OA\Response(
      *            response=401,
      *            description="Unauthorized"
@@ -254,8 +294,8 @@ class ContactController
      */
     public function update()
     {
-    }              
-    
+    }
+
     /**
      * @OA\Delete(
      *     path="/api/v1/contacts/persons/{id}",
@@ -263,15 +303,18 @@ class ContactController
      *     tags={"Contacts"},
      *     summary="Delete contact person",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="ID of contact person",
      *         required=true,
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation"
@@ -293,13 +336,17 @@ class ContactController
      *     tags={"Contacts"},
      *     summary="Delete multiple contact persons",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="rows",
      *                 type="array",
      *                 description="IDs of the contact persons to be deleted",
+     *
      *                 @OA\Items(
      *                     type="integer",
      *                     example=1
@@ -307,6 +354,7 @@ class ContactController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation"

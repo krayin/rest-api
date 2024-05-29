@@ -87,6 +87,7 @@ class Email
      *     title="Folders",
      *     description="Folders associated with the item",
      *     type="array",
+     *
      *     @OA\Items(type="string"),
      *     example={"Inbox", "Archive"}
      * )
@@ -136,6 +137,7 @@ class Email
      *     title="CC",
      *     description="CC email addresses",
      *     type="array",
+     *
      *     @OA\Items(type="string"),
      *     example={"cc1@example.com", "cc2@example.com"}
      * )
@@ -149,6 +151,7 @@ class Email
      *     title="BCC",
      *     description="BCC email addresses",
      *     type="array",
+     *
      *     @OA\Items(type="string"),
      *     example={"bcc1@example.com", "bcc2@example.com"}
      * )
@@ -186,6 +189,7 @@ class Email
      *     title="Reference IDs",
      *     description="Reference identifiers",
      *     type="array",
+     *
      *     @OA\Items(type="string"),
      *     example={"ref-111", "ref-222"}
      * )

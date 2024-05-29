@@ -37,9 +37,6 @@ class LeadController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Lead\Repositories\LeadRepository  $leadRepository
-     * @param  \Webkul\Lead\Repositories\PipelineRepository  $pipelineRepository
-     * @param  \Webkul\Lead\Repositories\StageRepository  $stageRepository
      * @return void
      */
     public function __construct(
@@ -71,7 +68,6 @@ class LeadController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)

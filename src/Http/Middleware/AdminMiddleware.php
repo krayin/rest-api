@@ -3,8 +3,8 @@
 namespace Webkul\RestApi\Middleware;
 
 use Closure;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 class AdminMiddleware
 {

@@ -81,6 +81,7 @@ class Role
      *     },
      *
      *     @OA\Items(
+     *
      *          @OA\Property(property="dashboard", type="string"),
      *          @OA\Property(property="catalog", type="string"),
      *          @OA\Property(property="catalog.products", type="string"),

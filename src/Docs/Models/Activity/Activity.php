@@ -10,18 +10,19 @@ namespace Webkul\RestApi\Docs\Models\Activity;
  */
 class Activity
 {
-     /**
+    /**
      * @OA\Property(
      *     title="ID",
      *     description="Organization ID",
      *     format="int64",
      *     example="1"
      * )
+     *
      * @var string
      */
     private $id;
 
-     /**
+    /**
      * @OA\Property(
      *     title="Title",
      *     description="Title of the task",
@@ -122,7 +123,7 @@ class Activity
      * @var int
      */
     private $user_id;
-    
+
     /**
      * @OA\Property(
      *     title="Created at",

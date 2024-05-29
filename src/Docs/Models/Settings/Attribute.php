@@ -121,7 +121,7 @@ class Attribute
      *     example="0",
      * )
      *
-     * @var boolean
+     * @var bool
      */
     private $is_unique;
 
@@ -132,7 +132,7 @@ class Attribute
      *     example="0",
      * )
      *
-     * @var boolean
+     * @var bool
      */
     private $quick_add;
 
@@ -143,7 +143,7 @@ class Attribute
      *     example="1",
      * )
      *
-     * @var boolean
+     * @var bool
      */
     private $is_user_defined;
 

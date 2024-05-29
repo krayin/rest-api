@@ -11,13 +11,17 @@ class ProductController
      *      tags={"Products"},
      *      summary="Get list of products",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Product")
      *              )
      *          )
@@ -40,24 +44,29 @@ class ProductController
      *      tags={"Products"},
      *      summary="Get product details",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Product ID",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\Property(
      *             property="data",
      *             type="Object",
      *             ref="#/components/schemas/Product"
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -75,10 +84,13 @@ class ProductController
      *      tags={"Products"},
      *      summary="Create new product",
      *      security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
      *         required=true,
      *         description="Product details",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="name",
      *                 type="string",
@@ -117,10 +129,13 @@ class ProductController
      *             ),
      *         )
      *     ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="Object",
@@ -146,19 +161,24 @@ class ProductController
      *      tags={"Products"},
      *      summary="Update existing product",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Product ID",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *     @OA\RequestBody(
      *         required=true,
      *         description="Product details",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="name",
      *                 type="string",
@@ -197,10 +217,13 @@ class ProductController
      *             ),
      *         )
      *     ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="Object",
@@ -226,19 +249,24 @@ class ProductController
      *      tags={"Products"},
      *      summary="Delete existing product",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Product ID",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="Object",
@@ -264,14 +292,18 @@ class ProductController
      *      tags={"Products"},
      *      summary="Delete existing products",
      *      security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
      *         required=true,
      *         description="Product details",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="rows",
      *                 type="array",
      *                 description="Product IDs",
+     *
      *                 @OA\Items(
      *                     type="integer",
      *                     example="1"
@@ -279,10 +311,13 @@ class ProductController
      *             ),
      *         )
      *     ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="Object",

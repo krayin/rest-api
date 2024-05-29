@@ -27,8 +27,6 @@ class QuoteController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Lead\Repositories\LeadRepository  $leadRepository
-     * @param  \Webkul\Quote\Repositories\QuoteRepository  $quoteRepository
      * @return void
      */
     public function __construct(
@@ -43,7 +41,7 @@ class QuoteController extends Controller
     /**
      * Store a newly created qoute in storage.
      *
-     * @param  integer  $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function store($id)
@@ -67,8 +65,8 @@ class QuoteController extends Controller
     /**
      * Remove the specified qoute from storage.
      *
-     * @param  integer  $leadId
-     * @param  integer  $tagId
+     * @param  int  $leadId
+     * @param  int  $tagId
      * @return \Illuminate\Http\Response
      */
     public function delete($leadId)

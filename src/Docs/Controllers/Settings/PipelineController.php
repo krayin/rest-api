@@ -11,17 +11,22 @@ class PipelineController
      *     tags={"Pipeline"},
      *     summary="Get all pipelines",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Pipelines fetched successfully",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="array",
+     *
      *                 @OA\Items(ref="#/components/schemas/Pipeline")
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -39,11 +44,14 @@ class PipelineController
      *     tags={"Pipeline"},
      *     summary="Create a new pipeline",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
      *         required=true,
      *         description="Pipeline details",
+     *
      *         @OA\JsonContent(
      *             required={"name", "rotten_days", "is_default", "stages"},
+     *
      *             @OA\Property(
      *                 property="name",
      *                 type="string",
@@ -101,10 +109,13 @@ class PipelineController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=201,
      *         description="Pipeline created successfully",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
@@ -112,6 +123,7 @@ class PipelineController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -129,18 +141,23 @@ class PipelineController
      *     tags={"Pipeline"},
      *     summary="Update a pipeline",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
      *         description="ID of the pipeline",
+     *
      *         @OA\Schema(type="integer")
      *     ),
+     *
      *     @OA\RequestBody(
      *         required=true,
      *         description="Pipeline details",
+     *
      *         @OA\JsonContent(
      *             required={"name", "rotten_days", "is_default", "stages"},
+     *
      *             @OA\Property(
      *                 property="name",
      *                 type="string",
@@ -198,10 +215,13 @@ class PipelineController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=201,
      *         description="Pipeline updated successfully",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
@@ -209,6 +229,7 @@ class PipelineController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -226,17 +247,22 @@ class PipelineController
      *     tags={"Pipeline"},
      *     summary="Get a pipeline",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
      *         description="ID of the pipeline",
+     *
      *         @OA\Schema(type="integer")
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Pipeline fetched successfully",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
@@ -244,6 +270,7 @@ class PipelineController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -261,13 +288,16 @@ class PipelineController
      *     tags={"Pipeline"},
      *     summary="Delete a pipeline",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
      *         description="ID of the pipeline",
+     *
      *         @OA\Schema(type="integer")
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Pipeline deleted successfully"
@@ -285,6 +315,4 @@ class PipelineController
     public function destroy()
     {
     }
-
-
 }

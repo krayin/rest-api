@@ -19,7 +19,6 @@ class RoleController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\User\Repositories\RoleRepository  $roleRepository
      * @return void
      */
     public function __construct(RoleRepository $roleRepository)
@@ -42,7 +41,6 @@ class RoleController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -131,7 +129,7 @@ class RoleController extends Controller
 
         if ($role->admins && $role->admins->count() >= 1) {
             $response['message'] = __('admin::app.settings.roles.being-used');
-        } else if ($this->roleRepository->count() == 1) {
+        } elseif ($this->roleRepository->count() == 1) {
             $response['message'] = __('admin::app.settings.roles.last-delete-error');
         } else {
             try {
@@ -149,7 +147,8 @@ class RoleController extends Controller
                         'message' => __('admin::app.settings.roles.delete-success'),
                     ];
                 }
-            } catch (\Exception $exception) {}
+            } catch (\Exception $exception) {
+            }
         }
 
         return response(['message' => $response['message']], $response['code']);

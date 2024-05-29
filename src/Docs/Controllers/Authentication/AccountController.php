@@ -12,10 +12,13 @@ class AccountController
      *      summary="Get logged in admin user's details",
      *      description="Get logged in admin user's details",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *				@OA\Property(
      * 					property="data",
      * 					type="object",
@@ -23,6 +26,7 @@ class AccountController
      *				)
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
@@ -36,6 +40,7 @@ class AccountController
     public function get()
     {
     }
+
     /**
      * @OA\Post(
      *      path="/api/v1/update",
@@ -44,10 +49,14 @@ class AccountController
      *      summary="Update admin user's profile",
      *      description="Update admin user's profile",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="_method",
      *                      type="string",
@@ -86,11 +95,14 @@ class AccountController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="message", type="string", example="Account updated successfully."),
      *              @OA\Property(property="data", type="object", ref="#/components/schemas/User")
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
@@ -98,7 +110,9 @@ class AccountController
      *      @OA\Response(
      *          response=422,
      *          description="Error: Unprocessable Content",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Examples(example="result", value={"message":"The name field is required. (and 1 more error)"}, summary="An result object."),
      *          )
      *      )
@@ -116,13 +130,17 @@ class AccountController
      *      summary="Logout admin user",
      *      description="Logout admin user",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="message", type="string", example="Logged out successfully.")
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",

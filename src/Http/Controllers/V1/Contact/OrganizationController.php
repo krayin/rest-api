@@ -20,7 +20,6 @@ class OrganizationController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Contact\Repositories\OrganizationRepository  $organizationRepository
      * @return void
      */
     public function __construct(OrganizationRepository $organizationRepository)
@@ -45,7 +44,6 @@ class OrganizationController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -58,7 +56,6 @@ class OrganizationController extends Controller
     /**
      * Store a newly created organization in storage.
      *
-     * @param \Webkul\Attribute\Http\Requests\AttributeForm $request
      * @return \Illuminate\Http\Response
      */
     public function store(AttributeForm $request)
@@ -78,8 +75,7 @@ class OrganizationController extends Controller
     /**
      * Update the organization in storage.
      *
-     * @param \Webkul\Attribute\Http\Requests\AttributeForm $request
-     * @param int  $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(AttributeForm $request, $id)

@@ -11,17 +11,22 @@ class WebFormController
      *      tags={"WebForm"},
      *      summary="Get list of WebForm",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/WebForm")
      *              )
      *          )
      *      ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -39,20 +44,25 @@ class WebFormController
      *      tags={"WebForm"},
      *      summary="Find WebForm by ID",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
      *          description="ID of WebForm to return",
      *          required=true,
+     *
      *          @OA\Schema(
      *              type="integer",
      *              format="int64"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -60,6 +70,7 @@ class WebFormController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=404,
      *          description="WebForm not found"
@@ -77,10 +88,12 @@ class WebFormController
      *      tags={"WebForm"},
      *      summary="Create WebForm",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
-     *            
+     *
      *                @OA\Property(
      *                    property="title",
      *                    type="string",
@@ -189,10 +202,13 @@ class WebFormController
      *                )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -200,6 +216,7 @@ class WebFormController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=422,
      *          description="Validation error"
@@ -217,20 +234,24 @@ class WebFormController
      *      tags={"WebForm"},
      *      summary="Update WebForm",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
      *          description="ID of WebForm to return",
      *          required=true,
+     *
      *          @OA\Schema(
      *              type="integer",
      *              format="int64"
      *          )
      *      ),
-  *      @OA\RequestBody(
+     *
+     *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
-     *            
+     *
      *                @OA\Property(
      *                    property="title",
      *                    type="string",
@@ -339,10 +360,13 @@ class WebFormController
      *                )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -350,6 +374,7 @@ class WebFormController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=404,
      *          description="WebForm not found"
@@ -371,20 +396,25 @@ class WebFormController
      *      tags={"WebForm"},
      *      summary="Delete WebForm",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
      *          description="ID of WebForm to return",
      *          required=true,
+     *
      *          @OA\Schema(
      *              type="integer",
      *              format="int64"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
@@ -392,6 +422,7 @@ class WebFormController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=404,
      *          description="WebForm not found"

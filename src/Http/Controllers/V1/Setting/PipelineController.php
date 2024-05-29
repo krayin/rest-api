@@ -20,7 +20,6 @@ class PipelineController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Lead\Repositories\PipelineRepository  $pipelineRepository
      * @return void
      */
     public function __construct(PipelineRepository $pipelineRepository)
@@ -43,7 +42,6 @@ class PipelineController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)

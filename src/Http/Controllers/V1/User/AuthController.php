@@ -19,8 +19,6 @@ class AuthController extends Controller
     /**
      * Login user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Webkul\User\Repositories\UserRepository  $userRepository
      * @return \Illuminate\Http\Response
      */
     public function login(Request $request, UserRepository $userRepository)
@@ -54,7 +52,6 @@ class AuthController extends Controller
     /**
      * Logout user.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request)
@@ -71,7 +68,6 @@ class AuthController extends Controller
     /**
      * Send forgot password link.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function forgotPassword(Request $request)

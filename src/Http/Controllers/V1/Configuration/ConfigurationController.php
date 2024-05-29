@@ -18,7 +18,6 @@ class ConfigurationController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Core\Repositories\CoreConfigRepository  $configurationRepository
      * @return void
      */
     public function __construct(ConfigurationRepository $configurationRepository)

@@ -11,17 +11,22 @@ class WorkflowController
      *      tags={"Workflow"},
      *      summary="Get list of Workflow",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Workflow")
      *              )
      *          )
      *      ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -39,20 +44,25 @@ class WorkflowController
      *      tags={"Workflow"},
      *      summary="Get Workflow by ID",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
      *          description="ID of the Workflow",
      *          required=true,
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Workflow")
      *       ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -71,12 +81,16 @@ class WorkflowController
      *     operationId="storeWorkflow",
      *     tags={"Workflow"},
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *                 @OA\Schema(
      *                    schema="WorkflowSchema",
      *                    type="object",
+     *
      *                    @OA\Property(
      *                        property="name",
      *                        type="string",
@@ -111,18 +125,23 @@ class WorkflowController
      *                        property="conditions",
      *                        type="array",
      *                        description="Conditions",
+     *
      *                        @OA\Items(
+     *
      *                            @OA\Schema(
      *                                schema="ConditionItem",
      *                                type="object",
      *                                description="A condition item object",
+     *
      *                                @OA\Property(
      *                                    property="value",
      *                                    type="array",
+     *
      *                                    @OA\Items(type="string"),
      *                                    description="The values associated with the condition",
      *                                    example={"call", "meeting", "lunch"}
      *                                ),
+     *
      *                                @OA\Property(
      *                                    property="operator",
      *                                    type="string",
@@ -154,11 +173,14 @@ class WorkflowController
      *                        property="actions",
      *                        type="array",
      *                        description="Actions",
+     *
      *                        @OA\Items(
+     *
      *                            @OA\Schema(
      *                                schema="ActionItem",
      *                                type="object",
      *                                description="An action item object",
+     *
      *                                @OA\Property(
      *                                    property="id",
      *                                    type="string",
@@ -176,11 +198,14 @@ class WorkflowController
      *                )
      *          )
      *      ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(ref="#/components/schemas/Workflow")
      *     ),
+     *
      *     @OA\Response(
      *         response=400,
      *         description="Bad request"
@@ -198,21 +223,27 @@ class WorkflowController
      *      tags={"Workflow"},
      *      summary="Update an existing Workflow",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
      *          description="ID of the Workflow",
      *          required=true,
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *                 @OA\Schema(
      *                    schema="WorkflowSchema",
      *                    type="object",
+     *
      *                    @OA\Property(
      *                        property="name",
      *                        type="string",
@@ -247,18 +278,23 @@ class WorkflowController
      *                        property="conditions",
      *                        type="array",
      *                        description="Conditions",
+     *
      *                        @OA\Items(
+     *
      *                            @OA\Schema(
      *                                schema="ConditionItem",
      *                                type="object",
      *                                description="A condition item object",
+     *
      *                                @OA\Property(
      *                                    property="value",
      *                                    type="array",
+     *
      *                                    @OA\Items(type="string"),
      *                                    description="The values associated with the condition",
      *                                    example={"call", "meeting", "lunch"}
      *                                ),
+     *
      *                                @OA\Property(
      *                                    property="operator",
      *                                    type="string",
@@ -290,11 +326,14 @@ class WorkflowController
      *                        property="actions",
      *                        type="array",
      *                        description="Actions",
+     *
      *                        @OA\Items(
+     *
      *                            @OA\Schema(
      *                                schema="ActionItem",
      *                                type="object",
      *                                description="An action item object",
+     *
      *                                @OA\Property(
      *                                    property="id",
      *                                    type="string",
@@ -312,11 +351,14 @@ class WorkflowController
      *                )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Workflow")
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -334,20 +376,25 @@ class WorkflowController
      *      tags={"Workflow"},
      *      summary="Delete an existing Workflow",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
      *          description="ID of the Workflow",
      *          required=true,
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Workflow")
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"

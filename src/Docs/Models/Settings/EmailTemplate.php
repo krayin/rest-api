@@ -55,7 +55,7 @@ class EmailTemplate
      */
     private $content;
 
-     /**
+    /**
      * @OA\Property(
      *     title="Created at",
      *     description="Created at",

@@ -11,17 +11,22 @@ class AttributeController
      *      tags={"Attribute"},
      *      summary="Get list of Attribute",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Attribute")
      *              )
      *          )
      *      ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -39,20 +44,25 @@ class AttributeController
      *      tags={"Attribute"},
      *      summary="Get Attribute",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Attribute Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Attribute")
      *       ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -70,26 +80,33 @@ class AttributeController
      *      tags={"Attribute"},
      *      summary="Search attribute lookup results",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="lookup",
      *          description="Attribute Lookup",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="string"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Attribute")
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -100,7 +117,6 @@ class AttributeController
     {
     }
 
-
     /**
      * @OA\Post(
      *      path="/api/v1/settings/attributes",
@@ -108,10 +124,14 @@ class AttributeController
      *      tags={"Attribute"},
      *      summary="Create new Attribute",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="code",
      *                      description="Code",
@@ -187,17 +207,22 @@ class AttributeController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Attribute")
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -215,11 +240,13 @@ class AttributeController
      *      tags={"Attribute"},
      *      summary="Update an existing Attribute",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Attribute Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
@@ -227,7 +254,9 @@ class AttributeController
       @OA\RequestBody(
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="code",
      *                      description="Code",
@@ -303,17 +332,22 @@ class AttributeController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Attribute")
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -331,26 +365,33 @@ class AttributeController
      *      tags={"Attribute"},
      *      summary="Delete one record of Attribute",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Attribute Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Attribute")
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -368,12 +409,16 @@ class AttributeController
      *      tags={"Attribute"},
      *      summary="Delete multiple records of Attribute",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="rows",
      *                  type="array",
+     *
      *                  @OA\Items(
      *                      type="integer",
      *                      example=1
@@ -381,17 +426,22 @@ class AttributeController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Attribute")
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthorized"
@@ -402,4 +452,3 @@ class AttributeController
     {
     }
 }
-

@@ -37,35 +37,35 @@ class Quote
      *  @OA\Property(
      *      property="billing_address",
      *      description="Billing address details",
-     *      @OA\Property( 
-     *          property="address", 
-     *          type="string", 
-     *          description="Street address", 
-     *          example="Bheem Nagar" 
-     *      ), 
-     *      @OA\Property( 
-     *          property="country", 
-     *          type="string", 
-     *          description="Country code", 
-     *          example="IN" 
-     *      ), 
-     *      @OA\Property( 
-     *          property="state", 
-     *          type="string", 
-     *          description="State code", 
-     *          example="UP" 
-     *      ), 
-     *      @OA\Property( 
-     *          property="city", 
-     *          type="string", 
-     *          description="City name", 
-     *          example="Ghaziabad" 
-     *      ), 
-     *      @OA\Property( 
-     *          property="postcode", 
-     *          type="string", 
-     *          description="Postal code", 
-     *          example="201009" 
+     *      @OA\Property(
+     *          property="address",
+     *          type="string",
+     *          description="Street address",
+     *          example="Bheem Nagar"
+     *      ),
+     *      @OA\Property(
+     *          property="country",
+     *          type="string",
+     *          description="Country code",
+     *          example="IN"
+     *      ),
+     *      @OA\Property(
+     *          property="state",
+     *          type="string",
+     *          description="State code",
+     *          example="UP"
+     *      ),
+     *      @OA\Property(
+     *          property="city",
+     *          type="string",
+     *          description="City name",
+     *          example="Ghaziabad"
+     *      ),
+     *      @OA\Property(
+     *          property="postcode",
+     *          type="string",
+     *          description="Postal code",
+     *          example="201009"
      *      )
      *  ),
      *
@@ -77,35 +77,35 @@ class Quote
      *  @OA\Property(
      *      property="shipping_address",
      *      description="Shipping address details",
-     *      @OA\Property( 
-     *          property="address", 
-     *          type="string", 
-     *          description="Street address", 
-     *          example="Bheem Nagar" 
-     *      ), 
-     *      @OA\Property( 
-     *          property="country", 
-     *          type="string", 
-     *          description="Country code", 
-     *          example="IN" 
-     *      ), 
-     *      @OA\Property( 
-     *          property="state", 
-     *          type="string", 
-     *          description="State code", 
-     *          example="UP" 
-     *      ), 
-     *      @OA\Property( 
-     *          property="city", 
-     *          type="string", 
-     *          description="City name", 
-     *          example="Ghaziabad" 
-     *      ), 
-     *      @OA\Property( 
-     *          property="postcode", 
-     *          type="string", 
-     *          description="Postal code", 
-     *          example="201009" 
+     *      @OA\Property(
+     *          property="address",
+     *          type="string",
+     *          description="Street address",
+     *          example="Bheem Nagar"
+     *      ),
+     *      @OA\Property(
+     *          property="country",
+     *          type="string",
+     *          description="Country code",
+     *          example="IN"
+     *      ),
+     *      @OA\Property(
+     *          property="state",
+     *          type="string",
+     *          description="State code",
+     *          example="UP"
+     *      ),
+     *      @OA\Property(
+     *          property="city",
+     *          type="string",
+     *          description="City name",
+     *          example="Ghaziabad"
+     *      ),
+     *      @OA\Property(
+     *          property="postcode",
+     *          type="string",
+     *          description="Postal code",
+     *          example="201009"
      *      )
      *  ),
      *

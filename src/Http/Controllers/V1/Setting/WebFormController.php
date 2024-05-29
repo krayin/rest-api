@@ -2,8 +2,8 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Support\Facades\Event;
 use Webkul\Attribute\Repositories\AttributeRepository;
-use Webkul\WebForm\Repositories\WebFormRepository;
 use Webkul\Contact\Repositories\PersonRepository;
 use Webkul\Lead\Repositories\LeadRepository;
 use Webkul\Lead\Repositories\PipelineRepository;
@@ -11,7 +11,7 @@ use Webkul\Lead\Repositories\SourceRepository;
 use Webkul\Lead\Repositories\TypeRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Resources\V1\Setting\WebFormResource;
-use Illuminate\Support\Facades\Event;
+use Webkul\WebForm\Repositories\WebFormRepository;
 
 class WebFormController extends Controller
 {
@@ -67,13 +67,6 @@ class WebFormController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Attribute\Repositories\AttributeRepository  $attributeRepository
-     * @param  \Webkul\WebForm\Repositories\WebFormRepository  $webFormRepository
-     * @param  \Webkul\Contact\Repositories\PersonRepository  $personRepository
-     * @param  \Webkul\Lead\Repositories\LeadRepository  $leadRepository
-     * @param \Webkul\Lead\Repositories\PipelineRepository  $pipelineRepository
-     * @param \Webkul\Lead\Repositories\SourceRepository  $sourceRepository
-     * @param \Webkul\Lead\Repositories\TypeRepository  $typeRepository
      * @return void
      */
     public function __construct(
@@ -84,8 +77,7 @@ class WebFormController extends Controller
         PipelineRepository $pipelineRepository,
         SourceRepository $sourceRepository,
         TypeRepository $typeRepository
-    )
-    {
+    ) {
         $this->attributeRepository = $attributeRepository;
 
         $this->webFormRepository = $webFormRepository;
@@ -116,7 +108,7 @@ class WebFormController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param integer $id
+     * @param  int  $id
      * @return WebFormResource
      */
     public function show($id)
@@ -156,7 +148,7 @@ class WebFormController extends Controller
         ]);
     }
 
-     /**
+    /**
      * Update the specified email template in storage.
      *
      * @param  int  $id
@@ -205,7 +197,7 @@ class WebFormController extends Controller
             return response()->json([
                 'message' => trans('admin::app.settings.web-forms.delete-success'),
             ], 200);
-        } catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             return response()->json([
                 'message' => trans('admin::app.settings.web-forms.delete-failed'),
             ], 400);

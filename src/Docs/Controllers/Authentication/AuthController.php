@@ -11,10 +11,14 @@ class AuthController
      *      tags={"Authentication"},
      *      summary="Login admin user",
      *      description="Login admin user",
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="email",
      *                      type="string",
@@ -36,10 +40,13 @@ class AuthController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      * 					property="message",
      * 					type="string",
@@ -52,10 +59,13 @@ class AuthController
      *				)
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=400,
      *          description="Bad Request",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      * 					property="message",
      * 					type="string",

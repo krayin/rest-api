@@ -27,7 +27,6 @@ class EmailTemplateController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\EmailTemplate\Repositories\EmailTemplateRepository  $emailTemplateRepository
      * @param  \Workflow\Workflow\Repositories\Entity  $workflowEntityHelper
      * @return void
      */
@@ -55,7 +54,6 @@ class EmailTemplateController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)

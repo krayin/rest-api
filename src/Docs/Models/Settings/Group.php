@@ -44,7 +44,7 @@ class Group
      */
     private $description;
 
-     /**
+    /**
      * @OA\Property(
      *     title="Created at",
      *     description="Created at",

@@ -19,7 +19,6 @@ class TagController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Lead\Repositories\LeadRepository  $leadRepository
      * @return void
      */
     public function __construct(LeadRepository $leadRepository)
@@ -30,7 +29,7 @@ class TagController extends Controller
     /**
      * Store a newly created tag in storage.
      *
-     * @param  integer  $leadId
+     * @param  int  $leadId
      * @return \Illuminate\Http\Response
      */
     public function store($leadId)
@@ -54,7 +53,7 @@ class TagController extends Controller
     /**
      * Remove the specified tag from storage.
      *
-     * @param  integer  $leadId
+     * @param  int  $leadId
      * @return \Illuminate\Http\Response
      */
     public function delete($leadId)

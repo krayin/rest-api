@@ -19,7 +19,6 @@ class TypeController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Lead\Repositories\TypeRepository  $typeRepository
      * @return void
      */
     public function __construct(TypeRepository $typeRepository)
@@ -42,7 +41,6 @@ class TypeController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -84,7 +82,7 @@ class TypeController extends Controller
     public function update($id)
     {
         $this->validate(request(), [
-            'name' => 'required|unique:lead_types,name,' . $id,
+            'name' => 'required|unique:lead_types,name,'.$id,
         ]);
 
         Event::dispatch('settings.type.update.before', $id);

@@ -20,7 +20,6 @@ class PersonController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Contact\Repositories\PersonRepository  $personRepository
      * @return void
      */
     public function __construct(PersonRepository $personRepository)
@@ -45,7 +44,6 @@ class PersonController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -63,7 +61,7 @@ class PersonController extends Controller
     public function search()
     {
         $persons = $this->personRepository->findWhere([
-            ['name', 'like', '%' . urldecode(request()->input('query')) . '%']
+            ['name', 'like', '%'.urldecode(request()->input('query')).'%'],
         ]);
 
         return PersonResource::collection($persons);
@@ -72,7 +70,6 @@ class PersonController extends Controller
     /**
      * Create the person.
      *
-     * @param  \Webkul\Attribute\Http\Requests\AttributeForm  $request
      * @return \Illuminate\Http\Response
      */
     public function store(AttributeForm $request)
@@ -92,7 +89,6 @@ class PersonController extends Controller
     /**
      * Update the person.
      *
-     * @param  \Webkul\Attribute\Http\Requests\AttributeForm  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -157,8 +153,6 @@ class PersonController extends Controller
 
     /**
      * Sanitize requested person data and return the clean array.
-     *
-     * @return array
      */
     private function sanitizeRequestedPersonData(): array
     {

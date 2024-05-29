@@ -92,80 +92,80 @@ class Lead
     private $expected_close_date;
 
     /**
-    * @OA\Property(
+     * @OA\Property(
      *     title="Close at",
      *     description="Close at",
      *     example="2020-01-27 17:50:45",
      *     format="datetime",
      *     type="string"
-    * )
-    *
-    * @var \DateTime
-    */
-   private $close_at;
+     * )
+     *
+     * @var \DateTime
+     */
+    private $close_at;
 
     /**
-    * @OA\Property(
-    *     title="Person Id",
-    *     description="Person Id",
-    * )
-    *
-    * @var \Webkul\RestApi\Docs\Models\Contact\Person
-    */
+     * @OA\Property(
+     *     title="Person Id",
+     *     description="Person Id",
+     * )
+     *
+     * @var \Webkul\RestApi\Docs\Models\Contact\Person
+     */
     private $person_id;
 
     /**
-    * @OA\Property(
-    *     title="User ID",
-    *     description="User ID",
-    * )
-    *
-    * @var \Webkul\RestApi\Docs\Models\Settings\User
-    */
+     * @OA\Property(
+     *     title="User ID",
+     *     description="User ID",
+     * )
+     *
+     * @var \Webkul\RestApi\Docs\Models\Settings\User
+     */
     private $user_id;
 
     /**
-    * @OA\Property(
-    *     title="Lead source ID",
-    *     description="Lead source ID",
-    *     example="1",
-    * )
-    *
-    * @var int
-    */
+     * @OA\Property(
+     *     title="Lead source ID",
+     *     description="Lead source ID",
+     *     example="1",
+     * )
+     *
+     * @var int
+     */
     private $lead_source_id;
 
     /**
-    * @OA\Property(
-    *     title="Lead Type ID",
-    *     description="Lead Type ID",
-    *     example="1",
-    * )
-    *
-    * @var int
-    */
+     * @OA\Property(
+     *     title="Lead Type ID",
+     *     description="Lead Type ID",
+     *     example="1",
+     * )
+     *
+     * @var int
+     */
     private $lead_type_id;
 
     /**
-    * @OA\Property(
-    *     title="Lead Pipeline ID",
-    *     description="Lead Pipeline ID",
-    *     example="1",
-    * )
-    *
-    * @var int
-    */
+     * @OA\Property(
+     *     title="Lead Pipeline ID",
+     *     description="Lead Pipeline ID",
+     *     example="1",
+     * )
+     *
+     * @var int
+     */
     private $lead_pipeline_id;
 
     /**
-    * @OA\Property(
-    *     title="Lead Pipeline stage ID",
-    *     description="Lead Pipeline stage ID",
-    *     example="1",
-    * )
-    *
-    * @var int
-    */
+     * @OA\Property(
+     *     title="Lead Pipeline stage ID",
+     *     description="Lead Pipeline stage ID",
+     *     example="1",
+     * )
+     *
+     * @var int
+     */
     private $lead_pipeline_stage_id;
 
     /**

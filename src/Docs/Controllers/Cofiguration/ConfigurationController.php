@@ -11,9 +11,12 @@ class ConfigurationController
      *     tags={"Configuration"},
      *     summary="Create new Configuration",
      *     security={ {"sanctum_admin": {} }},
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
+     *
      *            @OA\Property(
      *                property="general",
      *                type="object",
@@ -30,10 +33,13 @@ class ConfigurationController
      *            )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
@@ -41,6 +47,7 @@ class ConfigurationController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"

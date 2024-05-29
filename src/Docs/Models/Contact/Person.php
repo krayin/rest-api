@@ -33,13 +33,15 @@ class Person
      */
     private $name;
 
-   /**
+    /**
      * @OA\Property(
      *    property="emails",
      *    type="array",
      *    description="Contact Emails",
+     *
      *    @OA\Items(
      *        type="object",
+     *
      *        @OA\Property(
      *            property="label",
      *            type="string",
@@ -66,8 +68,10 @@ class Person
      *    property="contact_numbers",
      *    type="array",
      *    description="Contact Numbers",
+     *
      *    @OA\Items(
      *        type="object",
+     *
      *        @OA\Property(
      *            property="label",
      *            type="string",

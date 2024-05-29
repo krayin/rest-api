@@ -11,17 +11,22 @@ class UserController
      *      tags={"User"},
      *      summary="Get list of users",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/User")
      *              )
      *          )
      *      ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -39,19 +44,24 @@ class UserController
      *      tags={"User"},
      *      summary="Get user details",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="User ID",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -59,6 +69,7 @@ class UserController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -76,11 +87,15 @@ class UserController
      *      tags={"User"},
      *      summary="Create new user",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
-    *                  @OA\Property(
+     *
+     *                  @OA\Property(
      *                      property="name",
      *                      description="Tag Name",
      *                      type="string",
@@ -125,17 +140,22 @@ class UserController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/User")
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -154,19 +174,25 @@ class UserController
      *      summary="Update the Users",
      *      description="Update the Users",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="User ID",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="name",
      *                      description="Tag Name",
@@ -212,10 +238,13 @@ class UserController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
@@ -237,19 +266,24 @@ class UserController
      *      summary="Delete the Users",
      *      description="Delete the Users",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="User Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
@@ -271,19 +305,25 @@ class UserController
      *      summary="Mass Update the Users",
      *      description="Mass Update the Users",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="rows",
      *                      description="User Ids",
      *                      type="array",
+     *
      *                      @OA\Items(
      *                          type="integer",
      *                          example="1"
      *                      )
      *                  ),
+     *
      *                  @OA\Property(
      *                      property="value",
      *                      description="Status Value",
@@ -293,10 +333,13 @@ class UserController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
@@ -318,14 +361,19 @@ class UserController
      *      summary="Mass Delete the Users",
      *      description="Mass Delete the Users",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="rows",
      *                      description="User Ids",
      *                      type="array",
+     *
      *                      @OA\Items(
      *                          type="integer",
      *                          example="1"
@@ -334,10 +382,13 @@ class UserController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="message",
      *                  type="string",

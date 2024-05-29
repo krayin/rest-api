@@ -30,9 +30,6 @@ class UserController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\User\Repositories\UserRepository  $userRepository
-     * @param  \Webkul\User\Repositories\GroupRepository  $groupRepository
-     * @param  \Webkul\User\Repositories\RoleRepository  $roleRepository
      * @return void
      */
     public function __construct(
@@ -62,7 +59,6 @@ class UserController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -128,7 +124,7 @@ class UserController extends Controller
     public function update($id)
     {
         $this->validate(request(), [
-            'email'            => 'required|email|unique:users,email,' . $id,
+            'email'            => 'required|email|unique:users,email,'.$id,
             'name'             => 'required',
             'password'         => 'nullable',
             'confirm_password' => 'nullable|required_with:password|same:password',
@@ -177,7 +173,7 @@ class UserController extends Controller
             return response([
                 'message' => __('admin::app.settings.users.delete-failed'),
             ], 400);
-        } else if ($this->userRepository->count() == 1) {
+        } elseif ($this->userRepository->count() == 1) {
             return response([
                 'message' => __('admin::app.settings.users.last-delete-error'),
             ], 400);

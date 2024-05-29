@@ -4,24 +4,29 @@ namespace Webkul\RestApi\Docs\Controllers\Settings;
 
 class TypeController
 {
- /**
+    /**
      * @OA\Get(
      *      path="/api/v1/settings/types",
      *      operationId="typeList",
      *      tags={"Type"},
      *      summary="Get list of types",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Type")
      *              )
      *          )
      *      ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -39,26 +44,33 @@ class TypeController
      *      tags={"Type"},
      *      summary="Get source by id",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Source Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Type")
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -76,11 +88,15 @@ class TypeController
      *      tags={"Type"},
      *      summary="Create new source",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
-    *                  @OA\Property(
+     *
+     *                  @OA\Property(
      *                      property="name",
      *                      description="Name of the source",
      *                      type="string",
@@ -89,17 +105,22 @@ class TypeController
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Type")
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -117,30 +138,39 @@ class TypeController
      *      tags={"Type"},
      *      summary="Update source",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Source Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Type")
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Type")
      *              )
      *          )
      *      ),
+     *
      *      @OA\Response(
      *         response=401,
      *         description="Unauthorized"
@@ -158,20 +188,25 @@ class TypeController
      *      tags={"Type"},
      *      summary="Delete source",
      *      security={ {"sanctum_admin": {} }},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          description="Source Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Type")
      *       ),
+     *
      *      @OA\Response(
      *         response=401,
      *         description="Unauthorized"

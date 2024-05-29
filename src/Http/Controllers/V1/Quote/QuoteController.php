@@ -28,8 +28,6 @@ class QuoteController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Quote\Repositories\QuoteRepository  $quoteRepository
-     * @param  \Webkul\Lead\Repositories\LeadRepository  $leadRepository
      * @return void
      */
     public function __construct(
@@ -70,7 +68,6 @@ class QuoteController extends Controller
     /**
      * Store a newly created qoute in storage.
      *
-     * @param  \Webkul\Attribute\Http\Requests\AttributeForm  $request
      * @return \Illuminate\Http\Response
      */
     public function store(AttributeForm $request)
@@ -96,7 +93,6 @@ class QuoteController extends Controller
     /**
      * Update the specified qoute in storage.
      *
-     * @param  \Webkul\Attribute\Http\Requests\AttributeForm  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

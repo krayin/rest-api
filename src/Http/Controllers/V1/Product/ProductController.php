@@ -20,7 +20,6 @@ class ProductController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
      * @return void
      */
     public function __construct(ProductRepository $productRepository)
@@ -45,7 +44,6 @@ class ProductController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -58,7 +56,6 @@ class ProductController extends Controller
     /**
      * Store a newly created product in storage.
      *
-     * @param  \Webkul\Attribute\Http\Requests\AttributeForm $request
      * @return \Illuminate\Http\Response
      */
     public function store(AttributeForm $request)
@@ -78,7 +75,6 @@ class ProductController extends Controller
     /**
      * Update the product in storage.
      *
-     * @param  \Webkul\Attribute\Http\Requests\AttributeForm  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
