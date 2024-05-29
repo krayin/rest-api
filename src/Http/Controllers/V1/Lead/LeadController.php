@@ -205,7 +205,7 @@ class LeadController extends Controller
 
             Event::dispatch('lead.delete.before', $leadId);
 
-            $this->leadRepository->delete($leadId);
+            $lead->delete();
 
             Event::dispatch('lead.delete.after', $leadId);
         }

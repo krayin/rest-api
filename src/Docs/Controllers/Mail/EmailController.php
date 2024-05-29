@@ -290,6 +290,19 @@ class EmailController
      *          )
      *      ),
      *
+     *      @OA\RequestBody(
+     *          required=true,
+     * 
+     *          @OA\JsonContent(
+     * 
+     *             @OA\Property(
+     *                  property="type",
+     *                  type="string",
+     *                  description="Type of delete",
+     *                  example="trash"
+     *             ),
+     *          )
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
@@ -321,7 +334,7 @@ class EmailController
      *          @OA\JsonContent(
      *
      *              @OA\Property(
-     *                  property="rows",
+     *                  property="indices",
      *                  type="array",
      *
      *                  @OA\Items(
@@ -329,7 +342,7 @@ class EmailController
      *                  )
      *              ),
      *
-     *            @OA\Property(
+     *              @OA\Property(
      *                  property="value",
      *                  type="string",
      *                  example="NA"
@@ -385,13 +398,19 @@ class EmailController
      *          @OA\JsonContent(
      *
      *              @OA\Property(
-     *                  property="rows",
+     *                  property="indices",
      *                  type="array",
      *
      *                  @OA\Items(
      *                      type="integer"
+     *                      example=1
      *                  )
-     *              )
+     *              ),
+     *              @OA\Property(
+     *                  property="type",
+     *                  type="string",
+     *                  example=""
+     *              ),
      *          )
      *      ),
      *
