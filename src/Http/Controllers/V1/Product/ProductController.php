@@ -2,10 +2,12 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Product;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Attribute\Http\Requests\AttributeForm;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
+use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Resources\V1\Product\ProductResource;
 
 class ProductController extends Controller
@@ -57,7 +59,7 @@ class ProductController extends Controller
 
         Event::dispatch('product.create.after', $product);
 
-        return response([
+        return new JsonResource([
             'data'    => new ProductResource($product),
             'message' => trans('admin::app.products.create-success'),
         ]);
@@ -77,7 +79,7 @@ class ProductController extends Controller
 
         Event::dispatch('product.update.after', $product);
 
-        return response([
+        return new JsonResource([
             'data'    => new ProductResource($product),
             'message' => trans('admin::app.products.update-success'),
         ]);
@@ -98,11 +100,11 @@ class ProductController extends Controller
 
             Event::dispatch('settings.products.delete.after', $id);
 
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.products.product')]),
             ]);
         } catch (\Exception $exception) {
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.products.product')]),
             ], 500);
         }
@@ -113,17 +115,25 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massDestroy()
+    public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        foreach (request('rows') as $productId) {
+        $productIds = $massDestroyRequest->input('indices', []);
+        
+        foreach ($productIds as $productId) {
+            $product = $this->productRepository->find($productId);
+
+            if (! $product) {
+                continue;
+            }
+
             Event::dispatch('product.delete.before', $productId);
 
-            $this->productRepository->delete($productId);
+            $product->delete($productId);
 
             Event::dispatch('product.delete.after', $productId);
         }
 
-        return response([
+        return new JsonResource([
             'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.products.title')]),
         ]);
     }

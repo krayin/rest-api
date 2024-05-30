@@ -57,15 +57,18 @@ class ProductController
      *      ),
      *
      *      @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
+     *          response=200,
+     *          description="Successful operation",
      *
-     *         @OA\Property(
-     *             property="data",
-     *             type="Object",
-     *             ref="#/components/schemas/Product"
-     *         )
-     *     ),
+     *          @OA\JsonContent(
+     *
+     *               @OA\Property(
+     *                  property="data",
+     *                  type="object",
+     *                  ref="#/components/schemas/Product"
+     *              )
+     *          )
+     *      ),
      *
      *     @OA\Response(
      *         response=401,
@@ -300,7 +303,7 @@ class ProductController
      *         @OA\JsonContent(
      *
      *             @OA\Property(
-     *                 property="rows",
+     *                 property="indices",
      *                 type="array",
      *                 description="Product IDs",
      *
