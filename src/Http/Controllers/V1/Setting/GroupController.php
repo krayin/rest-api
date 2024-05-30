@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Resources\V1\Setting\GroupResource;
@@ -59,7 +60,7 @@ class GroupController extends Controller
 
         Event::dispatch('settings.group.create.after', $group);
 
-        return response([
+        return new JsonResource([
             'data'    => new GroupResource($group),
             'message' => trans('admin::app.settings.groups.create-success'),
         ]);
@@ -83,7 +84,7 @@ class GroupController extends Controller
 
         Event::dispatch('settings.group.update.after', $group);
 
-        return response([
+        return new JsonResource([
             'data'    => new GroupResource($group),
             'message' => trans('admin::app.settings.groups.update-success'),
         ]);
@@ -104,11 +105,11 @@ class GroupController extends Controller
 
             Event::dispatch('settings.group.delete.after', $id);
 
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.groups.destroy-success'),
             ]);
         } catch (\Exception $exception) {
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.groups.delete-failed'),
             ], 500);
         }
