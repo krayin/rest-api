@@ -2,10 +2,12 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Core\Contracts\Validations\Code;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
+use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Resources\V1\Setting\AttributeResource;
 
 class AttributeController extends Controller
@@ -77,7 +79,7 @@ class AttributeController extends Controller
 
         Event::dispatch('settings.attribute.create.after', $attribute);
 
-        return response([
+        return new JsonResource([
             'data'    => new AttributeResource($attribute),
             'message' => trans('admin::app.settings.attributes.create-success'),
         ]);
@@ -103,7 +105,7 @@ class AttributeController extends Controller
 
         Event::dispatch('settings.attribute.update.after', $attribute);
 
-        return response([
+        return new JsonResource([
             'data'    => new AttributeResource($attribute),
             'message' => trans('admin::app.settings.attributes.update-success'),
         ]);
@@ -120,7 +122,7 @@ class AttributeController extends Controller
         $attribute = $this->attributeRepository->findOrFail($id);
 
         if (! $attribute->is_user_defined) {
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.attributes.user-define-error'),
             ], 400);
         }
@@ -132,11 +134,11 @@ class AttributeController extends Controller
 
             Event::dispatch('settings.attribute.delete.after', $id);
 
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.settings.attributes.attribute')]),
             ]);
         } catch (\Exception $exception) {
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.attributes.delete-failed'),
             ], 500);
         }
@@ -147,11 +149,13 @@ class AttributeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massDestroy()
+    public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
+        $attributeIds = $massDestroyRequest->input('indices', []);
+
         $count = 0;
 
-        foreach (request('rows') as $attributeId) {
+        foreach ($attributeIds as $attributeId) {
             $attribute = $this->attributeRepository->find($attributeId);
 
             if (! $attribute->is_user_defined) {
@@ -168,12 +172,12 @@ class AttributeController extends Controller
         }
 
         if (! $count) {
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.attributes.mass-delete-failed'),
             ], 500);
         }
 
-        return response([
+        return new JsonResource([
             'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.settings.attributes.title')]),
         ]);
     }

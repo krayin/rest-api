@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Resources\V1\Setting\WorkflowResource;
@@ -59,7 +60,7 @@ class WorkflowController extends Controller
 
         Event::dispatch('settings.workflow.create.after', $workflow);
 
-        return response([
+        return new JsonResource([
             'data'    => new WorkflowResource($workflow),
             'message' => trans('admin::app.settings.workflows.create-success'),
         ]);
@@ -83,7 +84,7 @@ class WorkflowController extends Controller
 
         Event::dispatch('settings.workflow.update.after', $workflow);
 
-        return response([
+        return new JsonResource([
             'data'    => new WorkflowResource($workflow),
             'message' => trans('admin::app.settings.workflows.update-success'),
         ]);
@@ -104,11 +105,11 @@ class WorkflowController extends Controller
 
             Event::dispatch('settings.workflow.delete.after', $id);
 
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.workflows.delete-success'),
             ]);
         } catch (\Exception $exception) {
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.workflows.delete-failed'),
             ], 500);
         }

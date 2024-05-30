@@ -416,7 +416,7 @@ class AttributeController
      *          @OA\JsonContent(
      *
      *              @OA\Property(
-     *                  property="rows",
+     *                  property="indices",
      *                  type="array",
      *
      *                  @OA\Items(

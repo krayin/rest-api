@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Requests\PipelineForm;
 use Webkul\Lead\Repositories\PipelineRepository;
@@ -60,7 +61,7 @@ class PipelineController extends Controller
 
         Event::dispatch('settings.pipeline.create.after', $pipeline);
 
-        return response([
+        return new JsonResource([
             'data'    => new PipelineResource($pipeline),
             'message' => trans('admin::app.settings.pipelines.create-success'),
         ]);
@@ -84,7 +85,7 @@ class PipelineController extends Controller
 
         Event::dispatch('settings.pipeline.update.after', $pipeline);
 
-        return response([
+        return new JsonResource([
             'data'    => new PipelineResource($pipeline),
             'message' => trans('admin::app.settings.pipelines.update-success'),
         ]);
@@ -101,7 +102,7 @@ class PipelineController extends Controller
         $pipeline = $this->pipelineRepository->findOrFail($id);
 
         if ($pipeline->is_default) {
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.pipelines.default-delete-error'),
             ], 400);
         } else {
@@ -120,11 +121,11 @@ class PipelineController extends Controller
 
             Event::dispatch('settings.pipeline.delete.after', $id);
 
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.pipelines.delete-success'),
             ]);
         } catch (\Exception $exception) {
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.pipelines.delete-failed'),
             ], 500);
         }
