@@ -402,7 +402,7 @@ class EmailController
      *                  type="array",
      *
      *                  @OA\Items(
-     *                      type="integer"
+     *                      type="integer",
      *                      example=1
      *                  )
      *              ),

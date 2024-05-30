@@ -249,7 +249,7 @@ class TagController
      *              @OA\Schema(
      *
      *                  @OA\Property(
-     *                      property="rows",
+     *                      property="indices",
      *                      description="Tag Ids",
      *                      type="array",
      *
@@ -258,7 +258,7 @@ class TagController
      *                          example="1"
      *                      )
      *                  ),
-     *                  required={"rows"},
+     *                  required={"indices"},
      *              )
      *          )
      *      ),

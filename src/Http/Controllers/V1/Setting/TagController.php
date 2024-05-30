@@ -2,8 +2,10 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
+use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Resources\V1\Setting\TagResource;
 use Webkul\Tag\Repositories\TagRepository;
 
@@ -61,7 +63,7 @@ class TagController extends Controller
 
         Event::dispatch('settings.tag.create.after', $tag);
 
-        return response([
+        return new JsonResource([
             'data'    => new TagResource($tag),
             'message' => trans('admin::app.settings.tags.create-success'),
         ]);
@@ -85,7 +87,7 @@ class TagController extends Controller
 
         Event::dispatch('settings.tag.update.after', $tag);
 
-        return response([
+        return new JsonResource([
             'data'    => new TagResource($tag),
             'message' => trans('admin::app.settings.tags.update-success'),
         ]);
@@ -102,15 +104,17 @@ class TagController extends Controller
         try {
             Event::dispatch('settings.tag.delete.before', $id);
 
-            $this->tagRepository->delete($id);
+            $tag = $this->tagRepository->find($id);
+
+            $tag?->delete();
 
             Event::dispatch('settings.tag.delete.after', $id);
 
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.tags.delete-success'),
             ]);
         } catch (\Exception $exception) {
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.tags.delete-failed'),
             ], 500);
         }
@@ -121,17 +125,25 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massDestroy()
+    public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        foreach (request('rows') as $tagId) {
+        $tagIds = $massDestroyRequest->input('indices', []);
+
+        foreach ($tagIds as $tagId) {
+            $tag = $this->tagRepository->find($tagId);
+
+            if (! $tag) {
+                continue;
+            }
+            
             Event::dispatch('settings.tag.delete.before', $tagId);
 
-            $this->tagRepository->delete($tagId);
+            $tag->delete($tagId);
 
             Event::dispatch('settings.tag.delete.after', $tagId);
         }
 
-        return response([
+        return new JsonResource([
             'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.settings.tags.title')]),
         ]);
     }
