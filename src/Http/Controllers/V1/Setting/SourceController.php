@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Lead\Repositories\SourceRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
@@ -59,7 +60,7 @@ class SourceController extends Controller
 
         Event::dispatch('settings.source.create.after', $source);
 
-        return response([
+        return new JsonResource([
             'data'    => new SourceResource($source),
             'message' => trans('admin::app.settings.sources.create-success'),
         ]);
@@ -83,7 +84,7 @@ class SourceController extends Controller
 
         Event::dispatch('settings.source.update.after', $source);
 
-        return response([
+        return new JsonResource([
             'data'    => new SourceResource($source),
             'message' => trans('admin::app.settings.sources.update-success'),
         ]);
@@ -104,11 +105,11 @@ class SourceController extends Controller
 
             Event::dispatch('settings.source.delete.after', $id);
 
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.sources.delete-success'),
             ]);
         } catch (\Exception $exception) {
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.sources.delete-failed'),
             ], 500);
         }
