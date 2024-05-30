@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Resources\V1\Setting\RoleResource;
@@ -58,17 +59,18 @@ class RoleController extends Controller
 
         $roleData = request()->all();
 
-        if ($roleData['permission_type'] == 'custom') {
-            if (! isset($roleData['permissions'])) {
-                $roleData['permissions'] = [];
-            }
+        if (
+            $roleData['permission_type'] === 'custom'
+            && ! isset($roleData['permissions'])
+        ) {
+            $roleData['permissions'] = [];
         }
-
+        
         $role = $this->roleRepository->create($roleData);
 
         Event::dispatch('settings.role.create.after', $role);
 
-        return response([
+        return new JsonResource([
             'data'    => new RoleResource($role),
             'message' => trans('admin::app.settings.roles.create-success'),
         ]);
@@ -91,17 +93,18 @@ class RoleController extends Controller
 
         $roleData = request()->all();
 
-        if ($roleData['permission_type'] == 'custom') {
-            if (! isset($roleData['permissions'])) {
-                $roleData['permissions'] = [];
-            }
+        if (
+            $roleData['permission_type'] === 'custom'
+            && ! isset($roleData['permissions'])
+        ) {
+            $roleData['permissions'] = [];
         }
 
         $role = $this->roleRepository->update($roleData, $id);
 
         Event::dispatch('settings.role.update.after', $role);
 
-        return response([
+        return new JsonResource([
             'data'    => new RoleResource($role),
             'message' => trans('admin::app.settings.roles.update-success'),
         ]);
@@ -140,9 +143,10 @@ class RoleController extends Controller
                     ];
                 }
             } catch (\Exception $exception) {
+                report($exception);
             }
         }
 
-        return response(['message' => $response['message']], $response['code']);
+        return new JsonResource(['message' => $response['message']], $response['code']);
     }
 }
