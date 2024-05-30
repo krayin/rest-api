@@ -213,17 +213,24 @@ class LeadController
      *                  ),
      *                  @OA\Property(
      *                      property="products",
-     *                      description="Details of the Products",
      *                      type="object",
+     *                      @OA\Property(
+     *                          property="product_0",
+     *                          type="object",
+     *                          @OA\Property(property="name", type="string", example="iphone-14"),
+     *                          @OA\Property(property="product_id", type="string", example="1"),
+     *                          @OA\Property(property="price", type="string", example="423"),
+     *                          @OA\Property(property="quantity", type="integer", example="324"),
+     *                      ),
      *                  ),
      *                  @OA\Property(
-     *                          property="entity_type",
-     *                          type="string",
-     *                          example="leads"
-     *                     ),
+     *                      property="entity_type",
+     *                      type="string",
+     *                      example="leads"
+     *                  ),
      *                  required={"title", "description", "lead_value", "lead_source_id", "lead_type_id", "person[name]"}
      *              ),
-     *          )
+     *          ),
      *      ),
      *
      *      @OA\Response(

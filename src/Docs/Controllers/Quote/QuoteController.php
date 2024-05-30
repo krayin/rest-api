@@ -517,9 +517,16 @@ class QuoteController
      *
      *     @OA\Response(
      *         response=200,
-     *         description="Quote updated successfully",
+     *         description="Successful operation",
      *
-     *         @OA\JsonContent(ref="#/components/schemas/Quote")
+     *         @OA\JsonContent(
+     *
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="Object",
+     *                 ref="#/components/schemas/Quote"
+     *             )
+     *         )
      *     ),
      *
      *     @OA\Response(
@@ -582,7 +589,7 @@ class QuoteController
      *         @OA\JsonContent(
      *
      *             @OA\Property(
-     *                 property="rows",
+     *                 property="indices",
      *                 type="array",
      *                 description="Quote IDs",
      *
