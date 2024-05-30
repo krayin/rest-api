@@ -91,7 +91,7 @@ class UserController
      *      @OA\RequestBody(
      *
      *          @OA\MediaType(
-     *              mediaType="application/json",
+     *              mediaType="multipart/form-data",
      *
      *              @OA\Schema(
      *
@@ -135,7 +135,8 @@ class UserController
      *                      property="view_permission",
      *                      description="View Permission",
      *                      type="string",
-     *                      example="global"
+     *                      example="global",
+     *                      enum={"global", "group", "individual"}
      *                  ),
      *              )
      *          )
@@ -189,7 +190,7 @@ class UserController
      *      @OA\RequestBody(
      *
      *          @OA\MediaType(
-     *              mediaType="application/json",
+     *              mediaType="multipart/form-data",
      *
      *              @OA\Schema(
      *
@@ -233,7 +234,8 @@ class UserController
      *                      property="view_permission",
      *                      description="View Permission",
      *                      type="string",
-     *                      example="global"
+     *                      example="global",
+     *                      enum={"global", "group", "individual"},
      *                  ),
      *              )
      *          )
@@ -314,7 +316,7 @@ class UserController
      *              @OA\Schema(
      *
      *                  @OA\Property(
-     *                      property="rows",
+     *                      property="indices",
      *                      description="User Ids",
      *                      type="array",
      *
@@ -370,7 +372,7 @@ class UserController
      *              @OA\Schema(
      *
      *                  @OA\Property(
-     *                      property="rows",
+     *                      property="indices",
      *                      description="User Ids",
      *                      type="array",
      *
