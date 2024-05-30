@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Contact\Repositories\PersonRepository;
@@ -80,7 +81,7 @@ class WebFormController extends Controller
 
         Event::dispatch('settings.web_forms.create.after', $webForm);
 
-        return response([
+        return new JsonResource([
             'data'    => new WebFormResource($webForm),
             'message' => trans('admin::app.settings.web-forms.create-success'),
         ]);
@@ -111,7 +112,7 @@ class WebFormController extends Controller
 
         Event::dispatch('settings.web_forms.update.after', $webForm);
 
-        return response([
+        return new JsonResource([
             'data'    => new WebFormResource($webForm),
             'message' => trans('admin::app.settings.web-forms.update-success'),
         ]);
@@ -132,17 +133,13 @@ class WebFormController extends Controller
 
             Event::dispatch('settings.web_forms.delete.after', $id);
 
-            return response()->json([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.web-forms.delete-success'),
             ], 200);
         } catch (\Exception $exception) {
-            return response()->json([
+            return new JsonResource([
                 'message' => trans('admin::app.settings.web-forms.delete-failed'),
             ], 400);
         }
-
-        return response()->json([
-            'message' => trans('admin::app.settings.web-forms.delete-failed'),
-        ], 400);
     }
 }
