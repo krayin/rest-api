@@ -135,7 +135,7 @@ class TagController extends Controller
             if (! $tag) {
                 continue;
             }
-            
+
             Event::dispatch('settings.tag.delete.before', $tagId);
 
             $tag->delete($tagId);

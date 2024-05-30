@@ -492,20 +492,20 @@ class LeadController
      *
      *      @OA\RequestBody(
      *          required=true,
-     * 
+     *
      *          @OA\JsonContent(
-     * 
+     *
      *              @OA\Property(
      *                  property="indices",
      *                  type="array",
      *                  description="IDs of the Leads to be updated",
-     * 
+     *
      *                  @OA\Items(
      *                      type="integer",
      *                      example=1
      *                  )
      *              ),
-     * 
+     *
      *              @OA\Property(
      *                  property="value",
      *                  type="string",
@@ -514,7 +514,7 @@ class LeadController
      *              )
      *          )
      *      ),
-     * 
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",

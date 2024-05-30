@@ -292,9 +292,9 @@ class EmailController
      *
      *      @OA\RequestBody(
      *          required=true,
-     * 
+     *
      *          @OA\JsonContent(
-     * 
+     *
      *             @OA\Property(
      *                  property="type",
      *                  type="string",
@@ -303,6 +303,7 @@ class EmailController
      *             ),
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
@@ -406,6 +407,7 @@ class EmailController
      *                      example=1
      *                  )
      *              ),
+     *
      *              @OA\Property(
      *                  property="type",
      *                  type="string",

@@ -118,7 +118,7 @@ class ProductController extends Controller
     public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
         $productIds = $massDestroyRequest->input('indices', []);
-        
+
         foreach ($productIds as $productId) {
             $product = $this->productRepository->find($productId);
 

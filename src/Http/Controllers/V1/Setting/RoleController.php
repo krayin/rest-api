@@ -65,7 +65,7 @@ class RoleController extends Controller
         ) {
             $roleData['permissions'] = [];
         }
-        
+
         $role = $this->roleRepository->create($roleData);
 
         Event::dispatch('settings.role.create.after', $role);
