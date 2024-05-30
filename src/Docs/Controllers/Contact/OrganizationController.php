@@ -99,7 +99,7 @@ class OrganizationController
      *                 property="name",
      *                 type="string",
      *                 description="Organization name",
-     *                 example=""
+     *                 example="Amazon"
      *             ),
      *             @OA\Property(
      *                 property="address",
@@ -108,11 +108,11 @@ class OrganizationController
      *
      *                 @OA\Items(
      *
-     *                     @OA\Property(property="city", type="string", example=""),
-     *                     @OA\Property(property="state", type="string", example=""),
-     *                     @OA\Property(property="address", type="string", example=""),
-     *                     @OA\Property(property="country", type="string", example=""),
-     *                     @OA\Property(property="postcode", type="string", example="")
+     *                     @OA\Property(property="city", type="string", example="Noida"),
+     *                     @OA\Property(property="state", type="string", example="UP"),
+     *                     @OA\Property(property="address", type="string", example="Rasoolpur Nawada"),
+     *                     @OA\Property(property="country", type="string", example="INDIA"),
+     *                     @OA\Property(property="postcode", type="string", example="201309")
      *                 )
      *             )
      *         )
@@ -162,7 +162,7 @@ class OrganizationController
      *                 property="name",
      *                 type="string",
      *                 description="Organization name",
-     *                 example=""
+     *                 example="Amazon"
      *             ),
      *             @OA\Property(
      *                 property="address",
@@ -171,11 +171,11 @@ class OrganizationController
      *
      *                 @OA\Items(
      *
-     *                     @OA\Property(property="city", type="string", example=""),
-     *                     @OA\Property(property="state", type="string", example=""),
-     *                     @OA\Property(property="address", type="string", example=""),
-     *                     @OA\Property(property="country", type="string", example=""),
-     *                     @OA\Property(property="postcode", type="string", example="")
+     *                     @OA\Property(property="city", type="string", example="Noida"),
+     *                     @OA\Property(property="state", type="string", example="UP"),
+     *                     @OA\Property(property="address", type="string", example="Rasoolpur Nawada"),
+     *                     @OA\Property(property="country", type="string", example="INDIA"),
+     *                     @OA\Property(property="postcode", type="string", example="201309")
      *                 )
      *             )
      *         )
@@ -255,7 +255,7 @@ class OrganizationController
      *         @OA\JsonContent(
      *
      *             @OA\Property(
-     *                 property="rows",
+     *                 property="indices",
      *                 type="array",
      *                 description="Organization IDs",
      *

@@ -2,7 +2,7 @@
 
 namespace Webkul\RestApi\Docs\Controllers\Contact;
 
-class ContactController
+class PersonController
 {
     /**
      * @OA\Get(
@@ -343,7 +343,7 @@ class ContactController
      *         @OA\JsonContent(
      *
      *             @OA\Property(
-     *                 property="rows",
+     *                 property="indices",
      *                 type="array",
      *                 description="IDs of the contact persons to be deleted",
      *

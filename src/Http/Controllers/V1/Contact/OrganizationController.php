@@ -2,10 +2,12 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Contact;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Attribute\Http\Requests\AttributeForm;
 use Webkul\Contact\Repositories\OrganizationRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
+use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Resources\V1\Contact\OrganizationResource;
 
 class OrganizationController extends Controller
@@ -57,7 +59,7 @@ class OrganizationController extends Controller
 
         Event::dispatch('contacts.organization.create.after', $organization);
 
-        return response([
+        return new JsonResource([
             'data'    => new OrganizationResource($organization),
             'message' => trans('admin::app.contacts.organizations.create-success'),
         ]);
@@ -77,7 +79,7 @@ class OrganizationController extends Controller
 
         Event::dispatch('contacts.organization.update.after', $organization);
 
-        return response([
+        return new JsonResource([
             'data'    => new OrganizationResource($organization),
             'message' => trans('admin::app.contacts.organizations.update-success'),
         ]);
@@ -98,11 +100,11 @@ class OrganizationController extends Controller
 
             Event::dispatch('contact.organization.delete.after', $id);
 
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.contacts.organizations.organization')]),
             ]);
         } catch (\Exception $exception) {
-            return response([
+            return new JsonResource([
                 'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.contacts.organizations.organization')]),
             ], 500);
         }
@@ -113,17 +115,25 @@ class OrganizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massDestroy()
+    public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        foreach (request('rows') as $organizationId) {
+        $organizationIds = $massDestroyRequest->input('indices', []);
+
+        foreach ($organizationIds as $organizationId) {
+            $organization = $this->organizationRepository->find($organizationId);
+
+            if (! $organization) {
+                continue;
+            }
+
             Event::dispatch('contact.organization.delete.before', $organizationId);
 
-            $this->organizationRepository->delete($organizationId);
+            $organization->delete($organizationId);
 
             Event::dispatch('contact.organization.delete.after', $organizationId);
         }
 
-        return response([
+        return new JsonResource([
             'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.contacts.organizations.title')]),
         ]);
     }
