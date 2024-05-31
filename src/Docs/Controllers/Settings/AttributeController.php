@@ -12,6 +12,51 @@ class AttributeController
      *      summary="Get list of Attribute",
      *      security={ {"sanctum_admin": {} }},
      *
+     *      @OA\Parameter(
+     *          name="sort",
+     *          description="Sort column",
+     *          example="id",
+     *          required=false,
+     *          in="query",
+     *
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *
+     *      @OA\Parameter(
+     *          name="order",
+     *          description="Sort order",
+     *          required=false,
+     *          in="query",
+     *
+     *          @OA\Schema(
+     *              type="string",
+     *              enum={"desc", "asc"}
+     *          )
+     *      ),
+     *
+     *      @OA\Parameter(
+     *          name="page",
+     *          description="Page number",
+     *          required=false,
+     *          in="query",
+     *
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *
+     *      @OA\Parameter(
+     *          name="limit",
+     *          description="Limit",
+     *          in="query",
+     *
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
