@@ -2,31 +2,23 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Contact;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Event;
 use Webkul\Attribute\Http\Requests\AttributeForm;
 use Webkul\Contact\Repositories\PersonRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
+use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Resources\V1\Contact\PersonResource;
 
 class PersonController extends Controller
 {
     /**
-     * Person repository instance.
-     *
-     * @var \Webkul\Contact\Repositories\PersonRepository
-     */
-    protected $personRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Contact\Repositories\PersonRepository  $personRepository
      * @return void
      */
-    public function __construct(PersonRepository $personRepository)
+    public function __construct(protected PersonRepository $personRepository)
     {
-        $this->personRepository = $personRepository;
-
         $this->addEntityTypeInRequest('persons');
     }
 
@@ -45,7 +37,6 @@ class PersonController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -56,9 +47,22 @@ class PersonController extends Controller
     }
 
     /**
+     * Search person results.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search()
+    {
+        $persons = $this->personRepository->findWhere([
+            ['name', 'like', '%'.urldecode(request()->input('query')).'%'],
+        ]);
+
+        return PersonResource::collection($persons);
+    }
+
+    /**
      * Create the person.
      *
-     * @param  \Webkul\Attribute\Http\Requests\AttributeForm  $request
      * @return \Illuminate\Http\Response
      */
     public function store(AttributeForm $request)
@@ -69,16 +73,15 @@ class PersonController extends Controller
 
         Event::dispatch('contacts.person.create.after', $person);
 
-        return response([
+        return new JsonResponse([
             'data'    => new PersonResource($person),
-            'message' => __('admin::app.contacts.persons.create-success'),
+            'message' => trans('admin::app.contacts.persons.create-success'),
         ]);
     }
 
     /**
      * Update the person.
      *
-     * @param  \Webkul\Attribute\Http\Requests\AttributeForm  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -90,9 +93,9 @@ class PersonController extends Controller
 
         Event::dispatch('contacts.person.update.after', $person);
 
-        return response([
+        return new JsonResponse([
             'data'    => new PersonResource($person),
-            'message' => __('admin::app.contacts.persons.update-success'),
+            'message' => trans('admin::app.contacts.persons.update-success'),
         ]);
     }
 
@@ -111,12 +114,12 @@ class PersonController extends Controller
 
             Event::dispatch('contacts.person.delete.after', $id);
 
-            return response([
-                'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.contacts.persons.person')]),
+            return new JsonResponse([
+                'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.contacts.persons.person')]),
             ]);
         } catch (\Exception $exception) {
-            return response([
-                'message' => __('admin::app.response.destroy-failed', ['name' => __('admin::app.contacts.persons.person')]),
+            return new JsonResponse([
+                'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.contacts.persons.person')]),
             ], 500);
         }
     }
@@ -126,33 +129,37 @@ class PersonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massDestroy()
+    public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        foreach (request('rows') as $personId) {
+        $personIds = $massDestroyRequest->input('indices', []);
+
+        foreach ($personIds as $personId) {
+            $person = $this->personRepository->find($personId);
+
+            if (! $person) {
+                continue;
+            }
+
             Event::dispatch('contact.person.delete.before', $personId);
 
-            $this->personRepository->delete($personId);
+            $person->delete($personId);
 
             Event::dispatch('contact.person.delete.after', $personId);
         }
 
-        return response([
-            'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.contacts.persons.title')]),
+        return new JsonResponse([
+            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.contacts.persons.title')]),
         ]);
     }
 
     /**
      * Sanitize requested person data and return the clean array.
-     *
-     * @return array
      */
     private function sanitizeRequestedPersonData(): array
     {
         $data = request()->all();
 
-        $data['contact_numbers'] = collect($data['contact_numbers'])->filter(function ($number) {
-            return ! is_null($number['value']);
-        })->toArray();
+        $data['contact_numbers'] = collect($data['contact_numbers'])->filter(fn ($number) => ! is_null($number['value']))->toArray();
 
         return $data;
     }

@@ -34,7 +34,6 @@ class Controller extends RestApiController
     /**
      * Returns a listing of the resource.
      *
-     * @param  \Webkul\Core\Eloquent\Repository  $repository
      * @return Illuminate\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection
      */
     protected function allResources(Repository $repository)

@@ -2,31 +2,23 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Product;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Attribute\Http\Requests\AttributeForm;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
+use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Resources\V1\Product\ProductResource;
 
 class ProductController extends Controller
 {
     /**
-     * Product repository instance.
-     *
-     * @var \Webkul\Product\Repositories\ProductRepository
-     */
-    protected $productRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Product\Repositories\ProductRepository  $productRepository
      * @return void
      */
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(protected ProductRepository $productRepository)
     {
-        $this->productRepository = $productRepository;
-
         $this->addEntityTypeInRequest('products');
     }
 
@@ -45,7 +37,6 @@ class ProductController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -58,7 +49,6 @@ class ProductController extends Controller
     /**
      * Store a newly created product in storage.
      *
-     * @param  \Webkul\Attribute\Http\Requests\AttributeForm $request
      * @return \Illuminate\Http\Response
      */
     public function store(AttributeForm $request)
@@ -69,16 +59,15 @@ class ProductController extends Controller
 
         Event::dispatch('product.create.after', $product);
 
-        return response([
+        return new JsonResource([
             'data'    => new ProductResource($product),
-            'message' => __('admin::app.products.create-success'),
+            'message' => trans('admin::app.products.create-success'),
         ]);
     }
 
     /**
      * Update the product in storage.
      *
-     * @param  \Webkul\Attribute\Http\Requests\AttributeForm  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -90,9 +79,9 @@ class ProductController extends Controller
 
         Event::dispatch('product.update.after', $product);
 
-        return response([
+        return new JsonResource([
             'data'    => new ProductResource($product),
-            'message' => __('admin::app.products.update-success'),
+            'message' => trans('admin::app.products.update-success'),
         ]);
     }
 
@@ -111,12 +100,12 @@ class ProductController extends Controller
 
             Event::dispatch('settings.products.delete.after', $id);
 
-            return response([
-                'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.products.product')]),
+            return new JsonResource([
+                'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.products.product')]),
             ]);
         } catch (\Exception $exception) {
-            return response([
-                'message' => __('admin::app.response.destroy-failed', ['name' => __('admin::app.products.product')]),
+            return new JsonResource([
+                'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.products.product')]),
             ], 500);
         }
     }
@@ -126,18 +115,26 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massDestroy()
+    public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        foreach (request('rows') as $productId) {
+        $productIds = $massDestroyRequest->input('indices', []);
+
+        foreach ($productIds as $productId) {
+            $product = $this->productRepository->find($productId);
+
+            if (! $product) {
+                continue;
+            }
+
             Event::dispatch('product.delete.before', $productId);
 
-            $this->productRepository->delete($productId);
+            $product->delete($productId);
 
             Event::dispatch('product.delete.after', $productId);
         }
 
-        return response([
-            'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.products.title')]),
+        return new JsonResource([
+            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.products.title')]),
         ]);
     }
 }

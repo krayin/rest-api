@@ -10,6 +10,7 @@ use Webkul\RestApi\Http\Controllers\V1\Setting\SourceController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\TagController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\TypeController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\UserController;
+use Webkul\RestApi\Http\Controllers\V1\Setting\WebFormController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\WorkflowController;
 
 Route::group([
@@ -155,4 +156,17 @@ Route::group([
     Route::delete('tags/{id}', [TagController::class, 'destroy']);
 
     Route::post('tags/mass-destroy', [TagController::class, 'massDestroy']);
+
+    /**
+     * WebForms routes.
+     */
+    Route::get('web-forms', [WebFormController::class, 'index']);
+
+    Route::get('web-forms/{id}', [WebFormController::class, 'show']);
+
+    Route::post('web-forms', [WebFormController::class, 'store']);
+
+    Route::put('web-forms/{id}', [WebFormController::class, 'update']);
+
+    Route::delete('web-forms/{id}', [WebFormController::class, 'destroy']);
 });

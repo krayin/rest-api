@@ -9,21 +9,12 @@ use Webkul\RestApi\Http\Controllers\V1\Controller;
 class ConfigurationController extends Controller
 {
     /**
-     * Configuration repository instance.
-     *
-     * @var \Webkul\Core\Repositories\CoreConfigRepository
-     */
-    protected $configurationRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Core\Repositories\CoreConfigRepository  $configurationRepository
      * @return void
      */
-    public function __construct(ConfigurationRepository $configurationRepository)
+    public function __construct(protected ConfigurationRepository $configurationRepository)
     {
-        $this->configurationRepository = $configurationRepository;
     }
 
     /**
@@ -40,7 +31,7 @@ class ConfigurationController extends Controller
         Event::dispatch('core.configuration.save.after');
 
         return response([
-            'message' => __('admin::app.configuration.save-message'),
+            'message' => trans('admin::app.configuration.save-message'),
         ]);
     }
 }

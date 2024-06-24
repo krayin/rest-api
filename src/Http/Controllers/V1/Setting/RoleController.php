@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Resources\V1\Setting\RoleResource;
@@ -10,21 +11,12 @@ use Webkul\User\Repositories\RoleRepository;
 class RoleController extends Controller
 {
     /**
-     * Role repository instance.
-     *
-     * @var \Webkul\User\Repositories\RoleRepository
-     */
-    protected $roleRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\User\Repositories\RoleRepository  $roleRepository
      * @return void
      */
-    public function __construct(RoleRepository $roleRepository)
+    public function __construct(protected RoleRepository $roleRepository)
     {
-        $this->roleRepository = $roleRepository;
     }
 
     /**
@@ -42,7 +34,6 @@ class RoleController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -68,19 +59,20 @@ class RoleController extends Controller
 
         $roleData = request()->all();
 
-        if ($roleData['permission_type'] == 'custom') {
-            if (! isset($roleData['permissions'])) {
-                $roleData['permissions'] = [];
-            }
+        if (
+            $roleData['permission_type'] === 'custom'
+            && ! isset($roleData['permissions'])
+        ) {
+            $roleData['permissions'] = [];
         }
 
         $role = $this->roleRepository->create($roleData);
 
         Event::dispatch('settings.role.create.after', $role);
 
-        return response([
+        return new JsonResource([
             'data'    => new RoleResource($role),
-            'message' => __('admin::app.settings.roles.create-success'),
+            'message' => trans('admin::app.settings.roles.create-success'),
         ]);
     }
 
@@ -101,19 +93,20 @@ class RoleController extends Controller
 
         $roleData = request()->all();
 
-        if ($roleData['permission_type'] == 'custom') {
-            if (! isset($roleData['permissions'])) {
-                $roleData['permissions'] = [];
-            }
+        if (
+            $roleData['permission_type'] === 'custom'
+            && ! isset($roleData['permissions'])
+        ) {
+            $roleData['permissions'] = [];
         }
 
         $role = $this->roleRepository->update($roleData, $id);
 
         Event::dispatch('settings.role.update.after', $role);
 
-        return response([
+        return new JsonResource([
             'data'    => new RoleResource($role),
-            'message' => __('admin::app.settings.roles.update-success'),
+            'message' => trans('admin::app.settings.roles.update-success'),
         ]);
     }
 
@@ -130,15 +123,15 @@ class RoleController extends Controller
         $role = $this->roleRepository->findOrFail($id);
 
         if ($role->admins && $role->admins->count() >= 1) {
-            $response['message'] = __('admin::app.settings.roles.being-used');
-        } else if ($this->roleRepository->count() == 1) {
-            $response['message'] = __('admin::app.settings.roles.last-delete-error');
+            $response['message'] = trans('admin::app.settings.roles.being-used');
+        } elseif ($this->roleRepository->count() == 1) {
+            $response['message'] = trans('admin::app.settings.roles.last-delete-error');
         } else {
             try {
                 Event::dispatch('settings.role.delete.before', $id);
 
                 if (auth()->guard()->user()->role_id == $id) {
-                    $response['message'] = __('admin::app.settings.roles.current-role-delete-error');
+                    $response['message'] = trans('admin::app.settings.roles.current-role-delete-error');
                 } else {
                     $this->roleRepository->delete($id);
 
@@ -146,12 +139,14 @@ class RoleController extends Controller
 
                     $response = [
                         'code'    => 200,
-                        'message' => __('admin::app.settings.roles.delete-success'),
+                        'message' => trans('admin::app.settings.roles.delete-success'),
                     ];
                 }
-            } catch (\Exception $exception) {}
+            } catch (\Exception $exception) {
+                report($exception);
+            }
         }
 
-        return response(['message' => $response['message']], $response['code']);
+        return new JsonResource(['message' => $response['message']], $response['code']);
     }
 }

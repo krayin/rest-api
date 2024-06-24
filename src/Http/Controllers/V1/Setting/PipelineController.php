@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Requests\PipelineForm;
 use Webkul\Lead\Repositories\PipelineRepository;
@@ -11,21 +12,12 @@ use Webkul\RestApi\Http\Resources\V1\Setting\PipelineResource;
 class PipelineController extends Controller
 {
     /**
-     * Pipeline repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\PipelineRepository
-     */
-    protected $pipelineRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Lead\Repositories\PipelineRepository  $pipelineRepository
      * @return void
      */
-    public function __construct(PipelineRepository $pipelineRepository)
+    public function __construct(protected PipelineRepository $pipelineRepository)
     {
-        $this->pipelineRepository = $pipelineRepository;
     }
 
     /**
@@ -43,7 +35,6 @@ class PipelineController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -70,9 +61,9 @@ class PipelineController extends Controller
 
         Event::dispatch('settings.pipeline.create.after', $pipeline);
 
-        return response([
+        return new JsonResource([
             'data'    => new PipelineResource($pipeline),
-            'message' => __('admin::app.settings.pipelines.create-success'),
+            'message' => trans('admin::app.settings.pipelines.create-success'),
         ]);
     }
 
@@ -94,9 +85,9 @@ class PipelineController extends Controller
 
         Event::dispatch('settings.pipeline.update.after', $pipeline);
 
-        return response([
+        return new JsonResource([
             'data'    => new PipelineResource($pipeline),
-            'message' => __('admin::app.settings.pipelines.update-success'),
+            'message' => trans('admin::app.settings.pipelines.update-success'),
         ]);
     }
 
@@ -111,8 +102,8 @@ class PipelineController extends Controller
         $pipeline = $this->pipelineRepository->findOrFail($id);
 
         if ($pipeline->is_default) {
-            return response([
-                'message' => __('admin::app.settings.pipelines.default-delete-error'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.pipelines.default-delete-error'),
             ], 400);
         } else {
             $defaultPipeline = $this->pipelineRepository->getDefaultPipeline();
@@ -130,12 +121,12 @@ class PipelineController extends Controller
 
             Event::dispatch('settings.pipeline.delete.after', $id);
 
-            return response([
-                'message' => __('admin::app.settings.pipelines.delete-success'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.pipelines.delete-success'),
             ]);
         } catch (\Exception $exception) {
-            return response([
-                'message' => __('admin::app.settings.pipelines.delete-failed'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.pipelines.delete-failed'),
             ], 500);
         }
     }

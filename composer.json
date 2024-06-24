@@ -12,6 +12,9 @@
             "Webkul\\RestApi\\": "src/"
         }
     },
+    "require": {
+        "darkaonline/l5-swagger": "^8.6"
+    },
     "extra": {
         "laravel": {
             "providers": [

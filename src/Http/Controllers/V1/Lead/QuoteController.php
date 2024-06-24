@@ -11,39 +11,20 @@ use Webkul\RestApi\Http\Resources\V1\Lead\LeadResource;
 class QuoteController extends Controller
 {
     /**
-     * Lead repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\LeadRepository
-     */
-    protected $leadRepository;
-
-    /**
-     * Quote repository instance.
-     *
-     * @var \Webkul\Quote\Repositories\QuoteRepository
-     */
-    protected $quoteRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Lead\Repositories\LeadRepository  $leadRepository
-     * @param  \Webkul\Quote\Repositories\QuoteRepository  $quoteRepository
      * @return void
      */
     public function __construct(
-        LeadRepository $leadRepository,
-        QuoteRepository $quoteRepository
+        protected LeadRepository $leadRepository,
+        protected QuoteRepository $quoteRepository
     ) {
-        $this->leadRepository = $leadRepository;
-
-        $this->quoteRepository = $quoteRepository;
     }
 
     /**
      * Store a newly created qoute in storage.
      *
-     * @param  integer  $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function store($id)
@@ -60,15 +41,15 @@ class QuoteController extends Controller
 
         return response([
             'data'    => new LeadResource($lead),
-            'message' => __('admin::app.leads.quote-create-success'),
+            'message' => trans('admin::app.leads.quote-create-success'),
         ]);
     }
 
     /**
      * Remove the specified qoute from storage.
      *
-     * @param  integer  $leadId
-     * @param  integer  $tagId
+     * @param  int  $leadId
+     * @param  int  $tagId
      * @return \Illuminate\Http\Response
      */
     public function delete($leadId)
@@ -83,7 +64,7 @@ class QuoteController extends Controller
 
         return response([
             'data'    => new LeadResource($lead),
-            'message' => __('admin::app.leads.quote-destroy-success'),
+            'message' => trans('admin::app.leads.quote-destroy-success'),
         ]);
     }
 }

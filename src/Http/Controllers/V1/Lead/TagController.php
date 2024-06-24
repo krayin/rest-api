@@ -10,27 +10,18 @@ use Webkul\RestApi\Http\Resources\V1\Lead\LeadResource;
 class TagController extends Controller
 {
     /**
-     * Lead repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\LeadRepository
-     */
-    protected $leadRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Lead\Repositories\LeadRepository  $leadRepository
      * @return void
      */
-    public function __construct(LeadRepository $leadRepository)
+    public function __construct(protected LeadRepository $leadRepository)
     {
-        $this->leadRepository = $leadRepository;
     }
 
     /**
      * Store a newly created tag in storage.
      *
-     * @param  integer  $leadId
+     * @param  int  $leadId
      * @return \Illuminate\Http\Response
      */
     public function store($leadId)
@@ -47,14 +38,14 @@ class TagController extends Controller
 
         return response([
             'data'    => new LeadResource($lead),
-            'message' => __('admin::app.leads.tag-create-success'),
+            'message' => trans('admin::app.leads.tag-create-success'),
         ]);
     }
 
     /**
      * Remove the specified tag from storage.
      *
-     * @param  integer  $leadId
+     * @param  int  $leadId
      * @return \Illuminate\Http\Response
      */
     public function delete($leadId)
@@ -69,7 +60,7 @@ class TagController extends Controller
 
         return response([
             'data'    => new LeadResource($lead),
-            'message' => __('admin::app.leads.tag-destroy-success'),
+            'message' => trans('admin::app.leads.tag-destroy-success'),
         ]);
     }
 }

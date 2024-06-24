@@ -2,57 +2,33 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Mail;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Email\Mails\Email;
 use Webkul\Email\Repositories\AttachmentRepository;
 use Webkul\Email\Repositories\EmailRepository;
 use Webkul\Lead\Repositories\LeadRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
+use Webkul\RestApi\Http\Request\MassDestroyRequest;
+use Webkul\RestApi\Http\Request\MassUpdateRequest;
 use Webkul\RestApi\Http\Resources\V1\Email\EmailResource;
 
 class EmailController extends Controller
 {
     /**
-     * Lead repository instance.
-     *
-     * @var \Webkul\Email\Repositories\LeadRepository
-     */
-    protected $leadRepository;
-
-    /**
-     * Email repository instance.
-     *
-     * @var \Webkul\Email\Repositories\EmailRepository
-     */
-    protected $emailRepository;
-
-    /**
-     * Attachment repository instance.
-     *
-     * @var \Webkul\Email\Repositories\AttachmentRepository
-     */
-    protected $attachmentRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Lead\Repositories\LeadRepository  $leadRepository
-     * @param  \Webkul\Email\Repositories\EmailRepository  $emailRepository
-     * @param  \Webkul\Email\Repositories\AttachmentRepository  $attachmentRepository
      * @return void
      */
     public function __construct(
-        LeadRepository $leadRepository,
-        EmailRepository $emailRepository,
-        AttachmentRepository $attachmentRepository
+        protected LeadRepository $leadRepository,
+        protected EmailRepository $emailRepository,
+        protected AttachmentRepository $attachmentRepository,
+        protected AttributeRepository $attributeRepository
     ) {
-        $this->leadRepository = $leadRepository;
-
-        $this->emailRepository = $emailRepository;
-
-        $this->attachmentRepository = $attachmentRepository;
     }
 
     /**
@@ -70,7 +46,6 @@ class EmailController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -94,11 +69,11 @@ class EmailController extends Controller
 
         Event::dispatch('email.create.before');
 
-        $uniqueId = time() . '@' . config('mail.domain');
+        $uniqueId = time().'@'.config('mail.domain');
 
         $referenceIds = [];
 
-        if ($parentId = request('parent_id')) {
+        if ($parentId = request()->input('parent_id')) {
             $parent = $this->emailRepository->findOrFail($parentId);
 
             $referenceIds = $parent->reference_ids ?? [];
@@ -108,7 +83,7 @@ class EmailController extends Controller
             'source'        => 'web',
             'from'          => 'admin@example.com',
             'user_type'     => 'admin',
-            'folders'       => request('is_draft') ? ['draft'] : ['outbox'],
+            'folders'       => ($isDraft = request()->input('is_draft')) ? ['draft'] : ['outbox'],
             'name'          => auth()->guard()->user()->name,
             'unique_id'     => $uniqueId,
             'message_id'    => $uniqueId,
@@ -116,28 +91,29 @@ class EmailController extends Controller
             'user_id'       => auth()->guard()->user()->id,
         ]));
 
-        if (! request('is_draft')) {
+        if (! $isDraft) {
             try {
                 Mail::send(new Email($email));
 
                 $this->emailRepository->update([
                     'folders' => ['inbox', 'sent'],
                 ], $email->id);
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
 
         Event::dispatch('email.create.after', $email);
 
-        if (request('is_draft')) {
-            return response([
+        if ($isDraft) {
+            return new JsonResource([
                 'data'    => new EmailResource($email),
-                'message' => __('admin::app.mail.saved-to-draft'),
+                'message' => trans('admin::app.mail.saved-to-draft'),
             ]);
         }
 
-        return response([
+        return new JsonResource([
             'data'    => new EmailResource($email),
-            'message' => __('admin::app.mail.create-success'),
+            'message' => trans('admin::app.mail.create-success'),
         ]);
     }
 
@@ -153,41 +129,45 @@ class EmailController extends Controller
 
         $data = request()->all();
 
-        if (! is_null(request('is_draft'))) {
-            $data['folders'] = request('is_draft') ? ['draft'] : ['outbox'];
+        if (! is_null($isDraft = $data['is_draft'])) {
+            $data['folders'] = $isDraft ? ['draft'] : ['outbox'];
         }
 
-        $email = $this->emailRepository->update($data, request('id') ?? $id);
+        $email = $this->emailRepository->update($data, $data['id'] ?? $id);
 
         Event::dispatch('email.update.after', $email);
 
-        if (! is_null(request('is_draft')) && ! request('is_draft')) {
+        if (
+            ! is_null($isDraft)
+            && ! $isDraft
+        ) {
             try {
                 Mail::send(new Email($email));
 
                 $this->emailRepository->update([
                     'folders' => ['inbox', 'sent'],
                 ], $email->id);
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
 
-        if (! is_null(request('is_draft'))) {
-            if (request('is_draft')) {
+        if (! is_null($isDraft)) {
+            if ($isDraft) {
                 return response([
                     'data'    => new EmailResource($email),
-                    'message' => __('admin::app.mail.saved-to-draft'),
+                    'message' => trans('admin::app.mail.saved-to-draft'),
                 ]);
             } else {
                 return response([
                     'data'    => new EmailResource($email),
-                    'message' => __('admin::app.mail.create-success'),
+                    'message' => trans('admin::app.mail.create-success'),
                 ]);
             }
         }
 
         $response = [
             'data'    => new EmailResource($email),
-            'message' => __('admin::app.mail.update-success'),
+            'message' => trans('admin::app.mail.update-success'),
         ];
 
         if (request('lead_id')) {
@@ -199,7 +179,7 @@ class EmailController extends Controller
             ])->render();
         }
 
-        return response($response);
+        return new JsonResource($response);
     }
 
     /**
@@ -211,9 +191,11 @@ class EmailController extends Controller
     public function destroy($id)
     {
         try {
-            Event::dispatch('email.' . request('type') . '.before', $id);
+            $type = request()->input('type', 'delete');
 
-            if (request('type') == 'trash') {
+            Event::dispatch("email.$type.before", $id);
+
+            if ($type == 'trash') {
                 $this->emailRepository->update([
                     'folders' => ['trash'],
                 ], $id);
@@ -221,14 +203,14 @@ class EmailController extends Controller
                 $this->emailRepository->delete($id);
             }
 
-            Event::dispatch('email.' . request('type') . '.after', $id);
+            Event::dispatch("email.$type.after", $id);
 
-            return response([
-                'message' => __('admin::app.mail.delete-success'),
+            return new JsonResource([
+                'message' => trans('admin::app.mail.delete-success'),
             ]);
         } catch (\Exception $exception) {
-            return response([
-                'message' => __('admin::app.mail.delete-failed'),
+            return new JsonResource([
+                'message' => trans('admin::app.mail.delete-failed'),
             ], 500);
         }
     }
@@ -238,20 +220,28 @@ class EmailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massUpdate()
+    public function massUpdate(MassUpdateRequest $massUpdateRequest)
     {
-        foreach (request('rows') as $emailId) {
+        $emailIds = $massUpdateRequest->input('indices', []);
+
+        foreach ($emailIds as $emailId) {
+            $email = $this->emailRepository->find($emailId);
+
+            if (! $email) {
+                continue;
+            }
+
             Event::dispatch('email.update.before', $emailId);
 
-            $this->emailRepository->update([
-                'folders' => request('folders'),
-            ], $emailId);
+            $email->update([
+                'folders' => request()->input('folders'),
+            ]);
 
             Event::dispatch('email.update.after', $emailId);
         }
 
-        return response([
-            'message' => __('admin::app.mail.mass-update-success'),
+        return new JsonResource([
+            'message' => trans('admin::app.mail.mass-update-success'),
         ]);
     }
 
@@ -260,24 +250,34 @@ class EmailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massDestroy()
+    public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        foreach (request('rows') as $emailId) {
-            Event::dispatch('email.' . request('type') . '.before', $emailId);
+        $emails = $massDestroyRequest->input('indices', []);
 
-            if (request('type') == 'trash') {
-                $this->emailRepository->update([
-                    'folders' => ['trash'],
-                ], $emailId);
-            } else {
-                $this->emailRepository->delete($emailId);
+        $type = request()->input('type', 'delete');
+
+        foreach ($emails as $emailId) {
+            $email = $this->emailRepository->find($emailId);
+
+            if (! $email) {
+                continue;
             }
 
-            Event::dispatch('email.' . request('type') . '.after', $emailId);
+            Event::dispatch("email.$type.before", $emailId);
+
+            if ($type == 'trash') {
+                $email->update([
+                    'folders' => ['trash'],
+                ]);
+            } else {
+                $email->delete();
+            }
+
+            Event::dispatch("email.$type.after", $emailId);
         }
 
         return response([
-            'message' => __('admin::app.mail.destroy-success'),
+            'message' => trans('admin::app.mail.destroy-success'),
         ]);
     }
 

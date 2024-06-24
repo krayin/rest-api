@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Resources\V1\Setting\WorkflowResource;
@@ -10,21 +11,12 @@ use Webkul\Workflow\Repositories\WorkflowRepository;
 class WorkflowController extends Controller
 {
     /**
-     * Workflow repository instance.
-     *
-     * @var \Webkul\Workflow\Repositories\WorkflowRepository
-     */
-    protected $workflowRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Workflow\Repositories\WorkflowRepository  $workflowRepository
      * @return void
      */
-    public function __construct(WorkflowRepository $workflowRepository)
+    public function __construct(protected WorkflowRepository $workflowRepository)
     {
-        $this->workflowRepository = $workflowRepository;
     }
 
     /**
@@ -42,7 +34,6 @@ class WorkflowController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -69,9 +60,9 @@ class WorkflowController extends Controller
 
         Event::dispatch('settings.workflow.create.after', $workflow);
 
-        return response([
+        return new JsonResource([
             'data'    => new WorkflowResource($workflow),
-            'message' => __('admin::app.settings.workflows.create-success'),
+            'message' => trans('admin::app.settings.workflows.create-success'),
         ]);
     }
 
@@ -93,9 +84,9 @@ class WorkflowController extends Controller
 
         Event::dispatch('settings.workflow.update.after', $workflow);
 
-        return response([
+        return new JsonResource([
             'data'    => new WorkflowResource($workflow),
-            'message' => __('admin::app.settings.workflows.update-success'),
+            'message' => trans('admin::app.settings.workflows.update-success'),
         ]);
     }
 
@@ -114,12 +105,12 @@ class WorkflowController extends Controller
 
             Event::dispatch('settings.workflow.delete.after', $id);
 
-            return response([
-                'message' => __('admin::app.settings.workflows.delete-success'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.workflows.delete-success'),
             ]);
         } catch (\Exception $exception) {
-            return response([
-                'message' => __('admin::app.settings.workflows.delete-failed'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.workflows.delete-failed'),
             ], 500);
         }
     }

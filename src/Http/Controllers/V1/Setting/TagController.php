@@ -2,29 +2,22 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
+use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Resources\V1\Setting\TagResource;
 use Webkul\Tag\Repositories\TagRepository;
 
 class TagController extends Controller
 {
     /**
-     * Tag repository instance.
-     *
-     * @var \Webkul\Tag\Repositories\TagRepository
-     */
-    protected $tagRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Tag\Repositories\TagRepository  $tagRepository
      * @return void
      */
-    public function __construct(TagRepository $tagRepository)
+    public function __construct(protected TagRepository $tagRepository)
     {
-        $this->tagRepository = $tagRepository;
     }
 
     /**
@@ -42,7 +35,6 @@ class TagController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -71,9 +63,9 @@ class TagController extends Controller
 
         Event::dispatch('settings.tag.create.after', $tag);
 
-        return response([
+        return new JsonResource([
             'data'    => new TagResource($tag),
-            'message' => __('admin::app.settings.tags.create-success'),
+            'message' => trans('admin::app.settings.tags.create-success'),
         ]);
     }
 
@@ -86,7 +78,7 @@ class TagController extends Controller
     public function update($id)
     {
         $this->validate(request(), [
-            'name' => 'required|unique:tags,name',
+            'name' => 'required|unique:tags,name,'.$id,
         ]);
 
         Event::dispatch('settings.tag.update.before', $id);
@@ -95,9 +87,9 @@ class TagController extends Controller
 
         Event::dispatch('settings.tag.update.after', $tag);
 
-        return response([
+        return new JsonResource([
             'data'    => new TagResource($tag),
-            'message' => __('admin::app.settings.tags.update-success'),
+            'message' => trans('admin::app.settings.tags.update-success'),
         ]);
     }
 
@@ -112,16 +104,18 @@ class TagController extends Controller
         try {
             Event::dispatch('settings.tag.delete.before', $id);
 
-            $this->tagRepository->delete($id);
+            $tag = $this->tagRepository->find($id);
+
+            $tag?->delete();
 
             Event::dispatch('settings.tag.delete.after', $id);
 
-            return response([
-                'message' => __('admin::app.settings.tags.delete-success'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.tags.delete-success'),
             ]);
         } catch (\Exception $exception) {
-            return response([
-                'message' => __('admin::app.settings.tags.delete-failed'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.tags.delete-failed'),
             ], 500);
         }
     }
@@ -131,18 +125,26 @@ class TagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massDestroy()
+    public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        foreach (request('rows') as $tagId) {
+        $tagIds = $massDestroyRequest->input('indices', []);
+
+        foreach ($tagIds as $tagId) {
+            $tag = $this->tagRepository->find($tagId);
+
+            if (! $tag) {
+                continue;
+            }
+
             Event::dispatch('settings.tag.delete.before', $tagId);
 
-            $this->tagRepository->delete($tagId);
+            $tag->delete($tagId);
 
             Event::dispatch('settings.tag.delete.after', $tagId);
         }
 
-        return response([
-            'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.settings.tags.title')]),
+        return new JsonResource([
+            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.settings.tags.title')]),
         ]);
     }
 }

@@ -2,10 +2,13 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Webkul\Admin\Notifications\User\Create;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
+use Webkul\RestApi\Http\Request\MassDestroyRequest;
+use Webkul\RestApi\Http\Request\MassUpdateRequest;
 use Webkul\RestApi\Http\Resources\V1\Setting\UserResource;
 use Webkul\User\Repositories\GroupRepository;
 use Webkul\User\Repositories\RoleRepository;
@@ -14,37 +17,15 @@ use Webkul\User\Repositories\UserRepository;
 class UserController extends Controller
 {
     /**
-     * User repository instance.
-     *
-     * @var \Webkul\User\Repositories\UserRepository
-     */
-    protected $userRepository;
-
-    /**
-     * Role repository instance.
-     *
-     * @var \Webkul\User\Repositories\RoleRepository
-     */
-    protected $roleRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\User\Repositories\UserRepository  $userRepository
-     * @param  \Webkul\User\Repositories\GroupRepository  $groupRepository
-     * @param  \Webkul\User\Repositories\RoleRepository  $roleRepository
      * @return void
      */
     public function __construct(
-        UserRepository $userRepository,
-        GroupRepository $groupRepository,
-        RoleRepository $roleRepository
+        protected UserRepository $userRepository,
+        protected GroupRepository $groupRepository,
+        protected RoleRepository $roleRepository
     ) {
-        $this->userRepository = $userRepository;
-
-        $this->groupRepository = $groupRepository;
-
-        $this->roleRepository = $roleRepository;
     }
 
     /**
@@ -62,7 +43,6 @@ class UserController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -89,7 +69,7 @@ class UserController extends Controller
 
         $data = request()->all();
 
-        if (isset($data['password']) && $data['password']) {
+        if (! empty($data['password'])) {
             $data['password'] = bcrypt($data['password']);
         }
 
@@ -103,7 +83,7 @@ class UserController extends Controller
 
         $admin->save();
 
-        $admin->groups()->sync(request('groups') ?? []);
+        $admin->groups()->sync($data['groups'] ?? []);
 
         try {
             Mail::queue(new Create($admin));
@@ -113,9 +93,9 @@ class UserController extends Controller
 
         Event::dispatch('settings.user.create.after', $admin);
 
-        return response([
+        return new JsonResource([
             'data'    => new UserResource($admin),
-            'message' => __('admin::app.settings.users.create-success'),
+            'message' => trans('admin::app.settings.users.create-success'),
         ]);
     }
 
@@ -128,7 +108,7 @@ class UserController extends Controller
     public function update($id)
     {
         $this->validate(request(), [
-            'email'            => 'required|email|unique:users,email,' . $id,
+            'email'            => 'required|email|unique:users,email,'.$id,
             'name'             => 'required',
             'password'         => 'nullable',
             'confirm_password' => 'nullable|required_with:password|same:password',
@@ -155,13 +135,13 @@ class UserController extends Controller
 
         $admin->save();
 
-        $admin->groups()->sync(request('groups') ?? []);
+        $admin->groups()->sync($data['groups'] ?? []);
 
         Event::dispatch('settings.user.update.after', $admin);
 
-        return response([
+        return new JsonResource([
             'data'    => new UserResource($admin),
-            'message' => __('admin::app.settings.users.update-success'),
+            'message' => trans('admin::app.settings.users.update-success'),
         ]);
     }
 
@@ -174,12 +154,12 @@ class UserController extends Controller
     public function destroy($id)
     {
         if (auth()->guard()->user()->id == $id) {
-            return response([
-                'message' => __('admin::app.settings.users.delete-failed'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.users.delete-failed'),
             ], 400);
-        } else if ($this->userRepository->count() == 1) {
-            return response([
-                'message' => __('admin::app.settings.users.last-delete-error'),
+        } elseif ($this->userRepository->count() == 1) {
+            return new JsonResource([
+                'message' => trans('admin::app.settings.users.last-delete-error'),
             ], 400);
         } else {
             Event::dispatch('settings.user.delete.before', $id);
@@ -189,11 +169,11 @@ class UserController extends Controller
 
                 Event::dispatch('settings.user.delete.after', $id);
 
-                return response([
-                    'message' => __('admin::app.settings.users.delete-success'),
+                return new JsonResource([
+                    'message' => trans('admin::app.settings.users.delete-success'),
                 ]);
             } catch (\Exception $exception) {
-                return response([
+                return new JsonResource([
                     'message' => $exception->getMessage(),
                 ], 500);
             }
@@ -205,11 +185,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massUpdate()
+    public function massUpdate(MassUpdateRequest $massUpdateRequest)
     {
+        $userIds = $massUpdateRequest->input('indices');
+
         $count = 0;
 
-        foreach (request('rows') as $userId) {
+        foreach ($userIds as $userId) {
             if (auth()->guard()->user()->id == $userId) {
                 continue;
             }
@@ -226,13 +208,13 @@ class UserController extends Controller
         }
 
         if (! $count) {
-            return response([
-                'message' => __('admin::app.settings.users.mass-update-failed'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.users.mass-update-failed'),
             ], 500);
         }
 
-        return response([
-            'message' => __('admin::app.settings.users.mass-update-success'),
+        return new JsonResource([
+            'message' => trans('admin::app.settings.users.mass-update-success'),
         ]);
     }
 
@@ -241,11 +223,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massDestroy()
+    public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
+        $userIds = $massDestroyRequest->input('indices');
+
         $count = 0;
 
-        foreach (request('rows') as $userId) {
+        foreach ($userIds as $userId) {
             if (auth()->guard()->user()->id == $userId) {
                 continue;
             }
@@ -260,13 +244,13 @@ class UserController extends Controller
         }
 
         if (! $count) {
-            return response([
-                'message' => __('admin::app.settings.users.mass-delete-failed'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.users.mass-delete-failed'),
             ], 500);
         }
 
-        return response([
-            'message' => __('admin::app.settings.users.mass-delete-success'),
+        return new JsonResource([
+            'message' => trans('admin::app.settings.users.mass-delete-success'),
         ]);
     }
 }

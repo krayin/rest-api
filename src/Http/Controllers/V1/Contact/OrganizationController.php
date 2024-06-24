@@ -2,31 +2,23 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Contact;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Attribute\Http\Requests\AttributeForm;
 use Webkul\Contact\Repositories\OrganizationRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
+use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Resources\V1\Contact\OrganizationResource;
 
 class OrganizationController extends Controller
 {
     /**
-     * Organization repository instance.
-     *
-     * @var \Webkul\Contact\Repositories\OrganizationRepository
-     */
-    protected $organizationRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Contact\Repositories\OrganizationRepository  $organizationRepository
      * @return void
      */
-    public function __construct(OrganizationRepository $organizationRepository)
+    public function __construct(protected OrganizationRepository $organizationRepository)
     {
-        $this->organizationRepository = $organizationRepository;
-
         $this->addEntityTypeInRequest('organizations');
     }
 
@@ -45,7 +37,6 @@ class OrganizationController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -58,7 +49,6 @@ class OrganizationController extends Controller
     /**
      * Store a newly created organization in storage.
      *
-     * @param \Webkul\Attribute\Http\Requests\AttributeForm $request
      * @return \Illuminate\Http\Response
      */
     public function store(AttributeForm $request)
@@ -69,17 +59,16 @@ class OrganizationController extends Controller
 
         Event::dispatch('contacts.organization.create.after', $organization);
 
-        return response([
+        return new JsonResource([
             'data'    => new OrganizationResource($organization),
-            'message' => __('admin::app.contacts.organizations.create-success'),
+            'message' => trans('admin::app.contacts.organizations.create-success'),
         ]);
     }
 
     /**
      * Update the organization in storage.
      *
-     * @param \Webkul\Attribute\Http\Requests\AttributeForm $request
-     * @param int  $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(AttributeForm $request, $id)
@@ -90,9 +79,9 @@ class OrganizationController extends Controller
 
         Event::dispatch('contacts.organization.update.after', $organization);
 
-        return response([
+        return new JsonResource([
             'data'    => new OrganizationResource($organization),
-            'message' => __('admin::app.contacts.organizations.update-success'),
+            'message' => trans('admin::app.contacts.organizations.update-success'),
         ]);
     }
 
@@ -111,12 +100,12 @@ class OrganizationController extends Controller
 
             Event::dispatch('contact.organization.delete.after', $id);
 
-            return response([
-                'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.contacts.organizations.organization')]),
+            return new JsonResource([
+                'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.contacts.organizations.organization')]),
             ]);
         } catch (\Exception $exception) {
-            return response([
-                'message' => __('admin::app.response.destroy-failed', ['name' => __('admin::app.contacts.organizations.organization')]),
+            return new JsonResource([
+                'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.contacts.organizations.organization')]),
             ], 500);
         }
     }
@@ -126,18 +115,26 @@ class OrganizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function massDestroy()
+    public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        foreach (request('rows') as $organizationId) {
+        $organizationIds = $massDestroyRequest->input('indices', []);
+
+        foreach ($organizationIds as $organizationId) {
+            $organization = $this->organizationRepository->find($organizationId);
+
+            if (! $organization) {
+                continue;
+            }
+
             Event::dispatch('contact.organization.delete.before', $organizationId);
 
-            $this->organizationRepository->delete($organizationId);
+            $organization->delete($organizationId);
 
             Event::dispatch('contact.organization.delete.after', $organizationId);
         }
 
-        return response([
-            'message' => __('admin::app.response.destroy-success', ['name' => __('admin::app.contacts.organizations.title')]),
+        return new JsonResource([
+            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.contacts.organizations.title')]),
         ]);
     }
 }

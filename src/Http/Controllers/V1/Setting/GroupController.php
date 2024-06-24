@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Resources\V1\Setting\GroupResource;
@@ -10,21 +11,12 @@ use Webkul\User\Repositories\GroupRepository;
 class GroupController extends Controller
 {
     /**
-     * Group repository instance.
-     *
-     * @var \Webkul\User\Repositories\GroupRepository
-     */
-    protected $groupRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\User\Repositories\GroupRepository  $groupRepository
      * @return void
      */
-    public function __construct(GroupRepository $groupRepository)
+    public function __construct(protected GroupRepository $groupRepository)
     {
-        $this->groupRepository = $groupRepository;
     }
 
     /**
@@ -42,7 +34,6 @@ class GroupController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -69,9 +60,9 @@ class GroupController extends Controller
 
         Event::dispatch('settings.group.create.after', $group);
 
-        return response([
+        return new JsonResource([
             'data'    => new GroupResource($group),
-            'message' => __('admin::app.settings.groups.create-success'),
+            'message' => trans('admin::app.settings.groups.create-success'),
         ]);
     }
 
@@ -84,7 +75,7 @@ class GroupController extends Controller
     public function update($id)
     {
         $this->validate(request(), [
-            'name' => 'required|unique:groups,name,' . $id,
+            'name' => 'required|unique:groups,name,'.$id,
         ]);
 
         Event::dispatch('settings.group.update.before', $id);
@@ -93,9 +84,9 @@ class GroupController extends Controller
 
         Event::dispatch('settings.group.update.after', $group);
 
-        return response([
+        return new JsonResource([
             'data'    => new GroupResource($group),
-            'message' => __('admin::app.settings.groups.update-success'),
+            'message' => trans('admin::app.settings.groups.update-success'),
         ]);
     }
 
@@ -114,12 +105,12 @@ class GroupController extends Controller
 
             Event::dispatch('settings.group.delete.after', $id);
 
-            return response([
-                'message' => __('admin::app.settings.groups.destroy-success'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.groups.destroy-success'),
             ]);
         } catch (\Exception $exception) {
-            return response([
-                'message' => __('admin::app.settings.groups.delete-failed'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.groups.delete-failed'),
             ], 500);
         }
     }

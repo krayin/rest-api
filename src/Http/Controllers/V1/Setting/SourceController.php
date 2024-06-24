@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Lead\Repositories\SourceRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
@@ -10,21 +11,12 @@ use Webkul\RestApi\Http\Resources\V1\Setting\SourceResource;
 class SourceController extends Controller
 {
     /**
-     * Source repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\SourceRepository
-     */
-    protected $sourceRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Lead\Repositories\SourceRepository  $sourceRepository
      * @return void
      */
-    public function __construct(SourceRepository $sourceRepository)
+    public function __construct(protected SourceRepository $sourceRepository)
     {
-        $this->sourceRepository = $sourceRepository;
     }
 
     /**
@@ -42,7 +34,6 @@ class SourceController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -69,9 +60,9 @@ class SourceController extends Controller
 
         Event::dispatch('settings.source.create.after', $source);
 
-        return response([
+        return new JsonResource([
             'data'    => new SourceResource($source),
-            'message' => __('admin::app.settings.sources.create-success'),
+            'message' => trans('admin::app.settings.sources.create-success'),
         ]);
     }
 
@@ -84,7 +75,7 @@ class SourceController extends Controller
     public function update($id)
     {
         $this->validate(request(), [
-            'name' => 'required|unique:lead_sources,name,' . $id,
+            'name' => 'required|unique:lead_sources,name,'.$id,
         ]);
 
         Event::dispatch('settings.source.update.before', $id);
@@ -93,9 +84,9 @@ class SourceController extends Controller
 
         Event::dispatch('settings.source.update.after', $source);
 
-        return response([
+        return new JsonResource([
             'data'    => new SourceResource($source),
-            'message' => __('admin::app.settings.sources.update-success'),
+            'message' => trans('admin::app.settings.sources.update-success'),
         ]);
     }
 
@@ -114,12 +105,12 @@ class SourceController extends Controller
 
             Event::dispatch('settings.source.delete.after', $id);
 
-            return response([
-                'message' => __('admin::app.settings.sources.delete-success'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.sources.delete-success'),
             ]);
         } catch (\Exception $exception) {
-            return response([
-                'message' => __('admin::app.settings.sources.delete-failed'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.sources.delete-failed'),
             ], 500);
         }
     }

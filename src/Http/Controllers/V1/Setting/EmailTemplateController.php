@@ -11,33 +11,14 @@ use Webkul\Workflow\Helpers\Entity;
 class EmailTemplateController extends Controller
 {
     /**
-     * Email template repository instance.
-     *
-     * @var \Webkul\EmailTemplate\Repositories\EmailTemplateRepository
-     */
-    protected $emailTemplateRepository;
-
-    /**
-     * Entity instance.
-     *
-     * @var \Workflow\Workflow\Repositories\Entity
-     */
-    protected $workflowEntityHelper;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\EmailTemplate\Repositories\EmailTemplateRepository  $emailTemplateRepository
-     * @param  \Workflow\Workflow\Repositories\Entity  $workflowEntityHelper
      * @return void
      */
     public function __construct(
-        EmailTemplateRepository $emailTemplateRepository,
-        Entity $workflowEntityHelper
+        protected EmailTemplateRepository $emailTemplateRepository,
+        protected Entity $workflowEntityHelper
     ) {
-        $this->emailTemplateRepository = $emailTemplateRepository;
-
-        $this->workflowEntityHelper = $workflowEntityHelper;
     }
 
     /**
@@ -55,7 +36,6 @@ class EmailTemplateController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -86,7 +66,7 @@ class EmailTemplateController extends Controller
 
         return response([
             'data'    => new EmailTemplateResource($emailTemplate),
-            'message' => __('admin::app.settings.email-templates.create-success'),
+            'message' => trans('admin::app.settings.email-templates.create-success'),
         ]);
     }
 
@@ -112,7 +92,7 @@ class EmailTemplateController extends Controller
 
         return response([
             'data'    => new EmailTemplateResource($emailTemplate),
-            'message' => __('admin::app.settings.email-templates.update-success'),
+            'message' => trans('admin::app.settings.email-templates.update-success'),
         ]);
     }
 
@@ -132,11 +112,11 @@ class EmailTemplateController extends Controller
             Event::dispatch('settings.email_templates.delete.after', $id);
 
             return response([
-                'message' => __('admin::app.settings.email-templates.delete-success'),
+                'message' => trans('admin::app.settings.email-templates.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return response([
-                'message' => __('admin::app.settings.email-templates.delete-failed'),
+                'message' => trans('admin::app.settings.email-templates.delete-failed'),
             ], 500);
         }
     }

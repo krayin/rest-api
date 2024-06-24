@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Lead\Repositories\TypeRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
@@ -10,21 +11,12 @@ use Webkul\RestApi\Http\Resources\V1\Setting\TypeResource;
 class TypeController extends Controller
 {
     /**
-     * Type repository instance.
-     *
-     * @var \Webkul\Lead\Repositories\TypeRepository
-     */
-    protected $typeRepository;
-
-    /**
      * Create a new controller instance.
      *
-     * @param  \Webkul\Lead\Repositories\TypeRepository  $typeRepository
      * @return void
      */
-    public function __construct(TypeRepository $typeRepository)
+    public function __construct(protected TypeRepository $typeRepository)
     {
-        $this->typeRepository = $typeRepository;
     }
 
     /**
@@ -42,7 +34,6 @@ class TypeController extends Controller
     /**
      * Show resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $id)
@@ -69,9 +60,9 @@ class TypeController extends Controller
 
         Event::dispatch('settings.type.create.after', $type);
 
-        return response([
+        return new JsonResource([
             'data'    => new TypeResource($type),
-            'message' => __('admin::app.settings.types.create-success'),
+            'message' => trans('admin::app.settings.types.create-success'),
         ]);
     }
 
@@ -84,7 +75,7 @@ class TypeController extends Controller
     public function update($id)
     {
         $this->validate(request(), [
-            'name' => 'required|unique:lead_types,name,' . $id,
+            'name' => 'required|unique:lead_types,name,'.$id,
         ]);
 
         Event::dispatch('settings.type.update.before', $id);
@@ -93,9 +84,9 @@ class TypeController extends Controller
 
         Event::dispatch('settings.type.update.after', $type);
 
-        return response([
+        return new JsonResource([
             'data'    => new TypeResource($type),
-            'message' => __('admin::app.settings.types.update-success'),
+            'message' => trans('admin::app.settings.types.update-success'),
         ]);
     }
 
@@ -114,12 +105,12 @@ class TypeController extends Controller
 
             Event::dispatch('settings.type.delete.after', $id);
 
-            return response([
-                'message' => __('admin::app.settings.types.delete-success'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.types.delete-success'),
             ]);
         } catch (\Exception $exception) {
-            return response([
-                'message' => __('admin::app.settings.types.delete-failed'),
+            return new JsonResource([
+                'message' => trans('admin::app.settings.types.delete-failed'),
             ], 500);
         }
     }
