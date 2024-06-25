@@ -5,6 +5,7 @@ namespace Webkul\RestApi\Http\Controllers\V1\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Resources\V1\Setting\UserResource;
 
@@ -38,6 +39,7 @@ class AccountController extends Controller
             'email'            => 'email|unique:users,email,'.$user->id,
             'password'         => 'nullable|min:6|confirmed',
             'current_password' => 'nullable|required|min:6',
+            'image'            => 'mimes:jpeg,jpg,png,gif'
         ]);
 
         if (! Hash::check($data['current_password'], $user->password)) {
@@ -46,7 +48,10 @@ class AccountController extends Controller
             ], 400);
         }
 
-        if (isset($data['role_id']) || isset($data['view_permission'])) {
+        if (
+            isset($data['role_id'])
+            || isset($data['view_permission'])
+        ) {
             return response([
                 'message' => trans('admin::app.user.account.permission-denied'),
             ], 400);
@@ -58,6 +63,8 @@ class AccountController extends Controller
             $data['password'] = bcrypt($data['password']);
         }
 
+        $this->handleProfileImageUpload($data, $user);
+
         $user->update($data);
 
         if ($isPasswordChanged) {
@@ -68,5 +75,39 @@ class AccountController extends Controller
             'data'    => new UserResource($user),
             'message' => trans('admin::app.user.account.account-save'),
         ]);
+    }
+
+    /**
+     * Handle profile image upload.
+     *
+     * @param  array  $data
+     * @param  Object $user
+     * @return void
+     */
+    public function handleProfileImageUpload(&$data, $user)
+    {
+        $oldImage = $user->image;
+
+        if (! isset($data['image'])) {
+            $data['image'] = $user->image;
+        }
+    
+        if (request()->hasFile('image')) {
+            $data['image'] = request()->file('image')->store('users/' . $user->id);
+        }
+    
+        if (
+            isset($data['remove_image'])
+            && $data['remove_image'] !== ''
+        ) {
+            $data['image'] = null;
+        }
+    
+        if (
+            $oldImage 
+            && ($data['image'] !== $oldImage)
+        ) {
+            Storage::delete($oldImage);
+        }
     }
 }
