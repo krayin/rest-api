@@ -73,6 +73,10 @@ class AccountController
      *                      example="example@example.com"
      *                  ),
      *                  @OA\Property(
+     *                      property="image",
+     *                      type="file",
+     *                  ),
+     *                  @OA\Property(
      *                      property="password",
      *                      type="string",
      *                      example="admin123"

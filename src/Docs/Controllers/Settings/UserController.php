@@ -136,15 +136,15 @@ class UserController
      *      @OA\RequestBody(
      *
      *          @OA\MediaType(
-     *              mediaType="multipart/form-data",
+     *              mediaType="application/json",
      *
      *              @OA\Schema(
      *
      *                  @OA\Property(
      *                      property="name",
-     *                      description="Tag Name",
+     *                      description="Name",
      *                      type="string",
-     *                      example="Active"
+     *                      example="John Doe"
      *                  ),
      *                  @OA\Property(
      *                      property="email",
@@ -211,19 +211,18 @@ class UserController
     public function store()
     {
     }
-
+   
     /**
-     * @OA\Put(
+     *  @OA\Put(
      *      path="/api/v1/settings/users/{id}",
-     *      operationId="updateUser",
+     *      operationId="userUpdate",
      *      tags={"User"},
-     *      summary="Update the Users",
-     *      description="Update the Users",
+     *      summary="Update existing user.",
      *      security={ {"sanctum_admin": {} }},
      *
      *      @OA\Parameter(
      *          name="id",
-     *          description="User ID",
+     *          description="User Id",
      *          required=true,
      *          in="path",
      *
@@ -231,19 +230,19 @@ class UserController
      *              type="integer"
      *          )
      *      ),
-     *
+     * 
      *      @OA\RequestBody(
      *
      *          @OA\MediaType(
-     *              mediaType="multipart/form-data",
+     *              mediaType="application/json",
      *
      *              @OA\Schema(
      *
      *                  @OA\Property(
      *                      property="name",
-     *                      description="Tag Name",
+     *                      description="Name",
      *                      type="string",
-     *                      example="Active"
+     *                      example="John Doe"
      *                  ),
      *                  @OA\Property(
      *                      property="email",
@@ -280,7 +279,7 @@ class UserController
      *                      description="View Permission",
      *                      type="string",
      *                      example="global",
-     *                      enum={"global", "group", "individual"},
+     *                      enum={"global", "group", "individual"}
      *                  ),
      *              )
      *          )
@@ -292,13 +291,19 @@ class UserController
      *
      *          @OA\JsonContent(
      *
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string",
-     *                  example="User updated successfully.",
+     *               @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *
+     *                  @OA\Items(ref="#/components/schemas/User")
      *              )
      *          )
-     *      )
+     *      ),
+     *
+     *      @OA\Response(
+     *         response=401,
+     *         description="Unauthorized"
+     *     )
      * )
      */
     public function update()

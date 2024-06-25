@@ -141,31 +141,31 @@ class QuoteController
      *                      property="address",
      *                      type="string",
      *                      description="Street address",
-     *                      example="Bheem Nagar"
+     *                      example="123 Main St"
      *                  ),
      *                  @OA\Property(
      *                      property="country",
      *                      type="string",
      *                      description="Country code",
-     *                      example="IN"
+     *                      example="US"
      *                  ),
      *                  @OA\Property(
      *                      property="state",
      *                      type="string",
      *                      description="State code",
-     *                      example="UP"
+     *                      example="CA"
      *                  ),
      *                  @OA\Property(
      *                      property="city",
      *                      type="string",
      *                      description="City name",
-     *                      example="Ghaziabad"
+     *                      example="Los Angeles"
      *                  ),
      *                  @OA\Property(
      *                      property="postcode",
      *                      type="string",
      *                      description="Postal code",
-     *                      example="201009"
+     *                      example="90001"
      *                  )
      *              ),
      *              @OA\Property(
@@ -175,31 +175,31 @@ class QuoteController
      *                      property="address",
      *                      type="string",
      *                      description="Street address",
-     *                      example="Bheem Nagar"
+     *                      example="123 Main St"
      *                  ),
      *                  @OA\Property(
      *                      property="country",
      *                      type="string",
      *                      description="Country code",
-     *                      example="IN"
+     *                      example="US"
      *                  ),
      *                  @OA\Property(
      *                      property="state",
      *                      type="string",
      *                      description="State code",
-     *                      example="UP"
+     *                      example="CA"
      *                  ),
      *                  @OA\Property(
      *                      property="city",
      *                      type="string",
      *                      description="City name",
-     *                      example="Ghaziabad"
+     *                      example="Los Angeles"
      *                  ),
      *                  @OA\Property(
      *                      property="postcode",
      *                      type="string",
      *                      description="Postal code",
-     *                      example="201009"
+     *                      example="90001"
      *                  )
      *              ),
      *              @OA\Property(
@@ -416,31 +416,31 @@ class QuoteController
      *                      property="address",
      *                      type="string",
      *                      description="Street address",
-     *                      example="Bheem Nagar"
+     *                      example="123 Main St"
      *                  ),
      *                  @OA\Property(
      *                      property="country",
      *                      type="string",
      *                      description="Country code",
-     *                      example="IN"
+     *                      example="US"
      *                  ),
      *                  @OA\Property(
      *                      property="state",
      *                      type="string",
      *                      description="State code",
-     *                      example="UP"
+     *                      example="CA"
      *                  ),
      *                  @OA\Property(
      *                      property="city",
      *                      type="string",
      *                      description="City name",
-     *                      example="Ghaziabad"
+     *                      example="Los Angeles"
      *                  ),
      *                  @OA\Property(
      *                      property="postcode",
      *                      type="string",
      *                      description="Postal code",
-     *                      example="201009"
+     *                      example="90001"
      *                  )
      *              ),
      *              @OA\Property(
@@ -450,31 +450,31 @@ class QuoteController
      *                      property="address",
      *                      type="string",
      *                      description="Street address",
-     *                      example="Bheem Nagar"
+     *                      example="123 Main St"
      *                  ),
      *                  @OA\Property(
      *                      property="country",
      *                      type="string",
      *                      description="Country code",
-     *                      example="IN"
+     *                      example="US"
      *                  ),
      *                  @OA\Property(
      *                      property="state",
      *                      type="string",
      *                      description="State code",
-     *                      example="UP"
+     *                      example="CA"
      *                  ),
      *                  @OA\Property(
      *                      property="city",
      *                      type="string",
      *                      description="City name",
-     *                      example="Ghaziabad"
+     *                      example="Los Angeles"
      *                  ),
      *                  @OA\Property(
      *                      property="postcode",
      *                      type="string",
      *                      description="Postal code",
-     *                      example="201009"
+     *                      example="90001"
      *                  )
      *              ),
      *              @OA\Property(

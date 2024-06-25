@@ -147,18 +147,13 @@ class OrganizationController
      *                 example="Amazon"
      *             ),
      *             @OA\Property(
-     *                 property="address",
-     *                 type="array",
-     *                 description="Organization address",
-     *
-     *                 @OA\Items(
-     *
-     *                     @OA\Property(property="city", type="string", example="Noida"),
-     *                     @OA\Property(property="state", type="string", example="UP"),
-     *                     @OA\Property(property="address", type="string", example="Rasoolpur Nawada"),
-     *                     @OA\Property(property="country", type="string", example="INDIA"),
-     *                     @OA\Property(property="postcode", type="string", example="201309")
-     *                 )
+     *                  property="address",
+     *                  type="object",
+     *                  @OA\Property(property="city", type="string", example="Los Angeles"),
+     *                  @OA\Property(property="state", type="string", example="CA"),
+     *                  @OA\Property(property="address", type="string", example="123 Main St"),
+     *                  @OA\Property(property="country", type="string", example="US"),
+     *                  @OA\Property(property="postcode", type="string", example="201309")
      *             )
      *         )
      *     ),
@@ -210,18 +205,13 @@ class OrganizationController
      *                 example="Amazon"
      *             ),
      *             @OA\Property(
-     *                 property="address",
-     *                 type="array",
-     *                 description="Organization address",
-     *
-     *                 @OA\Items(
-     *
-     *                     @OA\Property(property="city", type="string", example="Noida"),
-     *                     @OA\Property(property="state", type="string", example="UP"),
-     *                     @OA\Property(property="address", type="string", example="Rasoolpur Nawada"),
-     *                     @OA\Property(property="country", type="string", example="INDIA"),
-     *                     @OA\Property(property="postcode", type="string", example="201309")
-     *                 )
+     *                  property="address",
+     *                  type="object",
+     *                  @OA\Property(property="city", type="string", example="Los Angeles"),
+     *                  @OA\Property(property="state", type="string", example="CA"),
+     *                  @OA\Property(property="address", type="string", example="123 Main St"),
+     *                  @OA\Property(property="country", type="string", example="US"),
+     *                  @OA\Property(property="postcode", type="string", example="201309")
      *             )
      *         )
      *     ),

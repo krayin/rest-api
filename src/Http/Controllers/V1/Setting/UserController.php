@@ -107,12 +107,15 @@ class UserController extends Controller
      */
     public function update($id)
     {
+        $data = request()->all();
+
         $this->validate(request(), [
             'email'            => 'required|email|unique:users,email,'.$id,
             'name'             => 'required',
             'password'         => 'nullable',
             'confirm_password' => 'nullable|required_with:password|same:password',
             'role_id'          => 'required',
+            'status'           => 'required|in:0,1',
         ]);
 
         $data = request()->all();
@@ -124,7 +127,7 @@ class UserController extends Controller
         }
 
         if (auth()->guard()->user()->id != $id) {
-            $data['status'] = isset($data['status']) ? 1 : 0;
+            $data['status'] = isset($data['status']) ? $data['status'] : 0;
         }
 
         Event::dispatch('settings.user.update.before', $id);
@@ -198,9 +201,9 @@ class UserController extends Controller
 
             Event::dispatch('settings.user.update.before', $userId);
 
-            $this->userRepository->update([
-                'status' => request('value'),
-            ], $userId);
+            $user = $this->userRepository->find($userId);
+
+            $user?->update(['status' => $massUpdateRequest->input('value')]);
 
             Event::dispatch('settings.user.update.after', $userId);
 
@@ -236,7 +239,9 @@ class UserController extends Controller
 
             Event::dispatch('settings.user.delete.before', $userId);
 
-            $this->userRepository->delete($userId);
+            $user = $this->userRepository->find($userId);
+
+            $user?->delete();
 
             Event::dispatch('settings.user.delete.after', $userId);
 
