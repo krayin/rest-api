@@ -12,7 +12,7 @@ return [
                 /*
                  * Route for accessing api documentation interface
                 */
-                'api'             => 'api/documentation',
+                'api'             => 'api/admin/documentation',
                 'docs'            => storage_path('api-docs'),
                 'oauth2_callback' => 'api/oauth2-callback',
             ],

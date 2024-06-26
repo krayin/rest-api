@@ -6,7 +6,7 @@ class ConfigurationController
 {
     /**
      * @OA\Post(
-     *     path="/api/v1/configuration",
+     *     path="/api/v1/admin/configuration",
      *     operationId="storeConfiguration",
      *     tags={"Configuration"},
      *     summary="Create new Configuration",

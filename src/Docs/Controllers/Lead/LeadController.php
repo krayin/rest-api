@@ -6,7 +6,7 @@ class LeadController
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/leads",
+     *     path="/api/v1/admin/leads",
      *     operationId="leadList",
      *     tags={"Leads"},
      *     summary="Get list of leads",
@@ -84,7 +84,7 @@ class LeadController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/leads/{id}",
+     *      path="/api/v1/admin/leads/{id}",
      *      operationId="getParticularLead",
      *      tags={"Leads"},
      *      summary="Get the particular Lead",
@@ -123,7 +123,7 @@ class LeadController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/leads",
+     *      path="/api/v1/admin/leads",
      *      operationId="storeLead",
      *      tags={"Leads"},
      *      summary="Store the Leads",
@@ -301,7 +301,7 @@ class LeadController
 
     /**
      * @OA\Put(
-     *      path="/api/v1/leads/{id}",
+     *      path="/api/v1/admin/leads/{id}",
      *      operationId="updateLeads",
      *      tags={"Leads"},
      *      summary="Store the Leads",
@@ -488,7 +488,7 @@ class LeadController
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/leads/{id}",
+     *      path="/api/v1/admin/leads/{id}",
      *      operationId="deleteLeads",
      *      tags={"Leads"},
      *      summary="Delete the Leads",
@@ -528,7 +528,7 @@ class LeadController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/leads/mass-update",
+     *      path="/api/v1/admin/leads/mass-update",
      *      operationId="massUpdateLeads",
      *      tags={"Leads"},
      *      summary="Mass update Leads",
@@ -581,7 +581,7 @@ class LeadController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/leads/mass-destroy",
+     *      path="/api/v1/admin/leads/mass-destroy",
      *      operationId="massDeleteLeads",
      *      tags={"Leads"},
      *      summary="Mass delete Leads",

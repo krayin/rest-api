@@ -6,7 +6,7 @@ class TagController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/settings/tags",
+     *      path="/api/v1/admin/settings/tags",
      *      operationId="tagList",
      *      tags={"Tag"},
      *      summary="Get list of leads",
@@ -84,7 +84,7 @@ class TagController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/settings/tags",
+     *      path="/api/v1/admin/settings/tags",
      *      operationId="storeTag",
      *      tags={"Tag"},
      *      summary="Store the Tags",
@@ -137,7 +137,7 @@ class TagController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/settings/tags/{id}",
+     *      path="/api/v1/admin/settings/tags/{id}",
      *      operationId="showTag",
      *      tags={"Tag"},
      *      summary="Get Tag by id",
@@ -176,7 +176,7 @@ class TagController
 
     /**
      * @OA\Put(
-     *      path="/api/v1/settings/tags/{id}",
+     *      path="/api/v1/admin/settings/tags/{id}",
      *      operationId="updateTag",
      *      tags={"Tag"},
      *      summary="Update the Tags",
@@ -240,7 +240,7 @@ class TagController
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/settings/tags/{id}",
+     *      path="/api/v1/admin/settings/tags/{id}",
      *      operationId="deleteTag",
      *      tags={"Tag"},
      *      summary="Delete the Tags",
@@ -279,7 +279,7 @@ class TagController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/settings/tags/mass-destroy",
+     *      path="/api/v1/admin/settings/tags/mass-destroy",
      *      operationId="massDestroyTag",
      *      tags={"Tag"},
      *      summary="Mass Delete the Tags",

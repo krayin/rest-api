@@ -6,7 +6,7 @@ class AuthController
 {
     /**
      * @OA\Post(
-     *      path="/api/v1/login",
+     *      path="/api/v1/admin/login",
      *      operationId="adminLogin",
      *      tags={"Authentication"},
      *      summary="Login admin user",

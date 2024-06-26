@@ -6,7 +6,7 @@ class OrganizationController
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/contacts/organizations",
+     *     path="/api/v1/admin/contacts/organizations",
      *     operationId="organizationList",
      *     tags={"Contacts"},
      *     summary="Get list of organizations",
@@ -84,7 +84,7 @@ class OrganizationController
 
     /**
      * @OA\Get(
-     *     path="/api/v1/contacts/organizations/{id}",
+     *     path="/api/v1/admin/contacts/organizations/{id}",
      *     operationId="organizationShow",
      *     tags={"Contacts"},
      *     summary="Get organization by id",
@@ -127,7 +127,7 @@ class OrganizationController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/contacts/organizations",
+     *     path="/api/v1/admin/contacts/organizations",
      *     summary="Store a new organization",
      *     description="Create a new organization with the provided details",
      *     operationId="storeOrganization",
@@ -174,7 +174,7 @@ class OrganizationController
 
     /**
      * @OA\Put(
-     *     path="/api/v1/contacts/organizations/{id}",
+     *     path="/api/v1/admin/contacts/organizations/{id}",
      *     summary="Update an organization",
      *     description="Update an organization with the provided details",
      *     operationId="updateOrganization",
@@ -242,7 +242,7 @@ class OrganizationController
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/contacts/organizations/{id}",
+     *     path="/api/v1/admin/contacts/organizations/{id}",
      *     summary="Delete an organization",
      *     description="Delete an organization by id",
      *     operationId="deleteOrganization",
@@ -276,7 +276,7 @@ class OrganizationController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/contacts/organizations/mass-destroy",
+     *     path="/api/v1/admin/contacts/organizations/mass-destroy",
      *     summary="Delete multiple organizations",
      *     description="Delete multiple organizations by id",
      *     operationId="massDeleteOrganization",

@@ -6,7 +6,7 @@ class PipelineController
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/settings/pipelines",
+     *     path="/api/v1/admin/settings/pipelines",
      *     operationId="getPipelines",
      *     tags={"Pipeline"},
      *     summary="Get all pipelines",
@@ -84,7 +84,7 @@ class PipelineController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/settings/pipelines",
+     *     path="/api/v1/admin/settings/pipelines",
      *     operationId="createPipeline",
      *     tags={"Pipeline"},
      *     summary="Create a new pipeline",
@@ -181,7 +181,7 @@ class PipelineController
 
     /**
      * @OA\Put(
-     *     path="/api/v1/settings/pipelines/{id}",
+     *     path="/api/v1/admin/settings/pipelines/{id}",
      *     operationId="updatePipeline",
      *     tags={"Pipeline"},
      *     summary="Update a pipeline",
@@ -287,7 +287,7 @@ class PipelineController
 
     /**
      * @OA\Get(
-     *     path="/api/v1/settings/pipelines/{id}",
+     *     path="/api/v1/admin/settings/pipelines/{id}",
      *     operationId="getPipeline",
      *     tags={"Pipeline"},
      *     summary="Get a pipeline",
@@ -328,7 +328,7 @@ class PipelineController
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/settings/pipelines/{id}",
+     *     path="/api/v1/admin/settings/pipelines/{id}",
      *     operationId="deletePipeline",
      *     tags={"Pipeline"},
      *     summary="Delete a pipeline",
