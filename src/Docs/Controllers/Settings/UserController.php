@@ -6,7 +6,7 @@ class UserController
 {
     /**
      *  @OA\Get(
-     *      path="/api/v1/admin/settings/users",
+     *      path="/api/v1/settings/users",
      *      operationId="userList",
      *      tags={"User"},
      *      summary="Get list of users",
@@ -84,7 +84,7 @@ class UserController
 
     /**
      *  @OA\Get(
-     *      path="/api/v1/admin/settings/users/{id}",
+     *      path="/api/v1/settings/users/{id}",
      *      operationId="userFetch",
      *      tags={"User"},
      *      summary="Get user details",
@@ -127,7 +127,7 @@ class UserController
 
     /**
      *  @OA\Post(
-     *      path="/api/v1/admin/settings/users",
+     *      path="/api/v1/settings/users",
      *      operationId="userCreate",
      *      tags={"User"},
      *      summary="Create new user",
@@ -214,7 +214,7 @@ class UserController
    
     /**
      *  @OA\Put(
-     *      path="/api/v1/admin/settings/users/{id}",
+     *      path="/api/v1/settings/users/{id}",
      *      operationId="userUpdate",
      *      tags={"User"},
      *      summary="Update existing user.",
@@ -312,7 +312,7 @@ class UserController
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/admin/settings/users/{id}",
+     *      path="/api/v1/settings/users/{id}",
      *      operationId="deleteUser",
      *      tags={"User"},
      *      summary="Delete the Users",
@@ -351,7 +351,7 @@ class UserController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/admin/settings/users/mass-update",
+     *      path="/api/v1/settings/users/mass-update",
      *      operationId="massUpdateUser",
      *      tags={"User"},
      *      summary="Mass Update the Users",
@@ -407,7 +407,7 @@ class UserController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/admin/settings/users/mass-destroy",
+     *      path="/api/v1/settings/users/mass-destroy",
      *      operationId="massDestroyUser",
      *      tags={"User"},
      *      summary="Mass Delete the Users",

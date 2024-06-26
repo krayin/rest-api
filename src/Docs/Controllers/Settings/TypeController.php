@@ -6,7 +6,7 @@ class TypeController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/admin/settings/types",
+     *      path="/api/v1/settings/types",
      *      operationId="typeList",
      *      tags={"Type"},
      *      summary="Get list of types",
@@ -84,7 +84,7 @@ class TypeController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/admin/settings/types/{id}",
+     *      path="/api/v1/settings/types/{id}",
      *      operationId="typesFetch",
      *      tags={"Type"},
      *      summary="Get source by id",
@@ -128,7 +128,7 @@ class TypeController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/admin/settings/types",
+     *      path="/api/v1/settings/types",
      *      operationId="typeCreate",
      *      tags={"Type"},
      *      summary="Create new source",
@@ -178,7 +178,7 @@ class TypeController
 
     /**
      * @OA\Put(
-     *      path="/api/v1/admin/settings/types/{id}",
+     *      path="/api/v1/settings/types/{id}",
      *      operationId="typesUpdate",
      *      tags={"Type"},
      *      summary="Update source",
@@ -228,7 +228,7 @@ class TypeController
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/admin/settings/types/{id}",
+     *      path="/api/v1/settings/types/{id}",
      *      operationId="typesDelete",
      *      tags={"Type"},
      *      summary="Delete source",

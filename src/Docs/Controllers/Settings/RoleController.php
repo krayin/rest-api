@@ -6,7 +6,7 @@ class RoleController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/admin/settings/roles",
+     *      path="/api/v1/settings/roles",
      *      operationId="roleList",
      *      tags={"Role"},
      *      summary="Get list of roles",
@@ -84,7 +84,7 @@ class RoleController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/admin/settings/roles/{id}",
+     *      path="/api/v1/settings/roles/{id}",
      *      operationId="roleFetch",
      *      tags={"Role"},
      *      summary="Get role details",
@@ -120,7 +120,7 @@ class RoleController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/admin/settings/roles",
+     *      path="/api/v1/settings/roles",
      *      operationId="roleCreate",
      *      tags={"Role"},
      *      summary="Create new role",
@@ -190,7 +190,7 @@ class RoleController
 
     /**
      * @OA\Put(
-     *      path="/api/v1/admin/settings/roles/{id}",
+     *      path="/api/v1/settings/roles/{id}",
      *      operationId="roleUpdate",
      *      tags={"Role"},
      *      summary="Update existing role",
@@ -264,7 +264,7 @@ class RoleController
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/admin/settings/roles/{id}",
+     *      path="/api/v1/settings/roles/{id}",
      *      operationId="roleDelete",
      *      tags={"Role"},
      *      summary="Delete existing role",
