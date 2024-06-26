@@ -112,7 +112,7 @@ class Lead
      *
      * @var \Webkul\RestApi\Docs\Models\Contact\Person
      */
-    private $person_id;
+    private $person;
 
     /**
      * @OA\Property(
@@ -122,7 +122,22 @@ class Lead
      *
      * @var \Webkul\RestApi\Docs\Models\Settings\User
      */
-    private $user_id;
+    private $user;
+
+    /**
+     * @OA\Property(
+     *     title="Lead Products",
+     *     description="Lead Products",
+     *     type="array",
+     *     @OA\Items(
+     *         type="object",
+     *         ref="#/components/schemas/LeadProduct"
+     *     )
+     * )
+     *
+     * @var \Webkul\RestApi\Docs\Models\Lead\LeadProduct[]
+     */
+    private $lead_products;
 
     /**
      * @OA\Property(
