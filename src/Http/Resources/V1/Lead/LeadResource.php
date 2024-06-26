@@ -28,7 +28,7 @@ class LeadResource extends JsonResource
             'closed_at'              => $this->closed_at,
             'user'                   => new UserResource($this->user),
             'person'                 => new PersonResource($this->person),
-            'lead_products'          => $this->products->map(fn($product) => new LeadProductResource($product)),
+            'lead_products'          => LeadProductResource::collection($this->products),
             'lead_source_id'         => $this->lead_source_id,
             'lead_type_id'           => $this->lead_type_id,
             'lead_pipeline_id'       => $this->lead_pipeline_id,
