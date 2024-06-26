@@ -6,7 +6,7 @@ class WorkflowController
 {
     /**
      *  @OA\Get(
-     *      path="/api/v1/settings/workflows",
+     *      path="/api/v1/admin/settings/workflows",
      *      operationId="workFlowList",
      *      tags={"Workflow"},
      *      summary="Get list of Workflow",
@@ -84,7 +84,7 @@ class WorkflowController
 
     /**
      *  @OA\Get(
-     *      path="/api/v1/settings/workflows/{id}",
+     *      path="/api/v1/admin/settings/workflows/{id}",
      *      operationId="showWorkflow",
      *      tags={"Workflow"},
      *      summary="Get Workflow by ID",
@@ -120,7 +120,7 @@ class WorkflowController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/settings/workflows",
+     *     path="/api/v1/admin/settings/workflows",
      *     summary="Create new workflow.",
      *     description="Create new workflow.",
      *     operationId="storeWorkflow",
@@ -263,7 +263,7 @@ class WorkflowController
 
     /**
      *  @OA\Put(
-     *      path="/api/v1/settings/workflows/{id}",
+     *      path="/api/v1/admin/settings/workflows/{id}",
      *      operationId="workFlowUpdate",
      *      tags={"Workflow"},
      *      summary="Update an existing Workflow",
@@ -416,7 +416,7 @@ class WorkflowController
 
     /**
      *  @OA\Delete(
-     *      path="/api/v1/settings/workflows/{id}",
+     *      path="/api/v1/admin/settings/workflows/{id}",
      *      operationId="workFlowDelete",
      *      tags={"Workflow"},
      *      summary="Delete an existing Workflow",

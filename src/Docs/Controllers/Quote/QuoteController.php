@@ -6,7 +6,7 @@ class QuoteController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/quotes",
+     *      path="/api/v1/admin/quotes",
      *      operationId="quoteList",
      *      tags={"Quotes"},
      *      summary="Get list of quotes",
@@ -84,7 +84,7 @@ class QuoteController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/quotes",
+     *      path="/api/v1/admin/quotes",
      *      operationId="storeQuote",
      *      tags={"Quotes"},
      *      summary="Store the Quote",
@@ -304,7 +304,7 @@ class QuoteController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/quotes/{id}",
+     *      path="/api/v1/admin/quotes/{id}",
      *      operationId="getQuoteById",
      *      tags={"Quotes"},
      *      summary="Get quote information",
@@ -348,7 +348,7 @@ class QuoteController
 
     /**
      * @OA\Put(
-     *      path="/api/v1/quotes/{id}",
+     *      path="/api/v1/admin/quotes/{id}",
      *      operationId="updateQuote",
      *      tags={"Quotes"},
      *      summary="Update the Quote",
@@ -586,7 +586,7 @@ class QuoteController
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/quotes/{id}",
+     *      path="/api/v1/admin/quotes/{id}",
      *      operationId="deleteQuote",
      *      tags={"Quotes"},
      *      summary="Delete the Quote",
@@ -620,7 +620,7 @@ class QuoteController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/quotes/mass-destroy",
+     *     path="/api/v1/admin/quotes/mass-destroy",
      *     operationId="massDeleteQuote",
      *     tags={"Quotes"},
      *     summary="Delete the Quote",

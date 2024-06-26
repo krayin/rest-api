@@ -6,7 +6,7 @@ class EmailController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/mails",
+     *      path="/api/v1/admin/mails",
      *      operationId="mailList",
      *      tags={"Mail"},
      *      summary="Get list of mails",
@@ -84,7 +84,7 @@ class EmailController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/mails",
+     *     path="/api/v1/admin/mails",
      *     tags={"Mail"},
      *     summary="Store an email",
      *     description="Store an email with the provided data",
@@ -180,7 +180,7 @@ class EmailController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/mails/{id}",
+     *      path="/api/v1/admin/mails/{id}",
      *      operationId="mailGet",
      *      tags={"Mail"},
      *      summary="Get mail information",
@@ -220,7 +220,7 @@ class EmailController
 
     /**
      * @OA\Put(
-     *      path="/api/v1/mails/{id}",
+     *      path="/api/v1/admin/mails/{id}",
      *      operationId="mailUpdate",
      *      tags={"Mail"},
      *      summary="Update existing mail",
@@ -318,7 +318,7 @@ class EmailController
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/mails/{id}",
+     *      path="/api/v1/admin/mails/{id}",
      *      operationId="mailDelete",
      *      tags={"Mail"},
      *      summary="Delete existing mail",
@@ -368,7 +368,7 @@ class EmailController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/mails/mass-update",
+     *      path="/api/v1/admin/mails/mass-update",
      *      operationId="mailMassUpdate",
      *      tags={"Mail"},
      *      summary="Mass update mails",
@@ -432,7 +432,7 @@ class EmailController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/mails/mass-destroy",
+     *      path="/api/v1/admin/mails/mass-destroy",
      *      operationId="mailMassDestroy",
      *      tags={"Mail"},
      *      summary="Mass delete mails",
@@ -488,7 +488,7 @@ class EmailController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/mails/attachment-download/{id}",
+     *      path="/api/v1/admin/mails/attachment-download/{id}",
      *      operationId="mailAttachmentDownload",
      *      tags={"Mail"},
      *      summary="Download attachment",

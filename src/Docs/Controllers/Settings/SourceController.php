@@ -6,7 +6,7 @@ class SourceController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/settings/sources",
+     *      path="/api/v1/admin/settings/sources",
      *      operationId="sourceList",
      *      tags={"Source"},
      *      summary="Get list of sources",
@@ -84,7 +84,7 @@ class SourceController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/settings/sources/{id}",
+     *      path="/api/v1/admin/settings/sources/{id}",
      *      operationId="sourceFetch",
      *      tags={"Source"},
      *      summary="Get source by id",
@@ -128,7 +128,7 @@ class SourceController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/settings/sources",
+     *      path="/api/v1/admin/settings/sources",
      *      operationId="sourceCreate",
      *      tags={"Source"},
      *      summary="Create new source",
@@ -178,7 +178,7 @@ class SourceController
 
     /**
      * @OA\Put(
-     *      path="/api/v1/settings/sources/{id}",
+     *      path="/api/v1/admin/settings/sources/{id}",
      *      operationId="sourceUpdate",
      *      tags={"Source"},
      *      summary="Update source",
@@ -228,7 +228,7 @@ class SourceController
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/settings/sources/{id}",
+     *      path="/api/v1/admin/settings/sources/{id}",
      *      operationId="sourceDelete",
      *      tags={"Source"},
      *      summary="Delete source",

@@ -6,7 +6,7 @@ class ActivityController
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/activities",
+     *     path="/api/v1/admin/activities",
      *     operationId="activityList",
      *     tags={"Activity"},
      *     summary="Get list of activities",
@@ -84,7 +84,7 @@ class ActivityController
 
     /**
      * @OA\Get(
-     *     path="/api/v1/activities/{id}",
+     *     path="/api/v1/admin/activities/{id}",
      *     operationId="activityFetch",
      *     tags={"Activity"},
      *     summary="Fetch activity",
@@ -127,7 +127,7 @@ class ActivityController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/activities/is-overlapping",
+     *     path="/api/v1/admin/activities/is-overlapping",
      *     operationId="activityCheckIfOverlapping",
      *     tags={"Activity"},
      *     summary="Check if activity is overlapping",
@@ -162,7 +162,7 @@ class ActivityController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/activities",
+     *     path="/api/v1/admin/activities",
      *     operationId="activityStore",
      *     tags={"Activity"},
      *     summary="Create activity",
@@ -270,7 +270,7 @@ class ActivityController
 
     /**
      * @OA\Put(
-     *     path="/api/v1/activities/{id}",
+     *     path="/api/v1/admin/activities/{id}",
      *     operationId="activityUpdate",
      *     tags={"Activity"},
      *     summary="Update activity",
@@ -389,7 +389,7 @@ class ActivityController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/activities/file-upload",
+     *     path="/api/v1/admin/activities/file-upload",
      *     operationId="activityUpload",
      *     tags={"Activity"},
      *     summary="Upload file",
@@ -461,7 +461,7 @@ class ActivityController
 
     /**
      * @OA\Get(
-     *     path="/api/v1/activities/file-download/{id}",
+     *     path="/api/v1/admin/activities/file-download/{id}",
      *     operationId="activityDownload",
      *     tags={"Activity"},
      *     summary="Download file",
@@ -504,7 +504,7 @@ class ActivityController
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/activities/{id}",
+     *     path="/api/v1/admin/activities/{id}",
      *     operationId="activityDelete",
      *     tags={"Activity"},
      *     summary="Delete activity",
@@ -537,7 +537,7 @@ class ActivityController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/activities/mass-update",
+     *     path="/api/v1/admin/activities/mass-update",
      *     operationId="activityMassUpdate",
      *     tags={"Activity"},
      *     summary="Mass update activities",
@@ -584,7 +584,7 @@ class ActivityController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/activities/mass-destroy",
+     *     path="/api/v1/admin/activities/mass-destroy",
      *     operationId="activityMassDestroy",
      *     tags={"Activity"},
      *     summary="Mass destroy activities",

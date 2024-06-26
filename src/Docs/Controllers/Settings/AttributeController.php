@@ -6,7 +6,7 @@ class AttributeController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/settings/attributes",
+     *      path="/api/v1/admin/settings/attributes",
      *      operationId="attributeList",
      *      tags={"Attribute"},
      *      summary="Get list of Attribute",
@@ -84,7 +84,7 @@ class AttributeController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/settings/attributes/{id}",
+     *      path="/api/v1/admin/settings/attributes/{id}",
      *      operationId="attributeShow",
      *      tags={"Attribute"},
      *      summary="Get Attribute",
@@ -120,7 +120,7 @@ class AttributeController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/settings/attributes/lookup/{lookup}",
+     *      path="/api/v1/admin/settings/attributes/lookup/{lookup}",
      *      operationId="attributeLookup",
      *      tags={"Attribute"},
      *      summary="Search attribute lookup results",
@@ -164,7 +164,7 @@ class AttributeController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/settings/attributes",
+     *      path="/api/v1/admin/settings/attributes",
      *      operationId="attributeCreate",
      *      tags={"Attribute"},
      *      summary="Create new Attribute",
@@ -280,7 +280,7 @@ class AttributeController
 
     /**
      * @OA\Put(
-     *      path="/api/v1/settings/attributes/{id}",
+     *      path="/api/v1/admin/settings/attributes/{id}",
      *      operationId="attributeUpdate",
      *      tags={"Attribute"},
      *      summary="Update an existing Attribute",
@@ -405,7 +405,7 @@ class AttributeController
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/settings/attributes/{id}",
+     *      path="/api/v1/admin/settings/attributes/{id}",
      *      operationId="attributeDelete",
      *      tags={"Attribute"},
      *      summary="Delete one record of Attribute",
@@ -449,7 +449,7 @@ class AttributeController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/settings/attributes/mass-destroy",
+     *      path="/api/v1/admin/settings/attributes/mass-destroy",
      *      operationId="attributeMassDestroy",
      *      tags={"Attribute"},
      *      summary="Delete multiple records of Attribute",
