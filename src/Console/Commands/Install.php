@@ -58,6 +58,6 @@ class Install extends Command
 
         $this->comment('🎉 Success! Krayin REST API has been configured successfully.');
 
-        $this->comment('You can now access your newly documented API at: '.config('app.url').'/api/admin/documentation 🚀✨');
+        $this->comment('You can now access your newly documented API at: '.config('app.url').'/api/documentation 🚀✨');
     }
 }

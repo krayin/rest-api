@@ -6,7 +6,7 @@ class WebFormController
 {
     /**
      *  @OA\Get(
-     *      path="/api/v1/admin/settings/web-forms",
+     *      path="/api/v1/settings/web-forms",
      *      operationId="webFormList",
      *      tags={"WebForm"},
      *      summary="Get list of WebForm",
@@ -84,7 +84,7 @@ class WebFormController
 
     /**
      *  @OA\Get(
-     *      path="/api/v1/admin/settings/web-forms/{id}",
+     *      path="/api/v1/settings/web-forms/{id}",
      *      operationId="webFormFind",
      *      tags={"WebForm"},
      *      summary="Find WebForm by ID",
@@ -128,7 +128,7 @@ class WebFormController
 
     /**
      *  @OA\Post(
-     *      path="/api/v1/admin/settings/web-forms",
+     *      path="/api/v1/settings/web-forms",
      *      operationId="webFormCreate",
      *      tags={"WebForm"},
      *      summary="Create WebForm",
@@ -274,7 +274,7 @@ class WebFormController
 
     /**
      *  @OA\Put(
-     *      path="/api/v1/admin/settings/web-forms/{id}",
+     *      path="/api/v1/settings/web-forms/{id}",
      *      operationId="webFormUpdate",
      *      tags={"WebForm"},
      *      summary="Update WebForm",
@@ -436,7 +436,7 @@ class WebFormController
 
     /**
      *  @OA\Delete(
-     *      path="/api/v1/admin/settings/web-forms/{id}",
+     *      path="/api/v1/settings/web-forms/{id}",
      *      operationId="webFormDelete",
      *      tags={"WebForm"},
      *      summary="Delete WebForm",

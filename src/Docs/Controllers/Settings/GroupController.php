@@ -6,7 +6,7 @@ class GroupController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/admin/settings/groups",
+     *      path="/api/v1/settings/groups",
      *      operationId="groupList",
      *      tags={"Group"},
      *      summary="Get list of Group",
@@ -84,7 +84,7 @@ class GroupController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/admin/settings/groups",
+     *      path="/api/v1/settings/groups",
      *      operationId="groupCreate",
      *      tags={"Group"},
      *      summary="Create new Group",
@@ -140,7 +140,7 @@ class GroupController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/admin/settings/groups/{id}",
+     *      path="/api/v1/settings/groups/{id}",
      *      operationId="groupRead",
      *      tags={"Group"},
      *      summary="Get Group based on id",
@@ -183,7 +183,7 @@ class GroupController
 
     /**
      * @OA\Put(
-     *      path="/api/v1/admin/settings/groups/{id}",
+     *      path="/api/v1/settings/groups/{id}",
      *      operationId="groupUpdate",
      *      tags={"Group"},
      *      summary="Update existing Group",
@@ -250,7 +250,7 @@ class GroupController
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/admin/settings/groups/{id}",
+     *      path="/api/v1/settings/groups/{id}",
      *      operationId="groupDelete",
      *      tags={"Group"},
      *      summary="Delete existing Group",

@@ -6,7 +6,7 @@ class ProductController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/admin/products",
+     *      path="/api/v1/products",
      *      operationId="productList",
      *      tags={"Products"},
      *      summary="Get list of products",
@@ -84,7 +84,7 @@ class ProductController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/admin/products/{id}",
+     *      path="/api/v1/products/{id}",
      *      operationId="productShow",
      *      tags={"Products"},
      *      summary="Get product details",
@@ -127,7 +127,7 @@ class ProductController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/admin/products",
+     *      path="/api/v1/products",
      *      operationId="productCreate",
      *      tags={"Products"},
      *      summary="Create new product",
@@ -204,7 +204,7 @@ class ProductController
 
     /**
      * @OA\Put(
-     *      path="/api/v1/admin/products/{id}",
+     *      path="/api/v1/products/{id}",
      *      operationId="productUpdate",
      *      tags={"Products"},
      *      summary="Update existing product",
@@ -292,7 +292,7 @@ class ProductController
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/admin/products/{id}",
+     *      path="/api/v1/products/{id}",
      *      operationId="productDelete",
      *      tags={"Products"},
      *      summary="Delete existing product",
@@ -335,7 +335,7 @@ class ProductController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/admin/products/mass-destroy",
+     *      path="/api/v1/products/mass-destroy",
      *      operationId="productMassDestroy",
      *      tags={"Products"},
      *      summary="Delete existing products",

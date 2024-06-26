@@ -6,7 +6,7 @@ class PersonController
 {
     /**
      * @OA\Get(
-     *     path="/api/v1/admin/contacts/persons",
+     *     path="/api/v1/contacts/persons",
      *     operationId="contactList",
      *     tags={"Contacts"},
      *     summary="Get list of contact person",
@@ -84,7 +84,7 @@ class PersonController
 
     /**
      * @OA\Get(
-     *     path="/api/v1/admin/contacts/persons/search",
+     *     path="/api/v1/contacts/persons/search",
      *     summary="Get person by search query",
      *     description="Retrieve persons based on a search query",
      *     operationId="getPersonBySearchQuery",
@@ -125,7 +125,7 @@ class PersonController
 
     /**
      * @OA\Get(
-     *     path="/api/v1/admin/contacts/persons/{id}",
+     *     path="/api/v1/contacts/persons/{id}",
      *     operationId="getPersonById",
      *     tags={"Contacts"},
      *     summary="Get contact person by id",
@@ -168,7 +168,7 @@ class PersonController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/admin/contacts/persons",
+     *     path="/api/v1/contacts/persons",
      *     operationId="createPerson",
      *     tags={"Contacts"},
      *     summary="Create new contact person",
@@ -250,7 +250,7 @@ class PersonController
 
     /**
      * @OA\Put(
-     *     path="/api/v1/admin/contacts/persons/{id}",
+     *     path="/api/v1/contacts/persons/{id}",
      *     operationId="updatePerson",
      *     tags={"Contacts"},
      *     summary="Update contact person",
@@ -343,7 +343,7 @@ class PersonController
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/admin/contacts/persons/{id}",
+     *     path="/api/v1/contacts/persons/{id}",
      *     operationId="deletePerson",
      *     tags={"Contacts"},
      *     summary="Delete contact person",
@@ -376,7 +376,7 @@ class PersonController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/admin/contacts/persons/mass-destroy",
+     *     path="/api/v1/contacts/persons/mass-destroy",
      *     operationId="massDeletePerson",
      *     tags={"Contacts"},
      *     summary="Delete multiple contact persons",

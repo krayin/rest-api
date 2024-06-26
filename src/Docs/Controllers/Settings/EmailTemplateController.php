@@ -6,7 +6,7 @@ class EmailTemplateController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/admin/settings/email-templates",
+     *      path="/api/v1/settings/email-templates",
      *      operationId="emailTemplateList",
      *      tags={"EmailTemplate"},
      *      summary="Get list of email templates",
@@ -84,7 +84,7 @@ class EmailTemplateController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/admin/settings/email-templates/{id}",
+     *      path="/api/v1/settings/email-templates/{id}",
      *      operationId="emailTemplateFetch",
      *      tags={"EmailTemplate"},
      *      summary="Get email template by id",
@@ -120,7 +120,7 @@ class EmailTemplateController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/admin/settings/email-templates",
+     *      path="/api/v1/settings/email-templates",
      *      operationId="emailTemplateCreate",
      *      tags={"EmailTemplate"},
      *      summary="Create new email template",
@@ -174,7 +174,7 @@ class EmailTemplateController
 
     /**
      * @OA\Put(
-     *      path="/api/v1/admin/settings/email-templates/{id}",
+     *      path="/api/v1/settings/email-templates/{id}",
      *      operationId="emailTemplateUpdate",
      *      tags={"EmailTemplate"},
      *      summary="Update existing email template",
@@ -239,7 +239,7 @@ class EmailTemplateController
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/admin/settings/email-templates/{id}",
+     *      path="/api/v1/settings/email-templates/{id}",
      *      operationId="emailTemplateDelete",
      *      tags={"EmailTemplate"},
      *      summary="Delete one email template",

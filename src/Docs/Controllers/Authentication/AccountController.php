@@ -6,7 +6,7 @@ class AccountController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/admin/get",
+     *      path="/api/v1/get",
      *      operationId="getAdminUser",
      *      tags={"Authentication"},
      *      summary="Get logged in admin user's details",
@@ -43,7 +43,7 @@ class AccountController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/admin/update",
+     *      path="/api/v1/update",
      *      operationId="updateAdminUser",
      *      tags={"Authentication"},
      *      summary="Update admin user's profile",
@@ -128,7 +128,7 @@ class AccountController
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/admin/logout",
+     *      path="/api/v1/logout",
      *      operationId="logoutAdminUser",
      *      tags={"Authentication"},
      *      summary="Logout admin user",
