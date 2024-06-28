@@ -4,7 +4,7 @@ This changelog consists of the bug & security fixes and new features being inclu
 
 ## **v1.0.0 (28th of June 2024)** - *Release*
 
-* #1 [fixed] - Updated API Swagger documentation to ensure accuracy and completeness.
+* #1 [enhancement] - Updated API Swagger documentation to ensure accuracy and completeness.
 
 * #2 [fixed] - Address changes.
 
