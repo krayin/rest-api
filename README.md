@@ -15,22 +15,31 @@
 composer require krayin/rest-api
 ~~~
 
-##### Add below options in the .env file (i.e. http://localhost/public your domain):
+##### Add the following options to your .env file:
+
 
 ~~~
-SANCTUM_STATEFUL_DOMAINS=http://localhost/public
+SANCTUM_STATEFUL_DOMAINS="${APP_URL}"
 ~~~
 
-##### To configure the REST API L5-Swagger Documentation run below command:
+~~~
+L5_SWAGGER_UI_PERSIST_AUTHORIZATION=true
+~~~
+
+##### To configure the REST API with L5-Swagger documentation, run the following command:
 
 ~~~
 php artisan krayin-rest-api:install
 ~~~
 
-##### To check the API documentation:
+After executing the above command, you will see the API endpoint displayed in the shell.
+
+
+##### Alternatively, you can check the API documentation by visiting the following URL in your browser:
+
 
 ~~~
-http://localhost/public/api/documentation
+http://localhost/public/api/admin/documentation
 ~~~
 
 * You can check the <a href="https://github.com/DarkaOnLine/L5-Swagger"> L5-Swagger </a> guidelines too regarding the configuration the API documentation.
