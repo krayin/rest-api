@@ -1,36 +1,43 @@
 # Krayin REST API
 
-<p>Krayin REST API is a medium to use the features of the core Krayin System. By using Krayin REST API, you can integrate your application to serve the default content of Krayin.</p>
+Krayin REST API is a medium to use the features of the core Krayin System. By using Krayin REST API, you can integrate your application to serve the default content of Krayin.
 
-### 1. Requirements:
+## 1. Requirements
 
-* **Krayin**: master
+* **Krayin**: v1.2.4 and v1.3.0
 
-### 2. Installation:
+## 2. Installation
 
-##### To install Krayin REST API from your console:
+### To install Krayin REST API from your console
 
-#### For the master version:
-~~~
+#### For the latest version of rest api
+
+~~~shell
 composer require krayin/rest-api
 ~~~
 
-##### Add below options in the .env file (i.e. http://localhost/public your domain):
+### Add the following options to your .env file
 
-~~~
-SANCTUM_STATEFUL_DOMAINS=http://localhost/public
+~~~env
+SANCTUM_STATEFUL_DOMAINS="${APP_URL}"
 ~~~
 
-##### To configure the REST API L5-Swagger Documentation run below command:
-
+~~~env
+L5_SWAGGER_UI_PERSIST_AUTHORIZATION=true
 ~~~
+
+### To configure the REST API with L5-Swagger documentation, run the following command
+
+~~~shell
 php artisan krayin-rest-api:install
 ~~~
 
-##### To check the API documentation:
+After executing the above command, you will see the API endpoint displayed in the shell.
 
-~~~
-http://localhost/public/api/documentation
+### Alternatively, you can check the API documentation by visiting the following URL in your browser
+
+~~~shell
+http://localhost/public/api/admin/documentation
 ~~~
 
-* You can check the <a href="https://github.com/DarkaOnLine/L5-Swagger"> L5-Swagger </a> guidelines too regarding the configuration the API documentation.
+* You can check the [L5-Swagger](https://github.com/DarkaOnLine/L5-Swagger) guidelines too regarding the configuration the API documentation.
