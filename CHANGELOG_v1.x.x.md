@@ -2,7 +2,7 @@
 
 This changelog consists of the bug & security fixes and new features being included in the releases listed below.
 
-## **v1.0.0 (9th of July 2024)** - *Release*
+## **v1.0.0 (10th of July 2024)** - *Release*
 
 * #1 [enhancement] - Updated API Swagger documentation to ensure accuracy and completeness.
 
