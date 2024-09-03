@@ -105,13 +105,13 @@ class EmailController extends Controller
         Event::dispatch('email.create.after', $email);
 
         if ($isDraft) {
-            return new JsonResource([
+            return response()->json([
                 'data'    => new EmailResource($email),
                 'message' => trans('admin::app.mail.saved-to-draft'),
             ]);
         }
 
-        return new JsonResource([
+        return response()->json([
             'data'    => new EmailResource($email),
             'message' => trans('admin::app.mail.create-success'),
         ]);

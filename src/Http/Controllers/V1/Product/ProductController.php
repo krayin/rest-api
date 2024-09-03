@@ -4,7 +4,7 @@ namespace Webkul\RestApi\Http\Controllers\V1\Product;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
-use Webkul\Attribute\Http\Requests\AttributeForm;
+use Webkul\Admin\Http\Requests\AttributeForm;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
@@ -41,7 +41,7 @@ class ProductController extends Controller
      */
     public function show(int $id)
     {
-        $resource = $this->productRepository->find($id);
+        $resource = $this->productRepository->findOrFail($id);
 
         return new ProductResource($resource);
     }
@@ -61,7 +61,7 @@ class ProductController extends Controller
 
         return new JsonResource([
             'data'    => new ProductResource($product),
-            'message' => trans('admin::app.products.create-success'),
+            'message' => trans('rest-api::app.products.create-success'),
         ]);
     }
 
@@ -81,7 +81,7 @@ class ProductController extends Controller
 
         return new JsonResource([
             'data'    => new ProductResource($product),
-            'message' => trans('admin::app.products.update-success'),
+            'message' => trans('rest-api::app.products.updated-success'),
         ]);
     }
 
@@ -101,11 +101,11 @@ class ProductController extends Controller
             Event::dispatch('settings.products.delete.after', $id);
 
             return new JsonResource([
-                'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.products.product')]),
+                'message' => trans('rest-api::app.products.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
-                'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.products.product')]),
+                'message' => trans('rest-api::app.products.delete-failed'),
             ], 500);
         }
     }
@@ -134,7 +134,7 @@ class ProductController extends Controller
         }
 
         return new JsonResource([
-            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.products.title')]),
+            'message' => trans('rest-api::app.products.delete-success'),
         ]);
     }
 }

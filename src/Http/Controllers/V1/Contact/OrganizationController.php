@@ -4,7 +4,7 @@ namespace Webkul\RestApi\Http\Controllers\V1\Contact;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
-use Webkul\Attribute\Http\Requests\AttributeForm;
+use Webkul\Admin\Http\Requests\AttributeForm;
 use Webkul\Contact\Repositories\OrganizationRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
