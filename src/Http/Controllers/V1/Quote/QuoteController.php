@@ -123,11 +123,11 @@ class QuoteController extends Controller
             Event::dispatch('quote.delete.after', $id);
 
             return new JsonResource([
-                'message' => trans('rest-api::app.response.destroy-success', ['name' => trans('rest-api::app.quotes.quote')]),
+                'message' => trans('rest-api::app.response.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
-                'message' => trans('rest-api::app.response.destroy-failed', ['name' => trans('rest-api::app.quotes.quote')]),
+                'message' => trans('rest-api::app.response.delete-failed'),
             ], 500);
         }
     }
@@ -168,7 +168,7 @@ class QuoteController extends Controller
         }
 
         return new JsonResource([
-            'message' => trans('rest-api::app.response.destroy-success', ['name' => trans('rest-api::app.quotes.title')]),
+            'message' => trans('rest-api::app.response.delete-success'),
         ]);
     }
 }

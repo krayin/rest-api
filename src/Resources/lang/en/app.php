@@ -57,6 +57,29 @@ return [
         ],
     ],
 
+    'contacts' => [
+        'persons' => [
+            'create-success'  => 'Person created successfully.',
+            'update-success'  => 'Person updated successfully.',
+            'delete-success'  => 'Person deleted successfully.',
+            'delete-failed'   => 'Person delete failed.',
+
+            'view' => [
+                'tags' => [
+                    'create-success' => 'Tag attached successfully.',
+                    'delete-success' => 'Tag detached successfully.',
+                ],
+            ],
+        ],
+
+        'organizations' => [
+            'create-success'  => 'Organization created successfully.',
+            'update-success'  => 'Organization updated successfully.',
+            'delete-success'  => 'Organization deleted successfully.',
+            'delete-failed'   => 'Organization delete failed.',
+        ],
+    ],
+
     'settings' => [
         'tags' => [
             'create-success' => 'Tag created successfully.',
