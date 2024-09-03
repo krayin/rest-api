@@ -9,7 +9,7 @@ class TagController
      *      path="/api/v1/settings/tags",
      *      operationId="tagList",
      *      tags={"Tag"},
-     *      summary="Get list of leads",
+     *      summary="Get list of tags",
      *      security={ {"sanctum_admin": {} }},
      *
      *      @OA\Parameter(
@@ -109,7 +109,7 @@ class TagController
      *                      description="Select the color for the tag",
      *                      type="string",
      *                      example="#FEBF00",
-     *                      enum={"#337CFF", "#FEBF00", "#E5549F", "#27B6BB", "#FB8A3F", "#43AF52"}
+     *                      enum={"#FEE2E2", "#FFEDD5", "#FEF3C7", "#FEF9C3", "#ECFCCB", "#DCFCE7"}
      *                  ),
      *                  required={"name"},
      *              )
@@ -211,8 +211,8 @@ class TagController
      *                      property="color",
      *                      description="Select the color for the tag",
      *                      type="string",
-     *                      example="#FEBF00",
-     *                      enum={"#337CFF", "#FEBF00", "#E5549F", "#27B6BB", "#FB8A3F", "#43AF52"}
+     *                      example="#FEE2E2",
+     *                      enum={"#FEE2E2", "#FFEDD5", "#FEF3C7", "#FEF9C3", "#ECFCCB", "#DCFCE7"}
      *                  ),
      *                  required={"name"},
      *              )
@@ -235,6 +235,62 @@ class TagController
      * )
      */
     public function update()
+    {
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/api/v1/settings/tags/search",
+     *      operationId="SearchTags",
+     *      tags={"Tag"},
+     *      summary="search the tags",
+     *      description="search the tags",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\Parameter(
+     *          name="search",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="name:active"
+     *          )
+     *      ),
+     * 
+     *      @OA\Parameter(
+     *          name="searchFields",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="name:like"
+     *          )
+     *      ),
+     * 
+     *      @OA\Parameter(
+     *          name="limit",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example=10
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="object",
+     *                  ref="#/components/schemas/Tag"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function search()
     {
     }
 

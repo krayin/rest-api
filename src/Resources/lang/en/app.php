@@ -34,6 +34,14 @@ return [
         ],
     ],
 
+    'quotes' => [
+        'create-success'  => 'Quote created successfully.',
+        'update-success'  => 'Quote updated successfully.',
+        'delete-success'  => 'Quote deleted successfully.',
+        'delete-failed'   => 'Quote delete failed.',
+        'saved-to-draft'  => 'Quote saved to draft.',
+    ],
+
     'mail' => [
         'create-success' => 'Email created successfully.',
         'update-success' => 'Email updated successfully.',
@@ -46,6 +54,15 @@ return [
                 'create-success' => 'Tag attached successfully.',
                 'delete-success' => 'Tag detached successfully.',
             ],
+        ],
+    ],
+
+    'settings' => [
+        'tags' => [
+            'create-success' => 'Tag created successfully.',
+            'update-success' => 'Tag updated successfully.',
+            'delete-success' => 'Tag deleted successfully.',
+            'delete-failed'  => 'Tag delete failed.',
         ],
     ],
 ];

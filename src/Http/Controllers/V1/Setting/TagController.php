@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
+use Prettus\Repository\Criteria\RequestCriteria;
 use Webkul\RestApi\Http\Resources\V1\Setting\TagResource;
 use Webkul\Tag\Repositories\TagRepository;
 
@@ -45,6 +46,20 @@ class TagController extends Controller
     }
 
     /**
+     * Search tag results
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search()
+    {
+        $tags = $this->tagRepository
+            ->pushCriteria(app(RequestCriteria::class))
+            ->all();
+
+        return TagResource::collection($tags);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @return \Illuminate\Http\Response
@@ -65,7 +80,7 @@ class TagController extends Controller
 
         return new JsonResource([
             'data'    => new TagResource($tag),
-            'message' => trans('admin::app.settings.tags.create-success'),
+            'message' => trans('rest-api::app.settings.tags.create-success'),
         ]);
     }
 
@@ -89,7 +104,7 @@ class TagController extends Controller
 
         return new JsonResource([
             'data'    => new TagResource($tag),
-            'message' => trans('admin::app.settings.tags.update-success'),
+            'message' => trans('rest-api::app.settings.tags.update-success'),
         ]);
     }
 
@@ -111,11 +126,11 @@ class TagController extends Controller
             Event::dispatch('settings.tag.delete.after', $id);
 
             return new JsonResource([
-                'message' => trans('admin::app.settings.tags.delete-success'),
+                'message' => trans('rest-api::app.settings.tags.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.tags.delete-failed'),
+                'message' => trans('rest-api::app.settings.tags.delete-failed'),
             ], 500);
         }
     }
@@ -144,7 +159,7 @@ class TagController extends Controller
         }
 
         return new JsonResource([
-            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.settings.tags.title')]),
+            'message' => trans('rest-api::app.response.delete-success'),
         ]);
     }
 }

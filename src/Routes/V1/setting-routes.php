@@ -145,17 +145,21 @@ Route::group([
     /**
      * Tag routes.
      */
-    Route::get('tags', [TagController::class, 'index']);
+    Route::controller(TagController::class)->prefix('tags')->group(function () {
+        Route::get('', 'index');
 
-    Route::get('tags/{id}', [TagController::class, 'show']);
+        Route::post('', 'store');
 
-    Route::post('tags', [TagController::class, 'store']);
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
-    Route::put('tags/{id}', [TagController::class, 'update']);
+        Route::put('{id}', 'update');
 
-    Route::delete('tags/{id}', [TagController::class, 'destroy']);
+        Route::get('search', 'search');
 
-    Route::post('tags/mass-destroy', [TagController::class, 'massDestroy']);
+        Route::delete('{id}', 'destroy');
+
+        Route::post('mass-destroy', 'massDestroy');
+    });
 
     /**
      * WebForms routes.

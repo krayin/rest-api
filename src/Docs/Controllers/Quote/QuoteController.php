@@ -82,6 +82,62 @@ class QuoteController
     {
     }
 
+     /**
+     * @OA\Get(
+     *      path="/api/v1/quotes/search",
+     *      operationId="searchQuotes",
+     *      tags={"Quotes"},
+     *      summary="search the quotes",
+     *      description="search the quotes heres the webkul is the search keyword",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\Parameter(
+     *          name="search",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="subject:webkul;description:webkul;user.name:webkul;person.name:webkul;"
+     *          )
+     *      ),
+     * 
+     *      @OA\Parameter(
+     *          name="searchFields",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="subject:like;description:like;user.name:like;person.name:like;"
+     *          )
+     *      ),
+     * 
+     *      @OA\Parameter(
+     *          name="limit",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example=10
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="object",
+     *                  ref="#/components/schemas/Tag"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function search()
+    {
+    }
+
     /**
      * @OA\Post(
      *      path="/api/v1/quotes",

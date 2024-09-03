@@ -4,12 +4,14 @@ namespace Webkul\RestApi\Http\Controllers\V1\Quote;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
-use Webkul\Attribute\Http\Requests\AttributeForm;
+use Webkul\Admin\Http\Requests\AttributeForm;
 use Webkul\Lead\Repositories\LeadRepository;
 use Webkul\Quote\Repositories\QuoteRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Resources\V1\Quote\QuoteResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Prettus\Repository\Criteria\RequestCriteria;
 
 class QuoteController extends Controller
 {
@@ -71,7 +73,7 @@ class QuoteController extends Controller
 
         return new JsonResource([
             'data'    => new QuoteResource($quote),
-            'message' => trans('admin::app.quotes.create-success'),
+            'message' => trans('rest-api::app.quotes.create-success'),
         ]);
     }
 
@@ -99,7 +101,7 @@ class QuoteController extends Controller
 
         return new JsonResource([
             'data'    => new QuoteResource($quote),
-            'message' => trans('admin::app.quotes.update-success'),
+            'message' => trans('rest-api::app.quotes.update-success'),
         ]);
     }
 
@@ -121,13 +123,25 @@ class QuoteController extends Controller
             Event::dispatch('quote.delete.after', $id);
 
             return new JsonResource([
-                'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.quotes.quote')]),
+                'message' => trans('rest-api::app.response.destroy-success', ['name' => trans('rest-api::app.quotes.quote')]),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
-                'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.quotes.quote')]),
+                'message' => trans('rest-api::app.response.destroy-failed', ['name' => trans('rest-api::app.quotes.quote')]),
             ], 500);
         }
+    }
+
+    /**
+     * Search the quotes.
+     */
+    public function search(): AnonymousResourceCollection
+    {
+        $quotes = $this->quoteRepository
+            ->pushCriteria(app(RequestCriteria::class))
+            ->all();
+
+        return QuoteResource::collection($quotes);
     }
 
     /**
@@ -154,7 +168,7 @@ class QuoteController extends Controller
         }
 
         return new JsonResource([
-            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.quotes.title')]),
+            'message' => trans('rest-api::app.response.destroy-success', ['name' => trans('rest-api::app.quotes.title')]),
         ]);
     }
 }
