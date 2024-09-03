@@ -39,5 +39,13 @@ return [
         'update-success' => 'Email updated successfully.',
         'delete-success' => 'Email deleted successfully.',
         'delete-failed'  => 'Email delete failed.',
+        'saved-to-draft' => 'Email saved to draft.',
+
+        'view' => [
+            'tags' => [
+                'create-success' => 'Tag attached successfully.',
+                'delete-success' => 'Tag detached successfully.',
+            ],
+        ],
     ],
 ];

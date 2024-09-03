@@ -2,6 +2,8 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Mail;
 
+use Illuminate\Database\Eloquent\Casts\Json;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
@@ -33,10 +35,8 @@ class EmailController extends Controller
 
     /**
      * Display a listing of the emails.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResource
     {
         $emails = $this->allResources($this->emailRepository);
 
@@ -45,10 +45,8 @@ class EmailController extends Controller
 
     /**
      * Show resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show($id): JsonResource
     {
         $resource = $this->emailRepository->find($id);
 
@@ -57,10 +55,8 @@ class EmailController extends Controller
 
     /**
      * Store a newly created email in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(): JsonResponse
     {
         $this->validate(request(), [
             'reply_to' => 'required|array|min:1',
@@ -83,7 +79,7 @@ class EmailController extends Controller
             'source'        => 'web',
             'from'          => 'admin@example.com',
             'user_type'     => 'admin',
-            'folders'       => ($isDraft = request()->input('is_draft')) ? ['draft'] : ['outbox'],
+            'folders'       => ($isDraft = request()->input('is_draft') == "true") ? ['draft'] : ['outbox'],
             'name'          => auth()->guard()->user()->name,
             'unique_id'     => $uniqueId,
             'message_id'    => $uniqueId,
@@ -107,31 +103,31 @@ class EmailController extends Controller
         if ($isDraft) {
             return response()->json([
                 'data'    => new EmailResource($email),
-                'message' => trans('admin::app.mail.saved-to-draft'),
+                'message' => trans('rest-api::app.mail.saved-to-draft'),
             ]);
         }
 
         return response()->json([
             'data'    => new EmailResource($email),
-            'message' => trans('admin::app.mail.create-success'),
+            'message' => trans('rest-api::app.mail.create-success'),
         ]);
     }
 
     /**
      * Update the specified email in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(int $id)
     {
         Event::dispatch('email.update.before', $id);
 
         $data = request()->all();
 
+
         if (! is_null($isDraft = $data['is_draft'])) {
-            $data['folders'] = $isDraft ? ['draft'] : ['outbox'];
+            $data['folders'] = $isDraft == "true" ? ['draft'] : ['outbox'];
         }
+
+        $data['source'] = 'web';
 
         $email = $this->emailRepository->update($data, $data['id'] ?? $id);
 
@@ -155,31 +151,20 @@ class EmailController extends Controller
             if ($isDraft) {
                 return response([
                     'data'    => new EmailResource($email),
-                    'message' => trans('admin::app.mail.saved-to-draft'),
+                    'message' => trans('rest-api::app.mail.saved-to-draft'),
                 ]);
             } else {
                 return response([
                     'data'    => new EmailResource($email),
-                    'message' => trans('admin::app.mail.create-success'),
+                    'message' => trans('rest-api::app.mail.create-success'),
                 ]);
             }
         }
 
-        $response = [
+        return new JsonResource([
             'data'    => new EmailResource($email),
-            'message' => trans('admin::app.mail.update-success'),
-        ];
-
-        if (request('lead_id')) {
-            $response['html'] = view('admin::common.custom-attributes.view', [
-                'customAttributes' => app('Webkul\Attribute\Repositories\AttributeRepository')->findWhere([
-                    'entity_type' => 'leads',
-                ]),
-                'entity'           => $this->leadRepository->find(request('lead_id')),
-            ])->render();
-        }
-
-        return new JsonResource($response);
+            'message' => trans('rest-api::app.mail.update-success'),
+        ]);
     }
 
     /**
@@ -206,11 +191,11 @@ class EmailController extends Controller
             Event::dispatch("email.$type.after", $id);
 
             return new JsonResource([
-                'message' => trans('admin::app.mail.delete-success'),
+                'message' => trans('rest-api::app.mail.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
-                'message' => trans('admin::app.mail.delete-failed'),
+                'message' => trans('rest-api::app.mail.delete-failed'),
             ], 500);
         }
     }
@@ -241,7 +226,7 @@ class EmailController extends Controller
         }
 
         return new JsonResource([
-            'message' => trans('admin::app.mail.mass-update-success'),
+            'message' => trans('rest-api::app.mail.mass-update-success'),
         ]);
     }
 
@@ -277,7 +262,7 @@ class EmailController extends Controller
         }
 
         return response([
-            'message' => trans('admin::app.mail.destroy-success'),
+            'message' => trans('rest-api::app.mail.destroy-success'),
         ]);
     }
 
