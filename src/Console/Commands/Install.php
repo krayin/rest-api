@@ -31,6 +31,8 @@ class Install extends Command
         $exitStatus = null;
 
         exec('php artisan vendor:publish --tag=krayin-rest-api-swagger', $output, $exitStatus);
+        
+        exec('php artisan vendor:publish --provider="Webkul\RestApi\Providers\RestApiServiceProvider" --force', $output, $exitStatus);
 
         if ($exitStatus === 0) {
             $this->info('📄 Provider file published successfully! 🚀');

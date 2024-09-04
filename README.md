@@ -4,7 +4,7 @@ Krayin REST API is a medium to use the features of the core Krayin System. By us
 
 ## 1. Requirements
 
-* **Krayin**: v1.2.4 and v1.3.0
+* **Krayin**: v2.0.0
 
 ## 2. Installation
 
