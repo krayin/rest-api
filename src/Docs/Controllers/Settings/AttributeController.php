@@ -136,6 +136,16 @@ class AttributeController
      *              type="string"
      *          )
      *      ),
+     *      @OA\Parameter(
+     *          name="query",
+     *          description="Query",
+     *          required=true,
+     *          in="query",
+     *
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
      *
      *      @OA\Response(
      *          response=200,
@@ -159,6 +169,58 @@ class AttributeController
      * )
      */
     public function lookup()
+    {
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/api/v1/settings/attributes/lookup-entity/{lookup}",
+     *      operationId="attributeEntityLookup",
+     *      tags={"Attribute"},
+     *      summary="Search attribute lookup results",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\Parameter(
+     *          name="lookup",
+     *          description="Attribute Lookup",
+     *          required=true,
+     *          in="path",
+     *
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="path",
+     *          description="path",
+     *          required=true,
+     *          in="query",
+     *
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="file",
+     *              )
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized"
+     *      )
+     * )
+     */
+    public function download()
     {
     }
 
@@ -296,7 +358,7 @@ class AttributeController
      *              type="integer"
      *          )
      *      ),
-      @OA\RequestBody(
+     *       @OA\RequestBody(
      *          @OA\MediaType(
      *              mediaType="application/json",
      *

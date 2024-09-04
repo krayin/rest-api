@@ -128,6 +128,57 @@ return [
             'mass-update-success' => 'Selected users updated successfully.',
             'mass-update-failed'  => 'Selected users update failed.',
         ],
+
+        'pipelines' => [
+            'create-success'       => 'Pipeline created successfully.',
+            'updated-success'      => 'Pipeline updated successfully.',
+            'delete-success'       => 'Pipeline deleted successfully.',
+            'default-delete-error' => 'Default pipeline can not be deleted.',
+        ],
+
+        'sources' => [
+            'create-success' => 'Source created successfully.',
+            'update-success' => 'Source updated successfully.',
+            'delete-success' => 'Source deleted successfully.',
+            'delete-failed'  => 'Source delete failed.',
+        ],
+
+        'types' => [
+            'create-success' => 'Type created successfully.',
+            'update-success' => 'Type updated successfully.',
+            'delete-success' => 'Type deleted successfully.',
+            'delete-failed'  => 'Type delete failed.',
+        ],
+
+        'email-templates' => [
+            'create-success' => 'Email template created successfully.',
+            'update-success' => 'Email template updated successfully.',
+            'delete-success' => 'Email template deleted successfully.',
+            'delete-failed'  => 'Email template delete failed.',
+        ],
+
+        'workflows' => [
+            'create-success' => 'Workflow created successfully.',
+            'update-success' => 'Workflow updated successfully.',
+            'delete-success' => 'Workflow deleted successfully.',
+            'delete-failed'  => 'Workflow delete failed.',
+        ],
+
+        'warehouses' => [
+            'create-success' => 'Warehouse created successfully.',
+            'update-success' => 'Warehouse updated successfully.',
+            'delete-success' => 'Warehouse deleted successfully.',
+            'delete-failed'  => 'Warehouse delete failed.',
+
+            'view' => [
+                'locations' => [
+                    'create-success' => 'Location created successfully.',
+                    'update-success' => 'Location updated successfully.',
+                    'delete-success' => 'Location deleted successfully.',
+                    'delete-failed'  => 'Location delete failed.',
+                ],
+            ],
+        ],
     ],
 
     'configuration' => [

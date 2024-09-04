@@ -226,7 +226,7 @@ class PipelineController
      *                 type="object",
      *                 description="Stages of the pipeline",
      *                 @OA\Property(
-     *                     property="stage_1",
+     *                     property="7",
      *                     type="object",
      *                     @OA\Property(property="code", type="string", example="new"),
      *                     @OA\Property(property="name", type="string", example="New"),
@@ -234,7 +234,7 @@ class PipelineController
      *                     @OA\Property(property="probability", type="integer", example=100)
      *                 ),
      *                 @OA\Property(
-     *                     property="stage_2",
+     *                     property="8",
      *                     type="object",
      *                     @OA\Property(property="code", type="string", example="test"),
      *                     @OA\Property(property="name", type="string", example="test"),
@@ -242,7 +242,7 @@ class PipelineController
      *                     @OA\Property(property="probability", type="integer", example=100)
      *                 ),
      *                 @OA\Property(
-     *                     property="stage_99",
+     *                     property="9",
      *                     type="object",
      *                     @OA\Property(property="code", type="string", example="won"),
      *                     @OA\Property(property="name", type="string", example="Won"),
@@ -250,7 +250,7 @@ class PipelineController
      *                     @OA\Property(property="probability", type="integer", example=100)
      *                 ),
      *                 @OA\Property(
-     *                     property="stage_100",
+     *                     property="10",
      *                     type="object",
      *                     @OA\Property(property="code", type="string", example="lost"),
      *                     @OA\Property(property="name", type="string", example="Lost"),

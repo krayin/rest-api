@@ -196,9 +196,20 @@ class TypeController
      *      ),
      *
      *      @OA\RequestBody(
-     *          required=true,
      *
-     *          @OA\JsonContent(ref="#/components/schemas/Type")
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *
+     *              @OA\Schema(
+     *
+     *                  @OA\Property(
+     *                      property="name",
+     *                      description="Name of the source",
+     *                      type="string",
+     *                      example="Freelancing"
+     *                  ),
+     *              )
+     *          )
      *      ),
      *
      *      @OA\Response(

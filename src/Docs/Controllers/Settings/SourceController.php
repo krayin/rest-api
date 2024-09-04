@@ -197,7 +197,6 @@ class SourceController
      *
      *      @OA\RequestBody(
      *          required=true,
-     *
      *          @OA\JsonContent(ref="#/components/schemas/Source")
      *      ),
      *

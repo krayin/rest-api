@@ -2,9 +2,12 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Webkul\Attribute\Repositories\AttributeRepository;
+use Illuminate\Support\Facades\Storage;
 use Webkul\Core\Contracts\Validations\Code;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
@@ -23,10 +26,8 @@ class AttributeController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResource
     {
         $attributes = $this->allResources($this->attributeRepository);
 
@@ -35,10 +36,8 @@ class AttributeController extends Controller
 
     /**
      * Show resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(int $id): AttributeResource
     {
         $resource = $this->attributeRepository->find($id);
 
@@ -47,11 +46,8 @@ class AttributeController extends Controller
 
     /**
      * Search attribute lookup results.
-     *
-     * @param  string  $lookup
-     * @return \Illuminate\Http\Response
      */
-    public function lookup($lookup)
+    public function lookup($lookup): JsonResource
     {
         $results = $this->attributeRepository->getLookUpOptions($lookup, request()->input('query'));
 
@@ -59,11 +55,19 @@ class AttributeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
+     * Search attribute lookup results
      */
-    public function store()
+    public function lookupEntity(string $lookup): JsonResponse
+    {
+        $result = $this->attributeRepository->getLookUpEntity($lookup, request()->input('query'));
+
+        return response()->json($result);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(): JsonResource
     {
         $this->validate(request(), [
             'code' => ['required', 'unique:attributes,code,NULL,NULL,entity_type,'.request('entity_type'), new Code],
@@ -87,11 +91,8 @@ class AttributeController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(int $id): JsonResource
     {
         $this->validate(request(), [
             'code' => ['required', 'unique:attributes,code,NULL,NULL,entity_type,'.$id, new Code],
@@ -113,11 +114,8 @@ class AttributeController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): JsonResource
     {
         $attribute = $this->attributeRepository->findOrFail($id);
 
@@ -146,10 +144,8 @@ class AttributeController extends Controller
 
     /**
      * Mass delete the specified resources.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function massDestroy(MassDestroyRequest $massDestroyRequest)
+    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource
     {
         $attributeIds = $massDestroyRequest->input('indices', []);
 
@@ -180,5 +176,13 @@ class AttributeController extends Controller
         return new JsonResource([
             'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.settings.attributes.title')]),
         ]);
+    }
+
+    /**
+     * Download image or file
+     */
+    public function download(): StreamedResponse
+    {
+        return Storage::download(request('path'));
     }
 }

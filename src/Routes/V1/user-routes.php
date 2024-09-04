@@ -4,14 +4,18 @@ use Illuminate\Support\Facades\Route;
 use Webkul\RestApi\Http\Controllers\V1\User\AccountController;
 use Webkul\RestApi\Http\Controllers\V1\User\AuthController;
 
-Route::post('login', [AuthController::class, 'login']);
+Route::controller(AuthController::class)->group(function () {
+    Route::post('login', 'login');
 
-Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
+    Route::post('forgot-password', 'forgotPassword');
+});
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::delete('logout', [AuthController::class, 'logout']);
 
-    Route::get('get', [AccountController::class, 'get']);
+    Route::controller(AccountController::class)->group(function () {
+        Route::get('get', 'get');
 
-    Route::put('update', [AccountController::class, 'update']);
+        Route::put('update', 'update');
+    });
 });
