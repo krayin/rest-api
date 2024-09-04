@@ -4,7 +4,7 @@ namespace Webkul\RestApi\Docs\Controllers;
 
 /**
  * @OA\Info(
- *      version="1.0.0",
+ *      version="2.0.0",
  *      title="Krayin Rest API Documentation",
  *      description="Krayin Rest API Documentation",
  *
