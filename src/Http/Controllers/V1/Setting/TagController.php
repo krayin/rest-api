@@ -54,6 +54,7 @@ class TagController extends Controller
     {
         $tags = $this->tagRepository
             ->pushCriteria(app(RequestCriteria::class))
+            ->limit(request()->input('limit') ?? 10)
             ->all();
 
         return TagResource::collection($tags);

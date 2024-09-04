@@ -84,6 +84,188 @@ class ProductController
 
     /**
      * @OA\Get(
+     *      path="/api/v1/products/search",
+     *      operationId="searchProducts",
+     *      tags={"Products"},
+     *      summary="search the products",
+     *      description="search the products heres the bagisto is the search keyword",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\Parameter(
+     *          name="search",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="name:bagisto;sku:bagisto;description:bagisto"
+     *          )
+     *      ),
+     * 
+     *      @OA\Parameter(
+     *          name="searchFields",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="name:like;sku:like;description:like;"
+     *          )
+     *      ),
+     * 
+     *      @OA\Parameter(
+     *          name="limit",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example=10
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="object",
+     *                  ref="#/components/schemas/Product"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function search()
+    {
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/v1/products/{id}/inventories/{warehouseId}",
+     *     tags={"Products"},
+     *     summary="Store Inventory for a Product",
+     *     description="Store inventory data for a specific product in a specified warehouse. If the warehouse ID is not provided, the inventory will be stored in the default warehouse.",
+     *     operationId="storeProductInventories",
+     *     security={ {"sanctum_admin": {} }},
+     * 
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the product",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="warehouseId",
+     *         in="path",
+     *         description="ID of the warehouse (optional)",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="inventories",
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="inventory_0",
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="warehouse_location_id",
+     *                         type="integer",
+     *                         example=1,
+     *                         description="ID of the warehouse location"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="warehouse_id",
+     *                         type="integer",
+     *                         example=1,
+     *                         description="ID of the warehouse"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="in_stock",
+     *                         type="integer",
+     *                         example=1,
+     *                         description="Quantity of the product in stock"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="allocated",
+     *                         type="integer",
+     *                         example=11,
+     *                         description="Quantity of the product allocated"
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Inventory successfully stored",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Inventory stored successfully.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid input"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Product or warehouse not found"
+     *     )
+     * )
+     */
+    public function storeInventories()
+    {
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/products/{id}/warehouses",
+     *     tags={"Products"},
+     *     summary="Get Warehouses for a Specific Product",
+     *     description="Retrieve a list of warehouses associated with the specified product ID.",
+     *     operationId="getProductWarehouses",
+     *     security={ {"sanctum_admin": {} }},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the product",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="A list of warehouses",
+     *         @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="object",
+     *                  ref="#/components/schemas/Product"
+     *              )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Product not found"
+     *     )
+     * )
+     */
+    public function warehouses()
+    {
+    }
+
+    /**
+     * @OA\Get(
      *      path="/api/v1/products/{id}",
      *      operationId="productShow",
      *      tags={"Products"},

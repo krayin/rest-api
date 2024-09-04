@@ -203,10 +203,12 @@ class LeadController extends Controller
         if ($userIds = $this->getAuthorizedUserIds()) {
             $results = $this->leadRepository
                 ->pushCriteria(app(RequestCriteria::class))
+                ->limit(request()->input('limit') ?? 10)
                 ->findWhereIn('user_id', $userIds);
         } else {
             $results = $this->leadRepository
                 ->pushCriteria(app(RequestCriteria::class))
+                ->limit(request()->input('limit') ?? 10)
                 ->all();
         }
 

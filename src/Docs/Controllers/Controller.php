@@ -40,7 +40,7 @@ namespace Webkul\RestApi\Docs\Controllers;
  * )
  * @OA\Tag(
  *     name="Contacts",
- *     description="API Endpoints for Contacts and Organizations."
+ *     description="API Endpoints for Persons and Organizations."
  * )
  * @OA\Tag(
  *     name="Products",

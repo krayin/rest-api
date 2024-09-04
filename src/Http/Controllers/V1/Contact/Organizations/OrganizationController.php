@@ -61,7 +61,7 @@ class OrganizationController extends Controller
 
         return new JsonResource([
             'data'    => new OrganizationResource($organization),
-            'message' => trans('admin::app.contacts.organizations.create-success'),
+            'message' => trans('rest-api::app.contacts.organizations.create-success'),
         ]);
     }
 
@@ -81,7 +81,7 @@ class OrganizationController extends Controller
 
         return new JsonResource([
             'data'    => new OrganizationResource($organization),
-            'message' => trans('admin::app.contacts.organizations.update-success'),
+            'message' => trans('rest-api::app.contacts.organizations.update-success'),
         ]);
     }
 
@@ -101,11 +101,11 @@ class OrganizationController extends Controller
             Event::dispatch('contact.organization.delete.after', $id);
 
             return new JsonResource([
-                'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.contacts.organizations.organization')]),
+                'message' => trans('rest-api::app.contacts.organizations.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
-                'message' => trans('admin::app.response.destroy-failed', ['name' => trans('admin::app.contacts.organizations.organization')]),
+                'message' => trans('rest-api::app.contacts.organizations.delete-failed'),
             ], 500);
         }
     }
@@ -133,8 +133,8 @@ class OrganizationController extends Controller
             Event::dispatch('contact.organization.delete.after', $organizationId);
         }
 
-        return new JsonResource([
-            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.contacts.organizations.title')]),
+        return new JsonResource([   
+            'message' => trans('rest-api::app.contacts.organizations.delete-success'),
         ]);
     }
 }

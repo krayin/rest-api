@@ -2,11 +2,13 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Product;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Requests\AttributeForm;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
+use Prettus\Repository\Criteria\RequestCriteria;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Resources\V1\Product\ProductResource;
 
@@ -44,6 +46,55 @@ class ProductController extends Controller
         $resource = $this->productRepository->findOrFail($id);
 
         return new ProductResource($resource);
+    }
+
+    /**
+     * Search product results
+     */
+    public function search(): JsonResource
+    {
+        $products = $this->productRepository
+            ->pushCriteria(app(RequestCriteria::class))
+            ->limit(request()->input('limit') ?? 10)
+            ->all();
+
+        return ProductResource::collection($products);
+    }
+    
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function storeInventories(int $id, ?int $warehouseId = null): JsonResponse
+    {
+        $this->validate(request(), [
+            'inventories'                         => 'array',
+            'inventories.*.warehouse_location_id' => 'required',
+            'inventories.*.warehouse_id'          => 'required',
+            'inventories.*.in_stock'              => 'required|integer|min:0',
+            'inventories.*.allocated'             => 'required|integer|min:0',
+        ]);
+
+        $product = $this->productRepository->findOrFail($id);
+
+        Event::dispatch('product.update.before', $id);
+
+        $this->productRepository->saveInventories(request()->all(), $id, $warehouseId);
+
+        Event::dispatch('product.update.after', $product);
+
+        return new JsonResponse([
+            'message' => trans('rest-api::app.products.updated-success'),
+        ], 200);
+    }
+
+    /**
+     * Returns product inventories grouped by warehouse.
+     */
+    public function warehouses(int $id): JsonResponse
+    {
+        $warehouses = $this->productRepository->getInventoriesGroupedByWarehouse($id);
+
+        return response()->json(array_values($warehouses));
     }
 
     /**

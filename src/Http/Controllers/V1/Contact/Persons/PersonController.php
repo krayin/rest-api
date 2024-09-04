@@ -60,10 +60,12 @@ class PersonController extends Controller
         if ($userIds = $this->getAuthorizedUserIds()) {
             $persons = $this->personRepository
                 ->pushCriteria(app(RequestCriteria::class))
+                ->limit(request()->input('limit') ?? 10)
                 ->findWhereIn('user_id', $userIds);
         } else {
             $persons = $this->personRepository
                 ->pushCriteria(app(RequestCriteria::class))
+                ->limit(request()->input('limit') ?? 10)
                 ->all();
         }
 

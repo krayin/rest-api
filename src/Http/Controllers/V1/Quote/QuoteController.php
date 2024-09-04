@@ -139,6 +139,7 @@ class QuoteController extends Controller
     {
         $quotes = $this->quoteRepository
             ->pushCriteria(app(RequestCriteria::class))
+            ->limit(request()->input('limit', 10))
             ->all();
 
         return QuoteResource::collection($quotes);
