@@ -5,11 +5,11 @@ namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
+use Prettus\Repository\Criteria\RequestCriteria;
 use Webkul\Admin\Notifications\User\Create;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Request\MassUpdateRequest;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Webkul\RestApi\Http\Resources\V1\Setting\UserResource;
 use Webkul\User\Repositories\GroupRepository;
 use Webkul\User\Repositories\RoleRepository;
@@ -26,8 +26,7 @@ class UserController extends Controller
         protected UserRepository $userRepository,
         protected GroupRepository $groupRepository,
         protected RoleRepository $roleRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.

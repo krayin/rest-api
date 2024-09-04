@@ -13,9 +13,7 @@ class ConfigurationController extends Controller
      *
      * @return void
      */
-    public function __construct(protected ConfigurationRepository $configurationRepository)
-    {
-    }
+    public function __construct(protected ConfigurationRepository $configurationRepository) {}
 
     /**
      * Store a newly created configuration in storage.

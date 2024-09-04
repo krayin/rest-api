@@ -1,33 +1,33 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Webkul\RestApi\Http\Controllers\V1\Lead\ActivityController;
 use Webkul\RestApi\Http\Controllers\V1\Lead\EmailController;
 use Webkul\RestApi\Http\Controllers\V1\Lead\LeadController;
-use Webkul\RestApi\Http\Controllers\V1\Lead\ActivityController;
-use Webkul\RestApi\Http\Controllers\V1\Lead\TagController;
 use Webkul\RestApi\Http\Controllers\V1\Lead\QuoteController;
+use Webkul\RestApi\Http\Controllers\V1\Lead\TagController;
 
 Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'leads'], function () {
     /**
      * Leads Routes.
      */
-    Route::controller(LeadController::class)->group(function() {
+    Route::controller(LeadController::class)->group(function () {
         Route::get('', 'index');
 
         Route::get('{id}', 'show')->where('id', '[0-9]+');
-    
+
         Route::post('leads', 'store');
-    
+
         Route::put('{id}', 'update');
-    
+
         Route::delete('{id}', 'destroy');
-    
+
         Route::post('mass-update', 'massUpdate');
-    
+
         Route::post('mass-destroy', 'massDestroy');
-    
+
         Route::put('attributes/edit/{id}', 'updateAttributes');
-    
+
         Route::put('stage/edit/{id}', 'updateStage');
 
         Route::put('product/{lead_id}', 'addProduct');

@@ -2,14 +2,13 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Contact\Persons;
 
-use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\Activity\Repositories\ActivityRepository;
 use Webkul\Admin\Http\Resources\ActivityResource;
 use Webkul\Email\Repositories\EmailRepository;
+use Webkul\RestApi\Http\Controllers\V1\Controller;
 
 class ActivityController extends Controller
 {
-
     /**
      * Create a new controller instance.
      *

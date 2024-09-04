@@ -16,9 +16,7 @@ class PipelineController extends Controller
      *
      * @return void
      */
-    public function __construct(protected PipelineRepository $pipelineRepository)
-    {
-    }
+    public function __construct(protected PipelineRepository $pipelineRepository) {}
 
     /**
      * Display a listing of the resource.

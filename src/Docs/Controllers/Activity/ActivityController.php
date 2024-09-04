@@ -78,9 +78,7 @@ class ActivityController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Get(
@@ -121,9 +119,7 @@ class ActivityController
      *     )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Post(
@@ -135,9 +131,12 @@ class ActivityController
      *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\MediaType(
      *             mediaType="application/json",
+     *
      *             @OA\Schema(
+     *
      *                 @OA\Property(
      *                     property="lead_id",
      *                     title="Lead ID",
@@ -196,15 +195,18 @@ class ActivityController
      *                     @OA\Property(
      *                         property="persons",
      *                         type="array",
+     *
      *                         @OA\Items(
      *                             type="string",
      *                             example="1"
      *                         ),
      *                         description="List of person IDs"
      *                     ),
+     *
      *                     @OA\Property(
      *                         property="users",
      *                         type="array",
+     *
      *                         @OA\Items(
      *                             type="string",
      *                             example="1"
@@ -215,9 +217,12 @@ class ActivityController
      *                 )
      *             )
      *         ),
+     *
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
+     *
      *             @OA\Schema(
+     *
      *                 @OA\Property(
      *                     property="lead_id",
      *                     title="Lead ID",
@@ -278,15 +283,18 @@ class ActivityController
      *                 @OA\Property(
      *                     property="participants[persons][]",
      *                     type="array",
+     *
      *                     @OA\Items(
      *                         type="string",
      *                         example="1"
      *                     ),
      *                     description="List of person IDs"
      *                 ),
+     *
      *                 @OA\Property(
      *                     property="participants[users][]",
      *                     type="array",
+     *
      *                     @OA\Items(
      *                         type="string",
      *                         example="1"
@@ -300,7 +308,9 @@ class ActivityController
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
@@ -308,15 +318,14 @@ class ActivityController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
      *     )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -331,6 +340,7 @@ class ActivityController
      *         in="path",
      *         description="Activity Id",
      *         required=true,
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
@@ -338,9 +348,12 @@ class ActivityController
      *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\MediaType(
      *             mediaType="application/json",
+     *
      *             @OA\Schema(
+     *
      *                 @OA\Property(
      *                     property="lead_id",
      *                     title="Lead ID",
@@ -399,15 +412,18 @@ class ActivityController
      *                     @OA\Property(
      *                         property="persons",
      *                         type="array",
+     *
      *                         @OA\Items(
      *                             type="string",
      *                             example="1"
      *                         ),
      *                         description="List of person IDs"
      *                     ),
+     *
      *                     @OA\Property(
      *                         property="users",
      *                         type="array",
+     *
      *                         @OA\Items(
      *                             type="string",
      *                             example="1"
@@ -423,7 +439,9 @@ class ActivityController
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
@@ -431,15 +449,15 @@ class ActivityController
      *             )
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=401,
      *         description="Unauthorized"
      *     )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
+
     /**
      * @OA\Get(
      *     path="/api/v1/activities/file-download/{id}",
@@ -479,9 +497,7 @@ class ActivityController
      *     )
      * )
      */
-    public function download()
-    {
-    }
+    public function download() {}
 
     /**
      * @OA\Delete(
@@ -512,9 +528,7 @@ class ActivityController
      *     )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 
     /**
      * @OA\Post(
@@ -559,9 +573,7 @@ class ActivityController
      *     )
      * )
      */
-    public function massUpdate()
-    {
-    }
+    public function massUpdate() {}
 
     /**
      * @OA\Post(
@@ -599,7 +611,5 @@ class ActivityController
      *     )
      * )
      */
-    public function massDestroy()
-    {
-    }
+    public function massDestroy() {}
 }

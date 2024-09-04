@@ -78,9 +78,7 @@ class SourceController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Get(
@@ -122,9 +120,7 @@ class SourceController
      *     )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Post(
@@ -172,9 +168,7 @@ class SourceController
      *     )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -197,6 +191,7 @@ class SourceController
      *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Source")
      *      ),
      *
@@ -221,9 +216,7 @@ class SourceController
      *     )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -257,7 +250,5 @@ class SourceController
      *     )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 }

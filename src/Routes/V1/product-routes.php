@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Webkul\RestApi\Http\Controllers\V1\Product\ProductController;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::controller(ProductController::class)->prefix('products')->group(function() {
+    Route::controller(ProductController::class)->prefix('products')->group(function () {
         Route::get('', 'index');
 
         Route::post('', 'store');

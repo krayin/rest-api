@@ -2,19 +2,18 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting\Warehouses;
 
-use Illuminate\Support\Facades\Event;
-use Webkul\RestApi\Http\Controllers\V1\Controller;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Event;
+use Prettus\Repository\Criteria\RequestCriteria;
+use Webkul\Admin\Http\Requests\AttributeForm;
+use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Resources\V1\Setting\WarehouseResource;
-use Webkul\Rest-api\Http\Requests\AttributeForm;
-use Webkul\Warehouse\Contracts\Warehouse;
 use Webkul\Warehouse\Repositories\WarehouseRepository;
 
 class WarehouseController extends Controller
 {
-        /**
+    /**
      * Create a new controller instance.
      *
      * @return void

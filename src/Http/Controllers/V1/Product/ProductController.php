@@ -5,10 +5,10 @@ namespace Webkul\RestApi\Http\Controllers\V1\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
+use Prettus\Repository\Criteria\RequestCriteria;
 use Webkul\Admin\Http\Requests\AttributeForm;
 use Webkul\Product\Repositories\ProductRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Resources\V1\Product\ProductResource;
 
@@ -60,7 +60,7 @@ class ProductController extends Controller
 
         return ProductResource::collection($products);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */

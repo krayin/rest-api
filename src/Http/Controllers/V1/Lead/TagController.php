@@ -6,7 +6,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Lead\Repositories\LeadRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
-use Webkul\RestApi\Http\Resources\V1\Lead\LeadResource;
 
 class TagController extends Controller
 {
@@ -15,9 +14,7 @@ class TagController extends Controller
      *
      * @return void
      */
-    public function __construct(protected LeadRepository $leadRepository)
-    {
-    }
+    public function __construct(protected LeadRepository $leadRepository) {}
 
     /**
      * Store a newly created resource in storage.

@@ -5,9 +5,9 @@ namespace Webkul\RestApi\Http\Controllers\V1\Contact\Persons;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
+use Prettus\Repository\Criteria\RequestCriteria;
 use Webkul\Admin\Http\Requests\AttributeForm;
 use Webkul\Contact\Repositories\PersonRepository;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Resources\V1\Contact\PersonResource;
@@ -23,8 +23,7 @@ class PersonController extends Controller
     public function __construct(
         protected PersonRepository $personRepository,
         protected UserRepository $userRepository,
-    )
-    {
+    ) {
         $this->addEntityTypeInRequest('persons');
     }
 

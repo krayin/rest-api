@@ -78,9 +78,7 @@ class AttributeController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Get(
@@ -114,9 +112,7 @@ class AttributeController
      *      )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Get(
@@ -136,6 +132,7 @@ class AttributeController
      *              type="string"
      *          )
      *      ),
+     *
      *      @OA\Parameter(
      *          name="query",
      *          description="Query",
@@ -168,9 +165,7 @@ class AttributeController
      *      )
      * )
      */
-    public function lookup()
-    {
-    }
+    public function lookup() {}
 
     /**
      * @OA\Get(
@@ -190,6 +185,7 @@ class AttributeController
      *              type="string"
      *          )
      *      ),
+     *
      *      @OA\Parameter(
      *          name="path",
      *          description="path",
@@ -220,9 +216,7 @@ class AttributeController
      *      )
      * )
      */
-    public function download()
-    {
-    }
+    public function download() {}
 
     /**
      * @OA\Post(
@@ -336,9 +330,7 @@ class AttributeController
      *      )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -358,7 +350,9 @@ class AttributeController
      *              type="integer"
      *          )
      *      ),
+     *
      *       @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
      *
@@ -461,9 +455,7 @@ class AttributeController
      *      )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -505,9 +497,7 @@ class AttributeController
      *      )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 
     /**
      * @OA\Post(
@@ -555,7 +545,5 @@ class AttributeController
      *      )
      * )
      */
-    public function massDestroy()
-    {
-    }
+    public function massDestroy() {}
 }

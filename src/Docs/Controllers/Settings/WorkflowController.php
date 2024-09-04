@@ -78,9 +78,7 @@ class WorkflowController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      *  @OA\Get(
@@ -114,9 +112,7 @@ class WorkflowController
      *      )
      *  )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Post(
@@ -257,9 +253,7 @@ class WorkflowController
      *     )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      *  @OA\Put(
@@ -410,9 +404,7 @@ class WorkflowController
      *      )
      *  )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      *  @OA\Delete(
@@ -446,7 +438,5 @@ class WorkflowController
      *      )
      *  )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 }

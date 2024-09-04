@@ -15,9 +15,7 @@ class GroupController extends Controller
      *
      * @return void
      */
-    public function __construct(protected GroupRepository $groupRepository)
-    {
-    }
+    public function __construct(protected GroupRepository $groupRepository) {}
 
     /**
      * Display a listing of the resource.

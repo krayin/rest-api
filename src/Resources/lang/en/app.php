@@ -177,16 +177,23 @@ return [
                     'delete-success' => 'Location deleted successfully.',
                     'delete-failed'  => 'Location delete failed.',
                 ],
-                
+
                 'tags' => [
                     'create-success' => 'Tag attached successfully.',
                     'delete-success' => 'Tag detached successfully.',
                 ],
             ],
         ],
+
+        'webhooks' => [
+            'create-success' => 'Webhook created successfully.',
+            'update-success' => 'Webhook updated successfully.',
+            'delete-success' => 'Webhook deleted successfully.',
+            'delete-failed'  => 'Webhook delete failed.',
+        ],
     ],
 
     'configuration' => [
         'save-success' => 'Configuration saved successfully.',
-    ]
+    ],
 ];

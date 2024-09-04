@@ -54,7 +54,5 @@ class ConfigurationController
      *     )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 }

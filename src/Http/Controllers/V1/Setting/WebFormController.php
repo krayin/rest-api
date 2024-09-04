@@ -29,8 +29,7 @@ class WebFormController extends Controller
         protected PipelineRepository $pipelineRepository,
         protected SourceRepository $sourceRepository,
         protected TypeRepository $typeRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the resource.

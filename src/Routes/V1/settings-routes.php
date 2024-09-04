@@ -4,18 +4,19 @@ use Illuminate\Support\Facades\Route;
 use Webkul\RestApi\Http\Controllers\V1\Setting\AttributeController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\EmailTemplateController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\GroupController;
+use Webkul\RestApi\Http\Controllers\V1\Setting\LocationController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\PipelineController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\RoleController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\SourceController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\TagController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\TypeController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\UserController;
-use Webkul\RestApi\Http\Controllers\V1\Setting\WebFormController;
-use Webkul\RestApi\Http\Controllers\V1\Setting\WorkflowController;
-use Webkul\RestApi\Http\Controllers\V1\Setting\LocationController;
-use Webkul\RestApi\Http\Controllers\V1\Setting\Warehouses\WarehouseController;
-use Webkul\RestApi\Http\Controllers\V1\Setting\Warehouses\TagController as WarehouseTagController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\Warehouses\ActivityController;
+use Webkul\RestApi\Http\Controllers\V1\Setting\Warehouses\TagController as WarehouseTagController;
+use Webkul\RestApi\Http\Controllers\V1\Setting\Warehouses\WarehouseController;
+use Webkul\RestApi\Http\Controllers\V1\Setting\WebFormController;
+use Webkul\RestApi\Http\Controllers\V1\Setting\WebhookController;
+use Webkul\RestApi\Http\Controllers\V1\Setting\WorkflowController;
 
 Route::group([
     'prefix'     => 'settings',
@@ -140,6 +141,21 @@ Route::group([
         Route::post('mass-update', 'massUpdate');
 
         Route::get('download', 'download');
+    });
+
+    /**
+     * Webhook Routes.
+     */
+    Route::controller(WebhookController::class)->prefix('webhooks')->group(function () {
+        Route::get('', 'index');
+
+        Route::post('', 'store');
+
+        Route::get('{id}', 'show');
+
+        Route::put('{id}', 'update');
+
+        Route::delete('{id}', 'destroy');
     });
 
     /**

@@ -4,7 +4,7 @@ namespace Webkul\RestApi\Docs\Controllers\Lead;
 
 class ActivityController
 {
-     /**
+    /**
      * @OA\Get(
      *     path="/api/v1/leads/{id}/activities",
      *     operationId="getLeadActivities",
@@ -17,6 +17,7 @@ class ActivityController
      *          description="Lead ID",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
@@ -31,6 +32,7 @@ class ActivityController
      *               @OA\Property(
      *                  property="data",
      *                  type="array",
+     *
      *                  @OA\Items(ref="#/components/schemas/Activity")
      *              )
      *          )
@@ -42,7 +44,5 @@ class ActivityController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 }

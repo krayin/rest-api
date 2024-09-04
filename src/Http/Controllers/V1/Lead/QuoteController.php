@@ -3,9 +3,9 @@
 namespace Webkul\RestApi\Http\Controllers\V1\Lead;
 
 use Illuminate\Http\JsonResponse;
-use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Illuminate\Support\Facades\Event;
 use Webkul\Lead\Repositories\LeadRepository;
+use Webkul\RestApi\Http\Controllers\V1\Controller;
 
 class QuoteController extends Controller
 {

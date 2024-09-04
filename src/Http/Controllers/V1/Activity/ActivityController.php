@@ -24,8 +24,7 @@ class ActivityController extends Controller
         protected ActivityRepository $activityRepository,
         protected FileRepository $fileRepository,
         protected LeadRepository $leadRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Returns a listing of the activities.

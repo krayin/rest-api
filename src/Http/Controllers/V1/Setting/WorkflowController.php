@@ -4,9 +4,9 @@ namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
+use Webkul\Automation\Repositories\WorkflowRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Resources\V1\Setting\WorkflowResource;
-use Webkul\Automation\Repositories\WorkflowRepository;
 
 class WorkflowController extends Controller
 {
@@ -15,9 +15,7 @@ class WorkflowController extends Controller
      *
      * @return void
      */
-    public function __construct(protected WorkflowRepository $workflowRepository)
-    {
-    }
+    public function __construct(protected WorkflowRepository $workflowRepository) {}
 
     /**
      * Display a listing of the workflow.

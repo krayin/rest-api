@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Webkul\RestApi\Docs\Controllers\Lead;
 
@@ -18,15 +18,18 @@ class QuoteController
      *         in="path",
      *         description="Lead ID",
      *         required=true,
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
      *     ),
+     *
      *     @OA\Parameter(
      *         name="quote_id",
      *         in="path",
      *         description="Quote ID",
      *         required=true,
+     *
      *         @OA\Schema(
      *             type="integer"
      *         )
@@ -35,10 +38,13 @@ class QuoteController
      *     @OA\Response(
      *         response=200,
      *         description="Quote deleted successfully",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="Quote deleted successfully.")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=404,
      *         description="Quote not found"
@@ -49,7 +55,5 @@ class QuoteController
      *     )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 }

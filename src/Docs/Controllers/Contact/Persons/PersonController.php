@@ -78,9 +78,7 @@ class PersonController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Get(
@@ -95,16 +93,18 @@ class PersonController
      *          name="search",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="search: name:John Doe ;job_title:John Doe ;user.name:John Doe ;organization.name:John Doe;"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="searchFields",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="name:like;job_title:like;user.name:like;organization.name:like;"
@@ -132,9 +132,7 @@ class PersonController
      *     )
      * )
      */
-    public function search()
-    {
-    }
+    public function search() {}
 
     /**
      * @OA\Get(
@@ -175,9 +173,7 @@ class PersonController
      *     )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Post(
@@ -257,9 +253,7 @@ class PersonController
      *     )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -350,9 +344,7 @@ class PersonController
      *        )
      *  )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -383,9 +375,7 @@ class PersonController
      *     )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 
     /**
      * @OA\Post(
@@ -423,7 +413,5 @@ class PersonController
      *     )
      * )
      */
-    public function massDestroy()
-    {
-    }
+    public function massDestroy() {}
 }

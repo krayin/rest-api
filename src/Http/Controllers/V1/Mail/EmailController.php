@@ -2,7 +2,6 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Mail;
 
-use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
@@ -30,8 +29,7 @@ class EmailController extends Controller
         protected EmailRepository $emailRepository,
         protected AttachmentRepository $attachmentRepository,
         protected AttributeRepository $attributeRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the emails.
@@ -79,7 +77,7 @@ class EmailController extends Controller
             'source'        => 'web',
             'from'          => 'admin@example.com',
             'user_type'     => 'admin',
-            'folders'       => ($isDraft = request()->input('is_draft') == "true") ? ['draft'] : ['outbox'],
+            'folders'       => ($isDraft = request()->input('is_draft') == 'true') ? ['draft'] : ['outbox'],
             'name'          => auth()->guard()->user()->name,
             'unique_id'     => $uniqueId,
             'message_id'    => $uniqueId,
@@ -122,9 +120,8 @@ class EmailController extends Controller
 
         $data = request()->all();
 
-
         if (! is_null($isDraft = $data['is_draft'])) {
-            $data['folders'] = $isDraft == "true" ? ['draft'] : ['outbox'];
+            $data['folders'] = $isDraft == 'true' ? ['draft'] : ['outbox'];
         }
 
         $data['source'] = 'web';

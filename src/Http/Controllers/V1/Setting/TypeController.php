@@ -15,9 +15,7 @@ class TypeController extends Controller
      *
      * @return void
      */
-    public function __construct(protected TypeRepository $typeRepository)
-    {
-    }
+    public function __construct(protected TypeRepository $typeRepository) {}
 
     /**
      * Display a listing of the type.

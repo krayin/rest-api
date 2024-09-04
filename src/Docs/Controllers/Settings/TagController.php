@@ -78,9 +78,7 @@ class TagController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Post(
@@ -131,9 +129,7 @@ class TagController
      *      )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Get(
@@ -170,9 +166,7 @@ class TagController
      *      )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Put(
@@ -234,9 +228,7 @@ class TagController
      *      )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Get(
@@ -251,26 +243,29 @@ class TagController
      *          name="search",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="name:active"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="searchFields",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="name:like"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="limit",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example=10
@@ -280,7 +275,9 @@ class TagController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -290,9 +287,7 @@ class TagController
      *      )
      * )
      */
-    public function search()
-    {
-    }
+    public function search() {}
 
     /**
      * @OA\Delete(
@@ -329,9 +324,7 @@ class TagController
      *      )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 
     /**
      * @OA\Post(
@@ -379,7 +372,5 @@ class TagController
      *      )
      * )
      */
-    public function massDestroy()
-    {
-    }
+    public function massDestroy() {}
 }

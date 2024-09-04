@@ -4,12 +4,11 @@ namespace Webkul\RestApi\Http\Controllers\V1\Setting\Warehouses;
 
 use Illuminate\Support\Facades\Event;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
-
 use Webkul\Warehouse\Repositories\WarehouseRepository;
 
 class TagController extends Controller
 {
-     /**
+    /**
      * Create a new controller instance.
      *
      * @return void

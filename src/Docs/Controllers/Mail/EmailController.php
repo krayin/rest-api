@@ -78,9 +78,7 @@ class EmailController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Post(
@@ -93,16 +91,18 @@ class EmailController
      *
      *     @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="type",
      *                      type="string",
      *                      description="Type of the email",
      *                      example="email"
      *                  ),
-     *
      *                  @OA\Property(
      *                      property="is_draft",
      *                      type="boolean",
@@ -114,34 +114,38 @@ class EmailController
      *                      property="reply_to[]",
      *                      type="array",
      *                      description="List of email addresses to reply to",
+     *
      *                      @OA\Items(
      *                          type="string",
      *                          format="email",
      *                          example="example@mail.com"
      *                      )
      *                  ),
-     * 
+     *
      *                  @OA\Property(
      *                      property="cc[]",
      *                      type="array",
      *                      description="List of email addresses to cc",
+     *
      *                      @OA\Items(
      *                          type="string",
      *                          format="email",
      *                          example="example@mail.com"
      *                      )
      *                  ),
-     * 
+     *
      *                  @OA\Property(
      *                      property="bcc[]",
      *                      type="array",
      *                      description="List of email addresses to bcc",
+     *
      *                      @OA\Items(
      *                          type="string",
      *                          format="email",
      *                          example="example@mail.com"
      *                      )
      *                  ),
+     *
      *                  @OA\Property(
      *                      property="subject",
      *                      type="string",
@@ -158,6 +162,7 @@ class EmailController
      *                      property="attachments[]",
      *                      type="array",
      *                      description="Attachments of the email",
+     *
      *                      @OA\Items(
      *                          type="file",
      *                      )
@@ -167,7 +172,7 @@ class EmailController
      *      ),
      *
      *     @OA\Response(
-     *         response=200,    
+     *         response=200,
      *         description="Successful operation",
      *
      *         @OA\JsonContent(
@@ -187,9 +192,7 @@ class EmailController
      *     )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Get(
@@ -227,9 +230,7 @@ class EmailController
      *      )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Post(
@@ -250,18 +251,20 @@ class EmailController
      *          )
      *      ),
      *
-      *     @OA\RequestBody(
+     *     @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="type",
      *                      type="string",
      *                      description="Type of the email",
      *                      example="email"
      *                  ),
-     *
      *                  @OA\Property(
      *                      property="is_draft",
      *                      type="boolean",
@@ -278,34 +281,38 @@ class EmailController
      *                      property="reply_to[]",
      *                      type="array",
      *                      description="List of email addresses to reply to",
+     *
      *                      @OA\Items(
      *                          type="string",
      *                          format="email",
      *                          example="example@mail.com"
      *                      )
      *                  ),
-     * 
+     *
      *                  @OA\Property(
      *                      property="cc[]",
      *                      type="array",
      *                      description="List of email addresses to cc",
+     *
      *                      @OA\Items(
      *                          type="string",
      *                          format="email",
      *                          example="example@mail.com"
      *                      )
      *                  ),
-     * 
+     *
      *                  @OA\Property(
      *                      property="bcc[]",
      *                      type="array",
      *                      description="List of email addresses to bcc",
+     *
      *                      @OA\Items(
      *                          type="string",
      *                          format="email",
      *                          example="example@mail.com"
      *                      )
      *                  ),
+     *
      *                  @OA\Property(
      *                      property="subject",
      *                      type="string",
@@ -322,6 +329,7 @@ class EmailController
      *                      property="attachments[]",
      *                      type="array",
      *                      description="Attachments of the email",
+     *
      *                      @OA\Items(
      *                          type="file",
      *                      )
@@ -343,9 +351,7 @@ class EmailController
      *      )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -393,9 +399,7 @@ class EmailController
      *      )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 
     /**
      * @OA\Post(
@@ -457,9 +461,7 @@ class EmailController
      *      )
      * )
      */
-    public function massUpdate()
-    {
-    }
+    public function massUpdate() {}
 
     /**
      * @OA\Post(
@@ -513,9 +515,7 @@ class EmailController
      *      )
      * )
      */
-    public function massDestroy()
-    {
-    }
+    public function massDestroy() {}
 
     /**
      * @OA\Get(
@@ -553,7 +553,5 @@ class EmailController
      *      )
      * )
      */
-    public function download()
-    {
-    }
+    public function download() {}
 }

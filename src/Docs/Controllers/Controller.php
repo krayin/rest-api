@@ -98,7 +98,9 @@ namespace Webkul\RestApi\Docs\Controllers;
  *     name="Warehouse",
  *     description="API Endpoints for Warehouses."
  * )
+ * @OA\Tag(
+ *     name="Webhook",
+ *     description="API Endpoints for Webhooks."
+ * )
  */
-class Controller
-{
-}
+class Controller {}

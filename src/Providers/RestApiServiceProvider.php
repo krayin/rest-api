@@ -2,12 +2,10 @@
 
 namespace Webkul\RestApi\Providers;
 
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Webkul\RestApi\Exceptions\Handler;
-use Illuminate\Contracts\Debug\ExceptionHandler;
-use Webkul\Email\Repositories\EmailRepository;
-use Webkul\RestApi\Repositories\EmailRepository as RestApiEmailRepository;
 
 class RestApiServiceProvider extends ServiceProvider
 {
@@ -28,7 +26,7 @@ class RestApiServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->activateMiddlewareAliases();
-        
+
         $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'rest-api');
 
         $this->publishes([
@@ -38,7 +36,7 @@ class RestApiServiceProvider extends ServiceProvider
         $this->app->singleton(ExceptionHandler::class, Handler::class);
 
         $this->publishes([
-            dirname(__DIR__) . '/Repositories/EmailRepository.php' => base_path('packages/Webkul/Email/src/Repositories/EmailRepository.php'),
+            dirname(__DIR__).'/Repositories/EmailRepository.php' => base_path('packages/Webkul/Email/src/Repositories/EmailRepository.php'),
         ]);
     }
 

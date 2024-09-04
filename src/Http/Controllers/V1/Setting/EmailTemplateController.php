@@ -3,12 +3,12 @@
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
+use Webkul\Automation\Helpers\Entity;
 use Webkul\EmailTemplate\Repositories\EmailTemplateRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Resources\V1\Setting\EmailTemplateResource;
-use Webkul\Automation\Helpers\Entity;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 class EmailTemplateController extends Controller
 {
@@ -20,8 +20,7 @@ class EmailTemplateController extends Controller
     public function __construct(
         protected EmailTemplateRepository $emailTemplateRepository,
         protected Entity $workflowEntityHelper
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the email template.

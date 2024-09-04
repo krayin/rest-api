@@ -2,7 +2,7 @@
 
 namespace Webkul\RestApi\Docs\Controllers\Settings\Warehouses;
 
-class WarehouseController 
+class WarehouseController
 {
     /**
      * @OA\Get(
@@ -78,9 +78,7 @@ class WarehouseController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Get(
@@ -95,26 +93,29 @@ class WarehouseController
      *          name="search",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="name:Warehouse One - California;contact_name:Oliver Queen"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="searchFields",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="name:like;contact_name:like"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="limit",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example=10
@@ -124,7 +125,9 @@ class WarehouseController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -134,9 +137,7 @@ class WarehouseController
      *      )
      * )
      */
-    public function search()
-    {
-    }
+    public function search() {}
 
     /**
      * @OA\Get(
@@ -151,6 +152,7 @@ class WarehouseController
      *          name="id",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="1"
@@ -160,7 +162,9 @@ class WarehouseController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -170,9 +174,7 @@ class WarehouseController
      *      )
      * )
      */
-    public function view()
-    {
-    }
+    public function view() {}
 
     /**
      * @OA\Post(
@@ -184,7 +186,9 @@ class WarehouseController
      *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
+     *
      *            @OA\Property(
      *                   property="name",
      *                   type="string",
@@ -265,9 +269,7 @@ class WarehouseController
      *     )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -276,7 +278,7 @@ class WarehouseController
      *     tags={"Warehouse"},
      *     summary="Update warehouse",
      *     security={ {"sanctum_admin": {} }},
-     * 
+     *
      *     @OA\Parameter(
      *          name="id",
      *          description="Warehouse Id",
@@ -290,7 +292,9 @@ class WarehouseController
      *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
+     *
      *            @OA\Property(
      *                   property="name",
      *                   type="string",
@@ -371,9 +375,7 @@ class WarehouseController
      *     )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -383,7 +385,7 @@ class WarehouseController
      *     summary="Delete warehouse",
      *     description="Delete a specific warehouse by its ID",
      *     security={ {"sanctum_admin": {} }},
-     * 
+     *
      *     @OA\Parameter(
      *          name="id",
      *          description="Warehouse Id",
@@ -398,7 +400,9 @@ class WarehouseController
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="message",
      *                 type="string",
@@ -410,7 +414,9 @@ class WarehouseController
      *     @OA\Response(
      *         response=404,
      *         description="Warehouse not found",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(
      *                 property="error",
      *                 type="string",
@@ -425,7 +431,5 @@ class WarehouseController
      *     )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 }

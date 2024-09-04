@@ -78,11 +78,9 @@ class QuoteController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
-     /**
+    /**
      * @OA\Get(
      *      path="/api/v1/quotes/search",
      *      operationId="searchQuotes",
@@ -95,26 +93,29 @@ class QuoteController
      *          name="search",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="subject:webkul;description:webkul;user.name:webkul;person.name:webkul;"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="searchFields",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="subject:like;description:like;user.name:like;person.name:like;"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="limit",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example=10
@@ -124,7 +125,9 @@ class QuoteController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -134,9 +137,7 @@ class QuoteController
      *      )
      * )
      */
-    public function search()
-    {
-    }
+    public function search() {}
 
     /**
      * @OA\Post(
@@ -354,9 +355,7 @@ class QuoteController
      *     )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Get(
@@ -398,9 +397,7 @@ class QuoteController
      *      )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Put(
@@ -636,9 +633,7 @@ class QuoteController
      *     )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -670,9 +665,7 @@ class QuoteController
      *      )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 
     /**
      * @OA\Post(
@@ -722,7 +715,5 @@ class QuoteController
      *     )
      * )
      */
-    public function massDestroy()
-    {
-    }
+    public function massDestroy() {}
 }

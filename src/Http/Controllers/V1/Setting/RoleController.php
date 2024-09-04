@@ -15,9 +15,7 @@ class RoleController extends Controller
      *
      * @return void
      */
-    public function __construct(protected RoleRepository $roleRepository)
-    {
-    }
+    public function __construct(protected RoleRepository $roleRepository) {}
 
     /**
      * Display a listing of the resource.

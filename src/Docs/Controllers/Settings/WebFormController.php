@@ -78,9 +78,7 @@ class WebFormController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      *  @OA\Get(
@@ -122,9 +120,7 @@ class WebFormController
      *      )
      *  )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      *  @OA\Post(
@@ -268,9 +264,7 @@ class WebFormController
      *      )
      *  )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      *  @OA\Put(
@@ -430,9 +424,7 @@ class WebFormController
      *      )
      *  )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      *  @OA\Delete(
@@ -474,7 +466,5 @@ class WebFormController
      *      )
      *  )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 }

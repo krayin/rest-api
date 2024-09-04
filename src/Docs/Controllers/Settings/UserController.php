@@ -78,9 +78,7 @@ class UserController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      *  @OA\Get(
@@ -121,9 +119,7 @@ class UserController
      *     )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      *  @OA\Post(
@@ -180,11 +176,13 @@ class UserController
      *                      property="groups",
      *                      type="array",
      *                      description="List of group ids",
+     *
      *                      @OA\Items(
      *                          type="string",
      *                          example="1"
      *                      )
      *                  ),
+     *
      *                  @OA\Property(
      *                      property="view_permission",
      *                      description="View Permission",
@@ -217,10 +215,8 @@ class UserController
      *     )
      * )
      */
-    public function store()
-    {
-    }
-   
+    public function store() {}
+
     /**
      * @OA\Get(
      *      path="/api/v1/settings/users/search",
@@ -234,26 +230,29 @@ class UserController
      *          name="search",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="name:admin;"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="searchFields",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="name:like;"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="limit",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example=10
@@ -263,7 +262,9 @@ class UserController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -273,9 +274,7 @@ class UserController
      *      )
      * )
      */
-    public function search()
-    {
-    }
+    public function search() {}
 
     /**
      *  @OA\Put(
@@ -295,7 +294,7 @@ class UserController
      *              type="integer"
      *          )
      *      ),
-     * 
+     *
      *      @OA\RequestBody(
      *
      *          @OA\MediaType(
@@ -343,11 +342,13 @@ class UserController
      *                      property="groups",
      *                      type="array",
      *                      description="List of group ids",
+     *
      *                      @OA\Items(
      *                          type="string",
      *                          example="1"
      *                      )
      *                  ),
+     *
      *                  @OA\Property(
      *                      property="view_permission",
      *                      description="View Permission",
@@ -380,9 +381,7 @@ class UserController
      *     )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -419,9 +418,7 @@ class UserController
      *      )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 
     /**
      * @OA\Post(
@@ -475,9 +472,7 @@ class UserController
      *      )
      * )
      */
-    public function massUpdate()
-    {
-    }
+    public function massUpdate() {}
 
     /**
      * @OA\Post(
@@ -524,7 +519,5 @@ class UserController
      *      )
      * )
      */
-    public function massDestroy()
-    {
-    }
+    public function massDestroy() {}
 }

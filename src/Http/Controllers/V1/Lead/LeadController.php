@@ -3,27 +3,27 @@
 namespace Webkul\RestApi\Http\Controllers\V1\Lead;
 
 use Carbon\Carbon;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
-use Webkul\Admin\Http\Requests\LeadForm;
-use Webkul\Lead\Repositories\LeadRepository;
-use Webkul\Lead\Repositories\PipelineRepository;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Webkul\Lead\Repositories\StageRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Webkul\RestApi\Http\Controllers\V1\Controller;
-use Webkul\Attribute\Repositories\AttributeRepository;
-use Webkul\Lead\Repositories\ProductRepository;
-use Webkul\Lead\Repositories\SourceRepository;
-use Webkul\Lead\Repositories\TypeRepository;
-use Webkul\Tag\Repositories\TagRepository;
-use Webkul\User\Repositories\UserRepository;
+use Webkul\Admin\Http\Requests\LeadForm;
 use Webkul\Admin\Http\Resources\StageResource;
+use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Contact\Repositories\PersonRepository;
 use Webkul\DataGrid\Enums\DateRangeOptionEnum;
+use Webkul\Lead\Repositories\LeadRepository;
+use Webkul\Lead\Repositories\PipelineRepository;
+use Webkul\Lead\Repositories\ProductRepository;
+use Webkul\Lead\Repositories\SourceRepository;
+use Webkul\Lead\Repositories\StageRepository;
+use Webkul\Lead\Repositories\TypeRepository;
+use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Request\MassUpdateRequest;
 use Webkul\RestApi\Http\Resources\V1\Lead\LeadResource;
+use Webkul\Tag\Repositories\TagRepository;
+use Webkul\User\Repositories\UserRepository;
 
 class LeadController extends Controller
 {
@@ -449,7 +449,6 @@ class LeadController extends Controller
             'message' => trans('rest-api::app.leads.delete-success'),
         ]);
     }
-
 
     /**
      * Get columns for the kanban view.

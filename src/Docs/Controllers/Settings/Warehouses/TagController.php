@@ -2,7 +2,7 @@
 
 namespace Webkul\RestApi\Docs\Controllers\Settings\Warehouses;
 
-class TagController 
+class TagController
 {
     /**
      * @OA\Delete(
@@ -18,15 +18,17 @@ class TagController
      *          description="Warehouse Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
-     * 
+     *
      *      @OA\RequestBody(
      *          required=true,
      *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="tag_id",
      *                  type="integer",
@@ -51,9 +53,7 @@ class TagController
      *      )
      * )
      */
-    public function detach()
-    {
-    }
+    public function detach() {}
 
     /**
      * @OA\Post(
@@ -69,15 +69,17 @@ class TagController
      *          description="Warehouse Id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
-     * 
+     *
      *      @OA\RequestBody(
      *          required=true,
      *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="tag_id",
      *                  type="integer",
@@ -102,7 +104,5 @@ class TagController
      *      )
      * )
      */
-    public function attach()
-    {
-    }
+    public function attach() {}
 }

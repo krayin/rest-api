@@ -5,9 +5,9 @@ namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Webkul\Attribute\Repositories\AttributeRepository;
-use Illuminate\Support\Facades\Storage;
 use Webkul\Core\Contracts\Validations\Code;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
@@ -20,9 +20,7 @@ class AttributeController extends Controller
      *
      * @return void
      */
-    public function __construct(protected AttributeRepository $attributeRepository)
-    {
-    }
+    public function __construct(protected AttributeRepository $attributeRepository) {}
 
     /**
      * Display a listing of the resource.

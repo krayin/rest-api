@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Webkul\RestApi\Http\Controllers\V1\Contact\Organizations\OrganizationController;
-use Webkul\RestApi\Http\Controllers\V1\Contact\Persons\TagController;
-use Webkul\RestApi\Http\Controllers\V1\Contact\Persons\PersonController;
 use Webkul\RestApi\Http\Controllers\V1\Contact\Persons\ActivityController;
+use Webkul\RestApi\Http\Controllers\V1\Contact\Persons\PersonController;
+use Webkul\RestApi\Http\Controllers\V1\Contact\Persons\TagController;
 
 Route::group([
     'prefix'     => 'contacts',
@@ -17,15 +17,15 @@ Route::group([
         Route::get('', 'index');
 
         Route::get('search', 'search')->where('query', '[A-Za-z0–9\-]+');
-    
+
         Route::get('{id}', 'show')->where('id', '[0-9]+');
-    
+
         Route::post('', 'store');
-    
+
         Route::put('{id}', 'update');
-    
+
         Route::middleware(['throttle:100,60'])->delete('{id}', 'destroy');
-    
+
         Route::post('mass-destroy', 'massDestroy');
 
         /**

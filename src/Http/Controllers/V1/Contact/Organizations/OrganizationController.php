@@ -133,7 +133,7 @@ class OrganizationController extends Controller
             Event::dispatch('contact.organization.delete.after', $organizationId);
         }
 
-        return new JsonResource([   
+        return new JsonResource([
             'message' => trans('rest-api::app.contacts.organizations.delete-success'),
         ]);
     }

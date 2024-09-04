@@ -2,7 +2,7 @@
 
 namespace Webkul\RestApi\Docs\Controllers\Lead;
 
-class EmailController 
+class EmailController
 {
     /**
      * @OA\Post(
@@ -18,6 +18,7 @@ class EmailController
      *          description="Lead ID",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
@@ -25,9 +26,12 @@ class EmailController
      *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="type",
      *                      type="string",
@@ -44,12 +48,14 @@ class EmailController
      *                      property="reply_to[]",
      *                      type="array",
      *                      description="List of email addresses to reply to",
+     *
      *                      @OA\Items(
      *                          type="string",
      *                          format="email",
      *                          example="test@mail.com"
      *                      )
      *                  ),
+     *
      *                  @OA\Property(
      *                      property="subject",
      *                      type="string",
@@ -66,6 +72,7 @@ class EmailController
      *                      property="attachments[]",
      *                      type="array",
      *                      description="Attachments of the email",
+     *
      *                      @OA\Items(
      *                          type="file",
      *                      )
@@ -78,20 +85,20 @@ class EmailController
      *      @OA\Response(
      *          response=200,
      *          description="Email sent successfully",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="message", type="string", example="Email sent successfully.")
      *          )
      *      ),
-     * 
+     *
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated"
      *      )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Delete(
@@ -107,6 +114,7 @@ class EmailController
      *          description="Lead ID",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
@@ -114,8 +122,10 @@ class EmailController
      *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
      *              type="object",
+     *
      *              @OA\Property(
      *                  property="email_id",
      *                  type="integer",
@@ -128,7 +138,9 @@ class EmailController
      *      @OA\Response(
      *          response=200,
      *          description="Email detached successfully",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="message", type="string", example="Email detached successfully.")
      *          )
      *      ),
@@ -137,19 +149,15 @@ class EmailController
      *          response=401,
      *          description="Unauthenticated"
      *      ),
-     *
      *      @OA\Response(
      *          response=404,
      *          description="Lead or Email not found"
      *      ),
-     *
      *      @OA\Response(
      *          response=500,
      *          description="Internal server error"
      *      )
      * )
      */
-    public function detach()
-    {
-    }
+    public function detach() {}
 }

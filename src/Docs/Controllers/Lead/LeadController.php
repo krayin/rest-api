@@ -78,9 +78,7 @@ class LeadController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Get(
@@ -117,9 +115,7 @@ class LeadController
      *      )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Get(
@@ -134,24 +130,29 @@ class LeadController
      *          name="title",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="Leads via phone"
      *          )
      *      ),
+     *
      *      @OA\Parameter(
      *          name="user.name",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="admin"
      *          )
      *      ),
+     *
      *      @OA\Parameter(
      *          name="person.name",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="admin"
@@ -161,7 +162,9 @@ class LeadController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -171,9 +174,7 @@ class LeadController
      *      )
      * )
      */
-    public function search()
-    {
-    }
+    public function search() {}
 
     /**
      * @OA\Get(
@@ -188,36 +189,40 @@ class LeadController
      *          name="search",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="lead_value:454;"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="searchFields",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="lead_value:in;"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="pipeline_id",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example=null
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="limit",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example=10
@@ -227,7 +232,9 @@ class LeadController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -237,10 +244,7 @@ class LeadController
      *      )
      * )
      */
-    public function get()
-    {
-    }
-
+    public function get() {}
 
     /**
      * @OA\Get(
@@ -255,16 +259,18 @@ class LeadController
      *          name="search",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="admin"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="column",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="user_id"
@@ -274,7 +280,9 @@ class LeadController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -284,9 +292,7 @@ class LeadController
      *      )
      * )
      */
-    public function kanbanLookup()
-    {
-    }
+    public function kanbanLookup() {}
 
     /**
      * @OA\Post(
@@ -474,9 +480,7 @@ class LeadController
      *      )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -673,9 +677,7 @@ class LeadController
      *      )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Put(
@@ -691,15 +693,19 @@ class LeadController
      *          description="Lead ID",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
      *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="amount",
      *                      type="number",
@@ -750,7 +756,9 @@ class LeadController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="message", type="string", example="Lead Updated Successfully."),
      *              @OA\Property(property="data", type="object", ref="#/components/schemas/Lead")
      *          )
@@ -762,11 +770,9 @@ class LeadController
      *      )
      * )
      */
-    public function addProduct()
-    {
-    }
+    public function addProduct() {}
 
-     /**
+    /**
      * @OA\Delete(
      *      path="/api/v1/leads/product/{id}",
      *      operationId="deleteProductRelatedtoLead",
@@ -780,15 +786,19 @@ class LeadController
      *          description="Lead ID",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
      *
      *      @OA\RequestBody(
+     *
      *          @OA\MediaType(
      *              mediaType="application/json",
+     *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="product_id",
      *                      type="integer",
@@ -803,7 +813,9 @@ class LeadController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="message", type="string", example="Lead Updated Successfully."),
      *              @OA\Property(property="data", type="object", ref="#/components/schemas/Lead")
      *          )
@@ -815,9 +827,7 @@ class LeadController
      *      )
      * )
      */
-    public function removeProduct()
-    {
-    }
+    public function removeProduct() {}
 
     /**
      * @OA\Put(
@@ -845,6 +855,7 @@ class LeadController
      *              mediaType="application/json",
      *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="lead_pipeline_stage_id",
      *                      nullable=true,
@@ -872,9 +883,7 @@ class LeadController
      *      )
      * )
      */
-    public function updateAttributes()
-    {
-    }
+    public function updateAttributes() {}
 
     /**
      * @OA\Put(
@@ -902,6 +911,7 @@ class LeadController
      *              mediaType="application/json",
      *
      *              @OA\Schema(
+     *
      *                  @OA\Property(
      *                      property="lead_pipeline_stage_id",
      *                      nullable=true,
@@ -929,9 +939,7 @@ class LeadController
      *      )
      * )
      */
-    public function updateStage()
-    {
-    }
+    public function updateStage() {}
 
     /**
      * @OA\Delete(
@@ -969,9 +977,7 @@ class LeadController
      *      )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 
     /**
      * @OA\Post(
@@ -1022,9 +1028,7 @@ class LeadController
      *      )
      * )
      */
-    public function massUpdate()
-    {
-    }
+    public function massUpdate() {}
 
     /**
      * @OA\Post(
@@ -1068,7 +1072,5 @@ class LeadController
      *      )
      * )
      */
-    public function massDestroy()
-    {
-    }
+    public function massDestroy() {}
 }
