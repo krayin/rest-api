@@ -9,6 +9,7 @@ use Webkul\Admin\Notifications\User\Create;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Request\MassUpdateRequest;
+use Prettus\Repository\Criteria\RequestCriteria;
 use Webkul\RestApi\Http\Resources\V1\Setting\UserResource;
 use Webkul\User\Repositories\GroupRepository;
 use Webkul\User\Repositories\RoleRepository;
@@ -30,10 +31,8 @@ class UserController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResource
     {
         $users = $this->allResources($this->userRepository);
 
@@ -42,10 +41,8 @@ class UserController extends Controller
 
     /**
      * Show resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(int $id): UserResource
     {
         $resource = $this->userRepository->find($id);
 
@@ -53,11 +50,22 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
+     * Search user results.
      */
-    public function store()
+    public function search(): JsonResource
+    {
+        $users = $this->userRepository
+            ->pushCriteria(app(RequestCriteria::class))
+            ->limit(request()->input('limit') ?? 10)
+            ->all();
+
+        return UserResource::collection($users);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(): JsonResource
     {
         $this->validate(request(), [
             'email'            => 'required|email|unique:users,email',
@@ -95,7 +103,7 @@ class UserController extends Controller
 
         return new JsonResource([
             'data'    => new UserResource($admin),
-            'message' => trans('admin::app.settings.users.create-success'),
+            'message' => trans('rest-api::app.settings.users.create-success'),
         ]);
     }
 
@@ -107,8 +115,6 @@ class UserController extends Controller
      */
     public function update($id)
     {
-        $data = request()->all();
-
         $this->validate(request(), [
             'email'            => 'required|email|unique:users,email,'.$id,
             'name'             => 'required',
@@ -144,25 +150,22 @@ class UserController extends Controller
 
         return new JsonResource([
             'data'    => new UserResource($admin),
-            'message' => trans('admin::app.settings.users.update-success'),
+            'message' => trans('rest-api::app.settings.users.updated-success'),
         ]);
     }
 
     /**
      * Destroy specified user.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): JsonResource
     {
         if (auth()->guard()->user()->id == $id) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.users.delete-failed'),
+                'message' => trans('rest-api::app.settings.users.delete-failed'),
             ], 400);
         } elseif ($this->userRepository->count() == 1) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.users.last-delete-error'),
+                'message' => trans('rest-api::app.settings.users.last-delete-error'),
             ], 400);
         } else {
             Event::dispatch('settings.user.delete.before', $id);
@@ -173,7 +176,7 @@ class UserController extends Controller
                 Event::dispatch('settings.user.delete.after', $id);
 
                 return new JsonResource([
-                    'message' => trans('admin::app.settings.users.delete-success'),
+                    'message' => trans('rest-api::app.settings.users.delete-success'),
                 ]);
             } catch (\Exception $exception) {
                 return new JsonResource([
@@ -185,10 +188,8 @@ class UserController extends Controller
 
     /**
      * Mass update the specified resources.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function massUpdate(MassUpdateRequest $massUpdateRequest)
+    public function massUpdate(MassUpdateRequest $massUpdateRequest): JsonResource
     {
         $userIds = $massUpdateRequest->input('indices');
 
@@ -212,21 +213,19 @@ class UserController extends Controller
 
         if (! $count) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.users.mass-update-failed'),
+                'message' => trans('rest-api::app.settings.users.mass-update-failed'),
             ], 500);
         }
 
         return new JsonResource([
-            'message' => trans('admin::app.settings.users.mass-update-success'),
+            'message' => trans('rest-api::app.settings.users.mass-update-success'),
         ]);
     }
 
     /**
      * Mass delete the specified resources.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function massDestroy(MassDestroyRequest $massDestroyRequest)
+    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource
     {
         $userIds = $massDestroyRequest->input('indices');
 
@@ -250,12 +249,12 @@ class UserController extends Controller
 
         if (! $count) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.users.mass-delete-failed'),
+                'message' => trans('rest-api::app.settings.users.mass-delete-failed'),
             ], 500);
         }
 
         return new JsonResource([
-            'message' => trans('admin::app.settings.users.mass-delete-success'),
+            'message' => trans('rest-api::app.settings.users.mass-delete-success'),
         ]);
     }
 }

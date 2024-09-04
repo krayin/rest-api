@@ -95,6 +95,39 @@ return [
             'delete-success' => 'Tag deleted successfully.',
             'delete-failed'  => 'Tag delete failed.',
         ],
+
+        'web-forms' => [
+            'create-success'  => 'Web form created successfully.',
+            'updated-success' => 'Web form updated successfully.',
+            'delete-success'  => 'Web form deleted successfully.',
+            'delete-failed'   => 'Web form delete failed.',
+        ],
+
+        'groups' => [
+            'create-success'  => 'Group created successfully.',
+            'update-success'  => 'Group updated successfully.',
+            'destroy-success' => 'Group deleted successfully.',
+            'delete-failed'   => 'Group delete failed.',
+        ],
+
+        'roles' => [
+            'create-success' => 'Role created successfully.',
+            'update-success' => 'Role updated successfully.',
+            'delete-success' => 'Role deleted successfully.',
+            'delete-failed'  => 'Role delete failed.',
+        ],
+
+        'users' => [
+            'create-success'      => 'User created successfully.',
+            'updated-success'     => 'User updated successfully.',
+            'delete-success'      => 'User deleted successfully.',
+            'delete-failed'       => 'User delete failed.',
+            'last-delete-error'   => 'At least one user is required.',
+            'mass-delete-success' => 'Selected users deleted successfully.',
+            'mass-delete-failed'  => 'Selected users delete failed.',
+            'mass-update-success' => 'Selected users updated successfully.',
+            'mass-update-failed'  => 'Selected users update failed.',
+        ],
     ],
 
     'configuration' => [

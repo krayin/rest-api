@@ -83,7 +83,7 @@ class WebFormController extends Controller
 
         return new JsonResource([
             'data'    => new WebFormResource($webForm),
-            'message' => trans('admin::app.settings.web-forms.create-success'),
+            'message' => trans('rest-api::app.settings.web-forms.create-success'),
         ]);
     }
 
@@ -114,7 +114,7 @@ class WebFormController extends Controller
 
         return new JsonResource([
             'data'    => new WebFormResource($webForm),
-            'message' => trans('admin::app.settings.web-forms.update-success'),
+            'message' => trans('rest-api::app.settings.web-forms.updated-success'),
         ]);
     }
 
@@ -134,11 +134,11 @@ class WebFormController extends Controller
             Event::dispatch('settings.web_forms.delete.after', $id);
 
             return new JsonResource([
-                'message' => trans('admin::app.settings.web-forms.delete-success'),
+                'message' => trans('rest-api::app.settings.web-forms.delete-success'),
             ], 200);
         } catch (\Exception $exception) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.web-forms.delete-failed'),
+                'message' => trans('rest-api::app.settings.web-forms.delete-failed'),
             ], 400);
         }
     }

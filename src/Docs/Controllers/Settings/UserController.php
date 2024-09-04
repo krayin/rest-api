@@ -177,6 +177,15 @@ class UserController
      *                      example="1"
      *                  ),
      *                  @OA\Property(
+     *                      property="groups",
+     *                      type="array",
+     *                      description="List of group ids",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="1"
+     *                      )
+     *                  ),
+     *                  @OA\Property(
      *                      property="view_permission",
      *                      description="View Permission",
      *                      type="string",
@@ -212,6 +221,62 @@ class UserController
     {
     }
    
+    /**
+     * @OA\Get(
+     *      path="/api/v1/settings/users/search",
+     *      operationId="searchUser",
+     *      tags={"User"},
+     *      summary="search the User",
+     *      description="search the user heres the admin is the search keyword",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\Parameter(
+     *          name="search",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="name:admin;"
+     *          )
+     *      ),
+     * 
+     *      @OA\Parameter(
+     *          name="searchFields",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="name:like;"
+     *          )
+     *      ),
+     * 
+     *      @OA\Parameter(
+     *          name="limit",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example=10
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="object",
+     *                  ref="#/components/schemas/User"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function search()
+    {
+    }
+
     /**
      *  @OA\Put(
      *      path="/api/v1/settings/users/{id}",
@@ -273,6 +338,15 @@ class UserController
      *                      description="Role ID",
      *                      type="string",
      *                      example="1"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="groups",
+     *                      type="array",
+     *                      description="List of group ids",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="1"
+     *                      )
      *                  ),
      *                  @OA\Property(
      *                      property="view_permission",
