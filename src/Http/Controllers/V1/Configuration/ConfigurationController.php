@@ -31,7 +31,7 @@ class ConfigurationController extends Controller
         Event::dispatch('core.configuration.save.after');
 
         return response([
-            'message' => trans('admin::app.configuration.save-message'),
+            'message' => trans('rest-api::app.configuration.save-success'),
         ]);
     }
 }

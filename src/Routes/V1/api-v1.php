@@ -24,9 +24,9 @@ Route::group(['prefix' => 'v1'], function () {
     require 'mail-routes.php';
 
     /**
-     * Activity routes.
+     * Activities routes.
      */
-    require 'activity-routes.php';
+    require 'activities-routes.php';
 
     /**
      * Contact routes.

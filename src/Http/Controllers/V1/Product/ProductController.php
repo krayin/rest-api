@@ -83,7 +83,8 @@ class ProductController extends Controller
         Event::dispatch('product.update.after', $product);
 
         return new JsonResponse([
-            'message' => trans('rest-api::app.products.updated-success'),
+            'data'    => $product->inventories,
+            'message' => trans('rest-api::app.products.inventory-create-success'),
         ], 200);
     }
 

@@ -9,10 +9,11 @@ return [
     ],
 
     'products' => [
-        'create-success'  => 'Product created successfully.',
-        'updated-success' => 'Product updated successfully.',
-        'delete-success'  => 'Product deleted successfully.',
-        'delete-failed'   => 'Product delete failed.',
+        'create-success'           => 'Product created successfully.',
+        'updated-success'          => 'Product updated successfully.',
+        'delete-success'           => 'Product deleted successfully.',
+        'delete-failed'            => 'Product delete failed.',
+        'inventory-create-success' => 'Inventory stored successfully.',
     ],
 
     'leads' => [
@@ -57,6 +58,13 @@ return [
         ],
     ],
 
+    'activities' => [
+        'create-success' => 'Activity created successfully.',
+        'update-success' => 'Activity updated successfully.',
+        'delete-success' => 'Activity deleted successfully.',
+        'delete-failed'  => 'Activity delete failed.',
+    ],
+
     'contacts' => [
         'persons' => [
             'create-success'  => 'Person created successfully.',
@@ -88,4 +96,8 @@ return [
             'delete-failed'  => 'Tag delete failed.',
         ],
     ],
+
+    'configuration' => [
+        'save-success' => 'Configuration saved successfully.',
+    ]
 ];

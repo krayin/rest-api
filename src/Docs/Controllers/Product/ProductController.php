@@ -208,7 +208,11 @@ class ProductController
      *         description="Inventory successfully stored",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                 ref="#/components/schemas/Product"
+     *             ),
      *             @OA\Property(property="message", type="string", example="Inventory stored successfully.")
      *         )
      *     ),
