@@ -94,10 +94,9 @@ namespace Webkul\RestApi\Docs\Controllers;
  *     name="EmailTemplate",
  *     description="API Endpoints for EmailTemplate."
  * )
- * 
- *  @OA\Tag(
- *     name="WarehouseLocation",
- *     description="API Endpoints for WarehouseLocations."
+ * @OA\Tag(
+ *     name="Warehouse",
+ *     description="API Endpoints for Warehouses."
  * )
  */
 class Controller

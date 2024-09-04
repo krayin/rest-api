@@ -13,6 +13,9 @@ use Webkul\RestApi\Http\Controllers\V1\Setting\UserController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\WebFormController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\WorkflowController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\LocationController;
+use Webkul\RestApi\Http\Controllers\V1\Setting\Warehouses\WarehouseController;
+use Webkul\RestApi\Http\Controllers\V1\Setting\Warehouses\TagController as WarehouseTagController;
+use Webkul\RestApi\Http\Controllers\V1\Setting\Warehouses\ActivityController;
 
 Route::group([
     'prefix'     => 'settings',
@@ -152,6 +155,33 @@ Route::group([
         Route::put('{id}', 'update');
 
         Route::delete('{id}', 'destroy');
+    });
+
+    /**
+     * Warehouses Routes.
+     */
+    Route::controller(WarehouseController::class)->prefix('warehouses')->group(function () {
+        Route::get('', 'index');
+
+        Route::get('search', 'search');
+
+        Route::put('{id}', 'update');
+
+        Route::post('', 'store');
+
+        Route::get('view/{id}', 'show');
+
+        Route::delete('{id}', 'destroy');
+
+        Route::controller(WarehouseTagController::class)->prefix('{id}/tags')->group(function () {
+            Route::post('', 'attach');
+
+            Route::delete('', 'detach');
+        });
+
+        Route::controller(ActivityController::class)->prefix('{id}/activities')->group(function () {
+            Route::get('', 'index');
+        });
     });
 
     /**

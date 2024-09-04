@@ -177,6 +177,11 @@ return [
                     'delete-success' => 'Location deleted successfully.',
                     'delete-failed'  => 'Location delete failed.',
                 ],
+                
+                'tags' => [
+                    'create-success' => 'Tag attached successfully.',
+                    'delete-success' => 'Tag detached successfully.',
+                ],
             ],
         ],
     ],
