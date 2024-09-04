@@ -83,6 +83,7 @@ class EmailController extends Controller
             'message_id'    => $uniqueId,
             'reference_ids' => array_merge($referenceIds, [$uniqueId]),
             'user_id'       => auth()->guard()->user()->id,
+            'attachments'   => request()->file('attachments'),
         ]));
 
         if (! $isDraft) {
