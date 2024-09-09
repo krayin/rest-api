@@ -2,8 +2,10 @@
 
 namespace Webkul\RestApi\Providers;
 
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Webkul\RestApi\Exceptions\Handler;
 
 class RestApiServiceProvider extends ServiceProvider
 {
@@ -30,6 +32,12 @@ class RestApiServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../Config/l5-swagger.php' => config_path('l5-swagger.php'),
         ], 'krayin-rest-api-swagger');
+
+        $this->app->singleton(ExceptionHandler::class, Handler::class);
+
+        $this->publishes([
+            dirname(__DIR__).'/Repositories/EmailRepository.php' => base_path('packages/Webkul/Email/src/Repositories/EmailRepository.php'),
+        ]);
     }
 
     /**

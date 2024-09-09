@@ -24,8 +24,7 @@ class ActivityController extends Controller
         protected ActivityRepository $activityRepository,
         protected FileRepository $fileRepository,
         protected LeadRepository $leadRepository
-    ) {
-    }
+    ) {}
 
     /**
      * Returns a listing of the activities.
@@ -52,27 +51,6 @@ class ActivityController extends Controller
     }
 
     /**
-     * Check if activity duration is overlapping with another activity duration.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function checkIfOverlapping()
-    {
-        $isOverlapping = $this->activityRepository->isDurationOverlapping(
-            request()->input('schedule_from'),
-            request()->input('schedule_to'),
-            request()->input('participants'),
-            request()->input('id'),
-        );
-
-        return new JsonResponse([
-            'data' => [
-                'overlapping' => $isOverlapping,
-            ],
-        ]);
-    }
-
-    /**
      * Store a newly created activity in storage.
      *
      * @return \Illuminate\Http\Response
@@ -82,42 +60,47 @@ class ActivityController extends Controller
         $this->validate(request(), [
             'type'          => 'required',
             'comment'       => 'required_if:type,note',
-            'schedule_from' => 'required_unless:type,note',
-            'schedule_to'   => 'required_unless:type,note',
+            'schedule_from' => 'required_unless:type,note,file',
+            'schedule_to'   => 'required_unless:type,note,file',
+            'file'          => 'required_if:type,file',
         ]);
+
+        if (request('type') === 'meeting') {
+            /**
+             * Check if meeting is overlapping with other meetings.
+             */
+            $isOverlapping = $this->activityRepository->isDurationOverlapping(
+                request()->input('schedule_from'),
+                request()->input('schedule_to'),
+                request()->input('participants'),
+                request()->input('id')
+            );
+
+            if ($isOverlapping) {
+                if (request()->ajax()) {
+                    return response()->json([
+                        'message' => trans('admin::app.activities.overlapping-error'),
+                    ], 400);
+                }
+
+                session()->flash('success', trans('admin::app.activities.overlapping-error'));
+
+                return redirect()->back();
+            }
+        }
 
         Event::dispatch('activity.create.before');
 
         $activity = $this->activityRepository->create(array_merge(request()->all(), [
-            'is_done' => request()->input('type') == 'note',
-            'user_id' => auth()->guard()->user()->id,
+            'is_done' => request('type') == 'note' ? 1 : 0,
+            'user_id' => auth()->user()->id,
         ]));
-
-        if (request()->has('participants')) {
-            $participantUserIds = request()->input('participants.users', []);
-
-            foreach ($participantUserIds as $userId) {
-                $activity->participants()->create(['user_id' => $userId]);
-            }
-
-            $participantPersonIds = request()->input('participants.persons', []);
-
-            foreach ($participantPersonIds as $personId) {
-                $activity->participants()->create(['person_id' => $personId]);
-            }
-        }
-
-        if ($leadId = request()->input('lead_id')) {
-            if ($lead = $this->leadRepository->find($leadId)) {
-                $lead->activities()->attach($activity->id);
-            }
-        }
 
         Event::dispatch('activity.create.after', $activity);
 
         return new JsonResponse([
-            'data'    => new ActivityResource($activity),
-            'message' => trans('admin::app.activities.create-success', ['type' => trans('admin::app.activities.'.$activity->type)]),
+            'data'    => new ActivityResource($activity->refresh()),
+            'message' => trans('rest-api::app.activities.create-success'),
         ]);
     }
 
@@ -162,40 +145,6 @@ class ActivityController extends Controller
         return new JsonResponse([
             'data'    => new ActivityResource($activity),
             'message' => trans('admin::app.activities.update-success', ['type' => trans('admin::app.activities.'.$activity->type)]),
-        ]);
-    }
-
-    /**
-     * Upload files to storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function upload()
-    {
-        $this->validate(request(), [
-            'file' => 'required',
-        ]);
-
-        Event::dispatch('activities.file.create.before');
-
-        $file = $this->fileRepository->upload(request()->all());
-
-        if (! $file) {
-            return new JsonResponse([
-                'message' => trans('admin::app.activities.file-upload-error'),
-            ], 500);
-        }
-
-        if ($leadId = request()->input('lead_id')) {
-            if ($lead = $this->leadRepository->find($leadId)) {
-                $lead->activities()->attach($file->activity->id);
-            }
-        }
-
-        Event::dispatch('activities.file.create.after', $file);
-
-        return new JsonResponse([
-            'message' => trans('admin::app.activities.file-upload-success'),
         ]);
     }
 
@@ -255,13 +204,13 @@ class ActivityController extends Controller
                 continue;
             }
 
-            Event::dispatch('activity.update.before', $activityId);
+            Event::dispatch('activity.update.before', $activity);
 
             $activity->update([
                 'is_done' => $massUpdateRequest->input('value'),
             ]);
 
-            Event::dispatch('activity.update.after', $activityId);
+            Event::dispatch('activity.update.after', $activity);
         }
 
         return new JsonResponse([

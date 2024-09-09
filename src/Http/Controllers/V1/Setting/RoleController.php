@@ -15,16 +15,12 @@ class RoleController extends Controller
      *
      * @return void
      */
-    public function __construct(protected RoleRepository $roleRepository)
-    {
-    }
+    public function __construct(protected RoleRepository $roleRepository) {}
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResource
     {
         $roles = $this->allResources($this->roleRepository);
 
@@ -33,10 +29,8 @@ class RoleController extends Controller
 
     /**
      * Show resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(int $id): RoleResource
     {
         $resource = $this->roleRepository->find($id);
 
@@ -45,13 +39,11 @@ class RoleController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(): JsonResource
     {
         $this->validate(request(), [
-            'name'            => 'required',
+            'name'            => 'required|unique:roles,name',
             'permission_type' => 'required',
         ]);
 
@@ -72,17 +64,14 @@ class RoleController extends Controller
 
         return new JsonResource([
             'data'    => new RoleResource($role),
-            'message' => trans('admin::app.settings.roles.create-success'),
+            'message' => trans('rest-api::app.settings.roles.create-success'),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(int $id): JsonResource
     {
         $this->validate(request(), [
             'name'            => 'required',
@@ -106,32 +95,29 @@ class RoleController extends Controller
 
         return new JsonResource([
             'data'    => new RoleResource($role),
-            'message' => trans('admin::app.settings.roles.update-success'),
+            'message' => trans('rest-api::app.settings.roles.update-success'),
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): JsonResource
     {
         $response = ['code' => 400];
 
         $role = $this->roleRepository->findOrFail($id);
 
         if ($role->admins && $role->admins->count() >= 1) {
-            $response['message'] = trans('admin::app.settings.roles.being-used');
+            $response['message'] = trans('rest-api::app.settings.roles.being-used');
         } elseif ($this->roleRepository->count() == 1) {
-            $response['message'] = trans('admin::app.settings.roles.last-delete-error');
+            $response['message'] = trans('rest-api::app.settings.roles.last-delete-error');
         } else {
             try {
                 Event::dispatch('settings.role.delete.before', $id);
 
                 if (auth()->guard()->user()->role_id == $id) {
-                    $response['message'] = trans('admin::app.settings.roles.current-role-delete-error');
+                    $response['message'] = trans('rest-api::app.settings.roles.current-role-delete-error');
                 } else {
                     $this->roleRepository->delete($id);
 
@@ -139,7 +125,7 @@ class RoleController extends Controller
 
                     $response = [
                         'code'    => 200,
-                        'message' => trans('admin::app.settings.roles.delete-success'),
+                        'message' => trans('rest-api::app.settings.roles.delete-success'),
                     ];
                 }
             } catch (\Exception $exception) {

@@ -78,9 +78,7 @@ class PipelineController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Post(
@@ -175,9 +173,7 @@ class PipelineController
      *     )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -226,7 +222,7 @@ class PipelineController
      *                 type="object",
      *                 description="Stages of the pipeline",
      *                 @OA\Property(
-     *                     property="stage_1",
+     *                     property="7",
      *                     type="object",
      *                     @OA\Property(property="code", type="string", example="new"),
      *                     @OA\Property(property="name", type="string", example="New"),
@@ -234,7 +230,7 @@ class PipelineController
      *                     @OA\Property(property="probability", type="integer", example=100)
      *                 ),
      *                 @OA\Property(
-     *                     property="stage_2",
+     *                     property="8",
      *                     type="object",
      *                     @OA\Property(property="code", type="string", example="test"),
      *                     @OA\Property(property="name", type="string", example="test"),
@@ -242,7 +238,7 @@ class PipelineController
      *                     @OA\Property(property="probability", type="integer", example=100)
      *                 ),
      *                 @OA\Property(
-     *                     property="stage_99",
+     *                     property="9",
      *                     type="object",
      *                     @OA\Property(property="code", type="string", example="won"),
      *                     @OA\Property(property="name", type="string", example="Won"),
@@ -250,7 +246,7 @@ class PipelineController
      *                     @OA\Property(property="probability", type="integer", example=100)
      *                 ),
      *                 @OA\Property(
-     *                     property="stage_100",
+     *                     property="10",
      *                     type="object",
      *                     @OA\Property(property="code", type="string", example="lost"),
      *                     @OA\Property(property="name", type="string", example="Lost"),
@@ -281,9 +277,7 @@ class PipelineController
      *     )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Get(
@@ -322,9 +316,7 @@ class PipelineController
      *     )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Delete(
@@ -357,7 +349,5 @@ class PipelineController
      *     )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 }

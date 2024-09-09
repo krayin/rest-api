@@ -2,11 +2,10 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Lead;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Event;
 use Webkul\Lead\Repositories\LeadRepository;
-use Webkul\Quote\Repositories\QuoteRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
-use Webkul\RestApi\Http\Resources\V1\Lead\LeadResource;
 
 class QuoteController extends Controller
 {
@@ -15,56 +14,23 @@ class QuoteController extends Controller
      *
      * @return void
      */
-    public function __construct(
-        protected LeadRepository $leadRepository,
-        protected QuoteRepository $quoteRepository
-    ) {
-    }
+    public function __construct(protected LeadRepository $leadRepository) {}
 
     /**
-     * Store a newly created qoute in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Remove the specified resource from storage.
      */
-    public function store($id)
-    {
-        Event::dispatch('leads.quote.create.before');
-
-        $lead = $this->leadRepository->find($id);
-
-        if (! $lead->quotes->contains(request('id'))) {
-            $lead->quotes()->attach(request('id'));
-        }
-
-        Event::dispatch('leads.quote.create.after', $lead);
-
-        return response([
-            'data'    => new LeadResource($lead),
-            'message' => trans('admin::app.leads.quote-create-success'),
-        ]);
-    }
-
-    /**
-     * Remove the specified qoute from storage.
-     *
-     * @param  int  $leadId
-     * @param  int  $tagId
-     * @return \Illuminate\Http\Response
-     */
-    public function delete($leadId)
+    public function delete(int $leadId): JsonResponse
     {
         Event::dispatch('leads.quote.delete.before', $leadId);
 
         $lead = $this->leadRepository->find($leadId);
 
-        $lead->quotes()->detach(request('id'));
+        $lead->quotes()->detach(request('quote_id'));
 
         Event::dispatch('leads.quote.delete.after', $lead);
 
-        return response([
-            'data'    => new LeadResource($lead),
-            'message' => trans('admin::app.leads.quote-destroy-success'),
-        ]);
+        return response()->json([
+            'message' => trans('rest-api::app.leads.view.quotes.delete-success'),
+        ], 200);
     }
 }

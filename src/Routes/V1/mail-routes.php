@@ -2,21 +2,31 @@
 
 use Illuminate\Support\Facades\Route;
 use Webkul\RestApi\Http\Controllers\V1\Mail\EmailController;
+use Webkul\RestApi\Http\Controllers\V1\Mail\TagController;
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('mails', [EmailController::class, 'index']);
+Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'mails'], function () {
 
-    Route::get('mails/{id}', [EmailController::class, 'show']);
+    Route::controller(EmailController::class)->group(function () {
+        Route::get('', 'index');
 
-    Route::post('mails', [EmailController::class, 'store']);
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
-    Route::put('mails/{id?}', [EmailController::class, 'update']);
+        Route::post('', 'store');
 
-    Route::delete('mails/{id?}', [EmailController::class, 'destroy']);
+        Route::put('{id}', 'update');
 
-    Route::post('mails/mass-update', [EmailController::class, 'massUpdate']);
+        Route::delete('{id}', 'destroy');
 
-    Route::post('mails/mass-destroy', [EmailController::class, 'massDestroy']);
+        Route::post('mass-update', 'massUpdate');
 
-    Route::get('mails/attachment-download/{id?}', [EmailController::class, 'download']);
+        Route::post('mass-destroy', 'massDestroy');
+
+        Route::get('attachment-download/{id?}', 'download');
+    });
+
+    Route::controller(TagController::class)->prefix('{id}/tags')->group(function () {
+        Route::post('', 'attach')->name('admin.mail.tags.attach');
+
+        Route::delete('', 'detach')->name('admin.mail.tags.detach');
+    });
 });

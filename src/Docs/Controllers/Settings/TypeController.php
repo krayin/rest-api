@@ -78,9 +78,7 @@ class TypeController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Get(
@@ -122,9 +120,7 @@ class TypeController
      *     )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Post(
@@ -172,9 +168,7 @@ class TypeController
      *     )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -196,9 +190,20 @@ class TypeController
      *      ),
      *
      *      @OA\RequestBody(
-     *          required=true,
      *
-     *          @OA\JsonContent(ref="#/components/schemas/Type")
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *
+     *              @OA\Schema(
+     *
+     *                  @OA\Property(
+     *                      property="name",
+     *                      description="Name of the source",
+     *                      type="string",
+     *                      example="Freelancing"
+     *                  ),
+     *              )
+     *          )
      *      ),
      *
      *      @OA\Response(
@@ -222,9 +227,7 @@ class TypeController
      *     )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -258,7 +261,5 @@ class TypeController
      *     )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 }

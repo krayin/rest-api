@@ -1,39 +1,69 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Webkul\RestApi\Http\Controllers\V1\Lead\ActivityController;
+use Webkul\RestApi\Http\Controllers\V1\Lead\EmailController;
 use Webkul\RestApi\Http\Controllers\V1\Lead\LeadController;
 use Webkul\RestApi\Http\Controllers\V1\Lead\QuoteController;
 use Webkul\RestApi\Http\Controllers\V1\Lead\TagController;
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'leads'], function () {
     /**
-     * Leads.
+     * Leads Routes.
      */
-    Route::get('leads', [LeadController::class, 'index']);
+    Route::controller(LeadController::class)->group(function () {
+        Route::get('', 'index');
 
-    Route::get('leads/{id}', [LeadController::class, 'show']);
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
-    Route::post('leads', [LeadController::class, 'store']);
+        Route::post('leads', 'store');
 
-    Route::put('leads/{id}', [LeadController::class, 'update']);
+        Route::put('{id}', 'update');
 
-    Route::delete('leads/{id}', [LeadController::class, 'destroy']);
+        Route::delete('{id}', 'destroy');
 
-    Route::post('leads/mass-update', [LeadController::class, 'massUpdate']);
+        Route::post('mass-update', 'massUpdate');
 
-    Route::post('leads/mass-destroy', [LeadController::class, 'massDestroy']);
+        Route::post('mass-destroy', 'massDestroy');
+
+        Route::put('attributes/edit/{id}', 'updateAttributes');
+
+        Route::put('stage/edit/{id}', 'updateStage');
+
+        Route::put('product/{lead_id}', 'addProduct');
+
+        Route::delete('product/{lead_id}', 'removeProduct');
+
+        Route::get('kanban/look-up', 'kanbanLookup')->name('admin.leads.kanban.look_up');
+
+        Route::get('search', 'search');
+
+        Route::get('get/{pipeline_id?}', 'get');
+    });
 
     /**
-     * Tags.
+     * Tags Routes.
      */
-    Route::post('leads/{lead_id}/tags', [TagController::class, 'store']);
+    Route::controller(TagController::class)->prefix('{id}/tags')->group(function () {
+        Route::post('', 'attach');
 
-    Route::delete('leads/{lead_id}/tags', [TagController::class, 'delete']);
+        Route::delete('', 'detach');
+    });
 
     /**
-     * Quotes.
+     * Email Routes.
      */
-    Route::post('leads/{lead_id}/quotes', [QuoteController::class, 'store']);
+    Route::controller(EmailController::class)->prefix('{id}/emails')->group(function () {
+        Route::post('', 'store');
 
-    Route::delete('leads/{lead_id}/quotes', [QuoteController::class, 'delete']);
+        Route::delete('', 'detach');
+    });
+
+    Route::controller(ActivityController::class)->prefix('{id}/activities')->group(function () {
+        Route::get('', 'index');
+    });
+
+    Route::controller(QuoteController::class)->prefix('{id}/quotes')->group(function () {
+        Route::delete('{quote_id?}', 'delete');
+    });
 });

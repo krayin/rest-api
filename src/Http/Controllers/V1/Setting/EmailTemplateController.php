@@ -2,11 +2,13 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
+use Webkul\Automation\Helpers\Entity;
 use Webkul\EmailTemplate\Repositories\EmailTemplateRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Resources\V1\Setting\EmailTemplateResource;
-use Webkul\Workflow\Helpers\Entity;
 
 class EmailTemplateController extends Controller
 {
@@ -18,15 +20,12 @@ class EmailTemplateController extends Controller
     public function __construct(
         protected EmailTemplateRepository $emailTemplateRepository,
         protected Entity $workflowEntityHelper
-    ) {
-    }
+    ) {}
 
     /**
      * Display a listing of the email template.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResource
     {
         $emailTemplates = $this->allResources($this->emailTemplateRepository);
 
@@ -35,10 +34,8 @@ class EmailTemplateController extends Controller
 
     /**
      * Show resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(int $id): EmailTemplateResource
     {
         $resource = $this->emailTemplateRepository->find($id);
 
@@ -47,10 +44,8 @@ class EmailTemplateController extends Controller
 
     /**
      * Store a newly created email templates in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(): JsonResponse
     {
         $this->validate(request(), [
             'name'    => 'required',
@@ -64,19 +59,16 @@ class EmailTemplateController extends Controller
 
         Event::dispatch('settings.email_templates.create.after', $emailTemplate);
 
-        return response([
+        return response()->json([
             'data'    => new EmailTemplateResource($emailTemplate),
-            'message' => trans('admin::app.settings.email-templates.create-success'),
+            'message' => trans('rest-api::app.settings.email-templates.create-success'),
         ]);
     }
 
     /**
      * Update the specified email template in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(int $id): JsonResponse
     {
         $this->validate(request(), [
             'name'    => 'required',
@@ -90,19 +82,16 @@ class EmailTemplateController extends Controller
 
         Event::dispatch('settings.email_templates.update.after', $emailTemplate);
 
-        return response([
+        return response()->json([
             'data'    => new EmailTemplateResource($emailTemplate),
-            'message' => trans('admin::app.settings.email-templates.update-success'),
+            'message' => trans('rest-api::app.settings.email-templates.update-success'),
         ]);
     }
 
     /**
      * Remove the specified email template from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): JsonResponse
     {
         try {
             Event::dispatch('settings.email_templates.delete.before', $id);
@@ -111,12 +100,12 @@ class EmailTemplateController extends Controller
 
             Event::dispatch('settings.email_templates.delete.after', $id);
 
-            return response([
-                'message' => trans('admin::app.settings.email-templates.delete-success'),
+            return response()->json([
+                'message' => trans('rest-api::app.settings.email-templates.delete-success'),
             ]);
         } catch (\Exception $exception) {
-            return response([
-                'message' => trans('admin::app.settings.email-templates.delete-failed'),
+            return response()->json([
+                'message' => trans('rest-api::app.settings.email-templates.delete-failed'),
             ], 500);
         }
     }

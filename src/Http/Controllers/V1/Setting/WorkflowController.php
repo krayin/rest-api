@@ -4,9 +4,9 @@ namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
+use Webkul\Automation\Repositories\WorkflowRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Resources\V1\Setting\WorkflowResource;
-use Webkul\Workflow\Repositories\WorkflowRepository;
 
 class WorkflowController extends Controller
 {
@@ -15,16 +15,12 @@ class WorkflowController extends Controller
      *
      * @return void
      */
-    public function __construct(protected WorkflowRepository $workflowRepository)
-    {
-    }
+    public function __construct(protected WorkflowRepository $workflowRepository) {}
 
     /**
      * Display a listing of the workflow.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResource
     {
         $workflows = $this->allResources($this->workflowRepository);
 
@@ -33,10 +29,8 @@ class WorkflowController extends Controller
 
     /**
      * Show resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(int $id): WorkflowResource
     {
         $resource = $this->workflowRepository->find($id);
 
@@ -45,10 +39,8 @@ class WorkflowController extends Controller
 
     /**
      * Store a newly created workflow in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(): JsonResource
     {
         $this->validate(request(), [
             'name' => 'required',
@@ -62,17 +54,14 @@ class WorkflowController extends Controller
 
         return new JsonResource([
             'data'    => new WorkflowResource($workflow),
-            'message' => trans('admin::app.settings.workflows.create-success'),
+            'message' => trans('rest-api::app.settings.workflows.create-success'),
         ]);
     }
 
     /**
      * Update the specified workflow in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update($id): JsonResource
     {
         $this->validate(request(), [
             'name' => 'required',
@@ -86,17 +75,14 @@ class WorkflowController extends Controller
 
         return new JsonResource([
             'data'    => new WorkflowResource($workflow),
-            'message' => trans('admin::app.settings.workflows.update-success'),
+            'message' => trans('rest-api::app.settings.workflows.update-success'),
         ]);
     }
 
     /**
      * Remove the specified workflow from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): JsonResource
     {
         try {
             Event::dispatch('settings.workflow.delete.before', $id);
@@ -106,11 +92,11 @@ class WorkflowController extends Controller
             Event::dispatch('settings.workflow.delete.after', $id);
 
             return new JsonResource([
-                'message' => trans('admin::app.settings.workflows.delete-success'),
+                'message' => trans('rest-api::app.settings.workflows.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.workflows.delete-failed'),
+                'message' => trans('rest-api::app.settings.workflows.delete-failed'),
             ], 500);
         }
     }

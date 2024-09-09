@@ -78,9 +78,7 @@ class ActivityController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Get(
@@ -121,44 +119,7 @@ class ActivityController
      *     )
      * )
      */
-    public function show()
-    {
-    }
-
-    /**
-     * @OA\Post(
-     *     path="/api/v1/activities/is-overlapping",
-     *     operationId="activityCheckIfOverlapping",
-     *     tags={"Activity"},
-     *     summary="Check if activity is overlapping",
-     *     security={ {"sanctum_admin": {} }},
-     *
-     *     @OA\RequestBody(
-     *         required=true,
-     *
-     *         @OA\JsonContent(ref="#/components/schemas/Activity")
-     *     ),
-     *
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful response",
-     *
-     *         @OA\JsonContent(
-     *             type="array",
-     *
-     *             @OA\Items(ref="#/components/schemas/Activity")
-     *         )
-     *     ),
-     *
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     )
-     * )
-     */
-    public function checkIfOverlapping()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Post(
@@ -166,82 +127,182 @@ class ActivityController
      *     operationId="activityStore",
      *     tags={"Activity"},
      *     summary="Create activity",
-     *     security={ {"sanctum_admin": {} }},
+     *     security={{"sanctum_admin": {}}},
      *
      *     @OA\RequestBody(
+     *         required=true,
      *
-     *         @OA\JsonContent(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
      *
-     *              @OA\Property(
-     *                  property="lead_id",
-     *                  title="Lead ID",
-     *                  description="ID of the Activity",
-     *                  example="1"
-     *              ),
-     *              @OA\Property(
-     *                  property="title",
-     *                  title="Title",
-     *                  description="Title of the Activity",
-     *                  example="Lorem Ipsum"
-     *              ),
-     *              @OA\Property(
-     *                  property="type",
-     *                  title="Type",
-     *                  description="Type of the Activity",
-     *                  example="meeting",
-     *                  enum={"call", "meeting", "lunch"}
-     *              ),
-     *              @OA\Property(
-     *                  property="schedule_from",
-     *                  title="Schedule From",
-     *                  description="Schedule From of the Activity",
-     *                  example="2025-09-01 10:00:00"
-     *              ),
-     *              @OA\Property(
-     *                  property="schedule_to",
-     *                  title="Schedule To",
-     *                  description="Schedule To of the Activity",
-     *                  example="2025-11-01 10:00:00"
-     *              ),
-     *              @OA\Property(
-     *                  property="location",
-     *                  title="Location",
-     *                  description="Location of the Activity",
-     *                  example="New York"
-     *              ),
-     *              @OA\Property(
-     *                  property="comment",
-     *                  title="Comment",
-     *                  description="Comment of the Activity",
-     *                  example="Lorem Ipsum"
-     *              ),
-     *              @OA\Property(
-     *                  property="participants",
-     *                  type="object",
-     *                  @OA\Property(
-     *                      property="persons",
-     *                      type="array",
+     *             @OA\Schema(
      *
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="1"
-     *                      ),
-     *                      description="List of person IDs"
-     *                  ),
+     *                 @OA\Property(
+     *                     property="lead_id",
+     *                     title="Lead ID",
+     *                     description="ID of the Activity",
+     *                     example="1",
+     *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="title",
+     *                     title="Title",
+     *                     description="Title of the Activity",
+     *                     example="Lorem Ipsum",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="type",
+     *                     title="Type",
+     *                     description="Type of the Activity",
+     *                     example="meeting",
+     *                     enum={"call", "meeting", "lunch", "file", "note"},
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="schedule_from",
+     *                     title="Schedule From",
+     *                     description="Schedule From of the Activity",
+     *                     example="2025-09-01 10:00:00",
+     *                     type="string",
+     *                     format="date-time"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="schedule_to",
+     *                     title="Schedule To",
+     *                     description="Schedule To of the Activity",
+     *                     example="2025-11-01 10:00:00",
+     *                     type="string",
+     *                     format="date-time"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="location",
+     *                     title="Location",
+     *                     description="Location of the Activity",
+     *                     example="New York",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="comment",
+     *                     title="Comment",
+     *                     description="Comment of the Activity",
+     *                     example="Lorem Ipsum",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="participants",
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="persons",
+     *                         type="array",
      *
-     *                  @OA\Property(
-     *                      property="users",
-     *                      type="array",
+     *                         @OA\Items(
+     *                             type="string",
+     *                             example="1"
+     *                         ),
+     *                         description="List of person IDs"
+     *                     ),
      *
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="1"
-     *                      ),
-     *                      description="List of user IDs"
-     *                  ),
-     *                  description="Participants object containing users"
-     *              ),
-     *          ),
+     *                     @OA\Property(
+     *                         property="users",
+     *                         type="array",
+     *
+     *                         @OA\Items(
+     *                             type="string",
+     *                             example="1"
+     *                         ),
+     *                         description="List of user IDs"
+     *                     ),
+     *                     description="Participants object containing users"
+     *                 )
+     *             )
+     *         ),
+     *
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *
+     *             @OA\Schema(
+     *
+     *                 @OA\Property(
+     *                     property="lead_id",
+     *                     title="Lead ID",
+     *                     description="ID of the Activity",
+     *                     example="1",
+     *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="title",
+     *                     title="Title",
+     *                     description="Title of the Activity",
+     *                     example="Lorem Ipsum",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="type",
+     *                     title="Type",
+     *                     description="Type of the Activity",
+     *                     example="meeting",
+     *                     enum={"call", "meeting", "lunch", "file", "note"},
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                      property="file",
+     *                      type="file",
+     *                      description="When you upload file type must be file."
+     *                 ),
+     *                 @OA\Property(
+     *                     property="schedule_from",
+     *                     title="Schedule From",
+     *                     description="Schedule From of the Activity",
+     *                     example="2025-09-01 10:00:00",
+     *                     type="string",
+     *                     format="date-time"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="schedule_to",
+     *                     title="Schedule To",
+     *                     description="Schedule To of the Activity",
+     *                     example="2025-11-01 10:00:00",
+     *                     type="string",
+     *                     format="date-time"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="location",
+     *                     title="Location",
+     *                     description="Location of the Activity",
+     *                     example="New York",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="comment",
+     *                     title="Comment",
+     *                     description="Comment of the Activity",
+     *                     example="Lorem Ipsum",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="participants[persons][]",
+     *                     type="array",
+     *
+     *                     @OA\Items(
+     *                         type="string",
+     *                         example="1"
+     *                     ),
+     *                     description="List of person IDs"
+     *                 ),
+     *
+     *                 @OA\Property(
+     *                     property="participants[users][]",
+     *                     type="array",
+     *
+     *                     @OA\Items(
+     *                         type="string",
+     *                         example="1"
+     *                     ),
+     *                     description="List of user IDs"
+     *                 )
+     *             )
+     *         )
      *     ),
      *
      *     @OA\Response(
@@ -252,7 +313,7 @@ class ActivityController
      *
      *             @OA\Property(
      *                 property="data",
-     *                 type="Object",
+     *                 type="object",
      *                 ref="#/components/schemas/Activity"
      *             )
      *         )
@@ -264,9 +325,7 @@ class ActivityController
      *     )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -288,79 +347,93 @@ class ActivityController
      *     ),
      *
      *     @OA\RequestBody(
+     *         required=true,
      *
-     *         @OA\JsonContent(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
      *
-     *              @OA\Property(
-     *                  property="lead_id",
-     *                  title="Lead ID",
-     *                  description="ID of the Activity",
-     *                  example="1"
-     *              ),
-     *              @OA\Property(
-     *                  property="title",
-     *                  title="Title",
-     *                  description="Title of the Activity",
-     *                  example="Lorem Ipsum"
-     *              ),
-     *              @OA\Property(
-     *                  property="type",
-     *                  title="Type",
-     *                  description="Type of the Activity",
-     *                  example="meeting",
-     *                  enum={"call", "meeting", "lunch"}
-     *              ),
-     *              @OA\Property(
-     *                  property="schedule_from",
-     *                  title="Schedule From",
-     *                  description="Schedule From of the Activity",
-     *                  example="2025-09-01 10:00:00"
-     *              ),
-     *              @OA\Property(
-     *                  property="schedule_to",
-     *                  title="Schedule To",
-     *                  description="Schedule To of the Activity",
-     *                  example="2025-11-01 10:00:00"
-     *              ),
-     *              @OA\Property(
-     *                  property="location",
-     *                  title="Location",
-     *                  description="Location of the Activity",
-     *                  example="New York"
-     *              ),
-     *              @OA\Property(
-     *                  property="comment",
-     *                  title="Comment",
-     *                  description="Comment of the Activity",
-     *                  example="Lorem Ipsum"
-     *              ),
-     *              @OA\Property(
-     *                  property="participants",
-     *                  type="object",
-     *                  @OA\Property(
-     *                      property="persons",
-     *                      type="array",
+     *             @OA\Schema(
      *
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="1"
-     *                      ),
-     *                      description="List of person IDs"
-     *                  ),
+     *                 @OA\Property(
+     *                     property="lead_id",
+     *                     title="Lead ID",
+     *                     description="ID of the Activity",
+     *                     example="1",
+     *                     type="integer"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="title",
+     *                     title="Title",
+     *                     description="Title of the Activity",
+     *                     example="Lorem Ipsum",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="type",
+     *                     title="Type",
+     *                     description="Type of the Activity",
+     *                     example="meeting",
+     *                     enum={"call", "meeting", "lunch", "file", "note"},
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="schedule_from",
+     *                     title="Schedule From",
+     *                     description="Schedule From of the Activity",
+     *                     example="2025-09-01 10:00:00",
+     *                     type="string",
+     *                     format="date-time"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="schedule_to",
+     *                     title="Schedule To",
+     *                     description="Schedule To of the Activity",
+     *                     example="2025-11-01 10:00:00",
+     *                     type="string",
+     *                     format="date-time"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="location",
+     *                     title="Location",
+     *                     description="Location of the Activity",
+     *                     example="New York",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="comment",
+     *                     title="Comment",
+     *                     description="Comment of the Activity",
+     *                     example="Lorem Ipsum",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="participants",
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="persons",
+     *                         type="array",
      *
-     *                  @OA\Property(
-     *                      property="users",
-     *                      type="array",
+     *                         @OA\Items(
+     *                             type="string",
+     *                             example="1"
+     *                         ),
+     *                         description="List of person IDs"
+     *                     ),
      *
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="1"
-     *                      ),
-     *                      description="List of user IDs"
-     *                  ),
-     *                  description="Participants object containing users"
-     *              ),
-     *          ),
+     *                     @OA\Property(
+     *                         property="users",
+     *                         type="array",
+     *
+     *                         @OA\Items(
+     *                             type="string",
+     *                             example="1"
+     *                         ),
+     *                         description="List of user IDs"
+     *                     ),
+     *                     description="Participants object containing users"
+     *                 )
+     *             )
+     *         ),
      *     ),
      *
      *     @OA\Response(
@@ -371,7 +444,7 @@ class ActivityController
      *
      *             @OA\Property(
      *                 property="data",
-     *                 type="Object",
+     *                 type="object",
      *                 ref="#/components/schemas/Activity"
      *             )
      *         )
@@ -383,81 +456,7 @@ class ActivityController
      *     )
      * )
      */
-    public function update()
-    {
-    }
-
-    /**
-     * @OA\Post(
-     *     path="/api/v1/activities/file-upload",
-     *     operationId="activityUpload",
-     *     tags={"Activity"},
-     *     summary="Upload file",
-     *     security={ {"sanctum_admin": {} }},
-     *
-     *     @OA\RequestBody(
-     *
-     *          @OA\MediaType(
-     *              mediaType="multipart/form-data",
-     *
-     *              @OA\Schema(
-     *
-     *                  @OA\Property(
-     *                      property="type",
-     *                      type="string",
-     *                      description="Type of activity",
-     *                      example="file"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="lead_id",
-     *                      type="string",
-     *                      description="Lead id of activity",
-     *                      example="1"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="name",
-     *                      type="string",
-     *                      description="name of activity",
-     *                      example="Lorem"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="comment",
-     *                      type="string",
-     *                      description="comment of activity",
-     *                      example="lorem ipsum"
-     *                  ),
-     *                  @OA\Property(
-     *                      property="file",
-     *                      type="file",
-     *                  ),
-     *              )
-     *          )
-     *      ),
-     *
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     *
-     *         @OA\JsonContent(
-     *
-     *             @OA\Property(
-     *                 property="message",
-     *                 type="string",
-     *                 description="Success message",
-     *                 example="File(s) uploaded successfully."
-     *             ),
-     *         )
-     *     ),
-     *
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     )
-     * )
-     */
-    public function upload()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Get(
@@ -470,7 +469,7 @@ class ActivityController
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="Activity Id",
+     *         description="Activity File Id",
      *         required=true,
      *
      *         @OA\Schema(
@@ -498,9 +497,7 @@ class ActivityController
      *     )
      * )
      */
-    public function download()
-    {
-    }
+    public function download() {}
 
     /**
      * @OA\Delete(
@@ -531,9 +528,7 @@ class ActivityController
      *     )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 
     /**
      * @OA\Post(
@@ -578,9 +573,7 @@ class ActivityController
      *     )
      * )
      */
-    public function massUpdate()
-    {
-    }
+    public function massUpdate() {}
 
     /**
      * @OA\Post(
@@ -618,7 +611,5 @@ class ActivityController
      *     )
      * )
      */
-    public function massDestroy()
-    {
-    }
+    public function massDestroy() {}
 }

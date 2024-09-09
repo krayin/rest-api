@@ -78,9 +78,7 @@ class EmailTemplateController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Get(
@@ -114,9 +112,7 @@ class EmailTemplateController
      *      )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Post(
@@ -168,9 +164,7 @@ class EmailTemplateController
      *      )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -233,9 +227,7 @@ class EmailTemplateController
      *      )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -269,7 +261,5 @@ class EmailTemplateController
      *      )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 }

@@ -129,6 +129,7 @@ class Lead
      *     title="Lead Products",
      *     description="Lead Products",
      *     type="array",
+     *
      *     @OA\Items(
      *         type="object",
      *         ref="#/components/schemas/LeadProduct"

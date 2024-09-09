@@ -78,9 +78,7 @@ class LeadController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Get(
@@ -117,9 +115,184 @@ class LeadController
      *      )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
+
+    /**
+     * @OA\Get(
+     *      path="/api/v1/leads/search",
+     *      operationId="searchLeads",
+     *      tags={"Leads"},
+     *      summary="Search the Leads",
+     *      description="Search the Leads",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\Parameter(
+     *          name="title",
+     *          in="query",
+     *          required=false,
+     *
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Leads via phone"
+     *          )
+     *      ),
+     *
+     *      @OA\Parameter(
+     *          name="user.name",
+     *          in="query",
+     *          required=false,
+     *
+     *          @OA\Schema(
+     *              type="string",
+     *              example="admin"
+     *          )
+     *      ),
+     *
+     *      @OA\Parameter(
+     *          name="person.name",
+     *          in="query",
+     *          required=false,
+     *
+     *          @OA\Schema(
+     *              type="string",
+     *              example="admin"
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="object",
+     *                  ref="#/components/schemas/Lead"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function search() {}
+
+    /**
+     * @OA\Get(
+     *      path="/api/v1/leads/get",
+     *      operationId="Get the Leads",
+     *      tags={"Leads"},
+     *      summary="Get the Leads",
+     *      description="Get the Leads",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\Parameter(
+     *          name="search",
+     *          in="query",
+     *          required=false,
+     *
+     *          @OA\Schema(
+     *              type="string",
+     *              example="lead_value:454;"
+     *          )
+     *      ),
+     *
+     *      @OA\Parameter(
+     *          name="searchFields",
+     *          in="query",
+     *          required=false,
+     *
+     *          @OA\Schema(
+     *              type="string",
+     *              example="lead_value:in;"
+     *          )
+     *      ),
+     *
+     *      @OA\Parameter(
+     *          name="pipeline_id",
+     *          in="query",
+     *          required=false,
+     *
+     *          @OA\Schema(
+     *              type="string",
+     *              example=null
+     *          )
+     *      ),
+     *
+     *      @OA\Parameter(
+     *          name="limit",
+     *          in="query",
+     *          required=false,
+     *
+     *          @OA\Schema(
+     *              type="string",
+     *              example=10
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="object",
+     *                  ref="#/components/schemas/Lead"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function get() {}
+
+    /**
+     * @OA\Get(
+     *      path="/api/v1/leads/kanban/look-up",
+     *      operationId="dataGridSearchableDropdown",
+     *      tags={"Leads"},
+     *      summary="Get the Datagird Searchable dropdown Leads",
+     *      description="Get the Datagird Searchable dropdown Leads",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\Parameter(
+     *          name="search",
+     *          in="query",
+     *          required=false,
+     *
+     *          @OA\Schema(
+     *              type="string",
+     *              example="admin"
+     *          )
+     *      ),
+     *
+     *      @OA\Parameter(
+     *          name="column",
+     *          in="query",
+     *          required=false,
+     *
+     *          @OA\Schema(
+     *              type="string",
+     *              example="user_id"
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="object",
+     *                  ref="#/components/schemas/Lead"
+     *              )
+     *          )
+     *      )
+     * )
+     */
+    public function kanbanLookup() {}
 
     /**
      * @OA\Post(
@@ -158,7 +331,7 @@ class LeadController
      *                  @OA\Property(
      *                      property="lead_pipeline_stage_id",
      *                      nullable=true,
-     *                      example=null,
+     *                      example=1,
      *                      description="Lead Pipeline state ID",
      *                  ),
      *                  @OA\Property(
@@ -255,6 +428,18 @@ class LeadController
      *                          nullable=true,
      *                          example=null
      *                     ),
+     *                    @OA\Property(
+     *                          property="user_id",
+     *                          type="string",
+     *                          nullable=true,
+     *                          example=null
+     *                     ),
+     *                    @OA\Property(
+     *                          property="job_title",
+     *                          type="string",
+     *                          nullable=true,
+     *                          example="Sales Executive"
+     *                     ),
      *                  ),
      *                  @OA\Property(
      *                      property="products",
@@ -295,9 +480,7 @@ class LeadController
      *      )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -347,7 +530,7 @@ class LeadController
      *                  @OA\Property(
      *                      property="lead_pipeline_stage_id",
      *                      nullable=true,
-     *                      example=null,
+     *                      example=1,
      *                      description="Lead Pipeline state ID",
      *                  ),
      *                  @OA\Property(
@@ -449,6 +632,18 @@ class LeadController
      *                          nullable=true,
      *                          example=null
      *                     ),
+     *                    @OA\Property(
+     *                          property="user_id",
+     *                          type="string",
+     *                          nullable=true,
+     *                          example=null
+     *                     ),
+     *                    @OA\Property(
+     *                          property="job_title",
+     *                          type="string",
+     *                          nullable=true,
+     *                          example="Sales Executive"
+     *                     ),
      *                  ),
      *                  @OA\Property(
      *                      property="products",
@@ -482,9 +677,269 @@ class LeadController
      *      )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
+
+    /**
+     * @OA\Put(
+     *      path="/api/v1/leads/product/{id}",
+     *      operationId="updateProductRelatedtoLead",
+     *      tags={"Leads"},
+     *      summary="Store the products related to Leads",
+     *      description="Store the products related to Leads",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Lead ID",
+     *          required=true,
+     *          in="path",
+     *
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *
+     *      @OA\RequestBody(
+     *
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *
+     *              @OA\Schema(
+     *
+     *                  @OA\Property(
+     *                      property="amount",
+     *                      type="number",
+     *                      description="Amount related to the lead",
+     *                      example=1500.75
+     *                  ),
+     *                  @OA\Property(
+     *                      property="id",
+     *                      type="integer",
+     *                      description="Unique identifier for the product",
+     *                      example=null
+     *                  ),
+     *                  @OA\Property(
+     *                      property="is_new",
+     *                      type="boolean",
+     *                      description="Indicates if the product is new",
+     *                      example=true
+     *                  ),
+     *                  @OA\Property(
+     *                      property="name",
+     *                      type="string",
+     *                      description="Name of the product",
+     *                      example="Sample Product"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="price",
+     *                      type="number",
+     *                      description="Price of the product",
+     *                      example=299.99
+     *                  ),
+     *                  @OA\Property(
+     *                      property="product_id",
+     *                      type="integer",
+     *                      description="Product ID associated with the lead",
+     *                      example=10
+     *                  ),
+     *                  @OA\Property(
+     *                      property="quantity",
+     *                      type="integer",
+     *                      description="Quantity of the product",
+     *                      example=2
+     *                  ),
+     *                  required={"amount", "id", "is_new", "name", "price", "product_id", "quantity"}
+     *              ),
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="message", type="string", example="Lead Updated Successfully."),
+     *              @OA\Property(property="data", type="object", ref="#/components/schemas/Lead")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      )
+     * )
+     */
+    public function addProduct() {}
+
+    /**
+     * @OA\Delete(
+     *      path="/api/v1/leads/product/{id}",
+     *      operationId="deleteProductRelatedtoLead",
+     *      tags={"Leads"},
+     *      summary="Store the products related to Leads",
+     *      description="Store the products related to Leads",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Lead ID",
+     *          required=true,
+     *          in="path",
+     *
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *
+     *      @OA\RequestBody(
+     *
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *
+     *              @OA\Schema(
+     *
+     *                  @OA\Property(
+     *                      property="product_id",
+     *                      type="integer",
+     *                      description="Product ID associated with the lead",
+     *                      example=1
+     *                  ),
+     *                  required={"product_id"}
+     *              ),
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="message", type="string", example="Lead Updated Successfully."),
+     *              @OA\Property(property="data", type="object", ref="#/components/schemas/Lead")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      )
+     * )
+     */
+    public function removeProduct() {}
+
+    /**
+     * @OA\Put(
+     *      path="/api/v1/leads/attributes/edit/{id}",
+     *      operationId="updateLeadAttribute",
+     *      tags={"Leads"},
+     *      summary="Update the lead attributes",
+     *      description="Update the lead attributes",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Lead ID",
+     *          required=true,
+     *          in="path",
+     *
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *
+     *      @OA\RequestBody(
+     *
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *
+     *              @OA\Schema(
+     *
+     *                  @OA\Property(
+     *                      property="lead_pipeline_stage_id",
+     *                      nullable=true,
+     *                      example=1,
+     *                      description="Lead Pipeline state ID",
+     *                  ),
+     *              ),
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="message", type="string", example="Lead Updated Successfully."),
+     *              @OA\Property(property="data", type="object", ref="#/components/schemas/Lead")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      )
+     * )
+     */
+    public function updateAttributes() {}
+
+    /**
+     * @OA\Put(
+     *      path="/api/v1/leads/stage/edit/{id}",
+     *      operationId="updateLeadStage",
+     *      tags={"Leads"},
+     *      summary="Update the lead stage",
+     *      description="Update the lead stage",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Lead ID",
+     *          required=true,
+     *          in="path",
+     *
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *
+     *      @OA\RequestBody(
+     *
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *
+     *              @OA\Schema(
+     *
+     *                  @OA\Property(
+     *                      property="lead_pipeline_stage_id",
+     *                      nullable=true,
+     *                      example=1,
+     *                      description="Lead Pipeline state ID",
+     *                  ),
+     *              ),
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="message", type="string", example="Lead Updated Successfully."),
+     *              @OA\Property(property="data", type="object", ref="#/components/schemas/Lead")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      )
+     * )
+     */
+    public function updateStage() {}
 
     /**
      * @OA\Delete(
@@ -522,9 +977,7 @@ class LeadController
      *      )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 
     /**
      * @OA\Post(
@@ -532,7 +985,7 @@ class LeadController
      *      operationId="massUpdateLeads",
      *      tags={"Leads"},
      *      summary="Mass update Leads",
-     *      description="Mass update Leads",
+     *      description="Mass update Leads, here you can update the leads stages.",
      *      security={ {"sanctum_admin": {} }},
      *
      *      @OA\RequestBody(
@@ -575,9 +1028,7 @@ class LeadController
      *      )
      * )
      */
-    public function massUpdate()
-    {
-    }
+    public function massUpdate() {}
 
     /**
      * @OA\Post(
@@ -621,7 +1072,5 @@ class LeadController
      *      )
      * )
      */
-    public function massDestroy()
-    {
-    }
+    public function massDestroy() {}
 }

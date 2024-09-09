@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Webkul\RestApi\Http\Controllers\V1\Contact\OrganizationController;
-use Webkul\RestApi\Http\Controllers\V1\Contact\PersonController;
+use Webkul\RestApi\Http\Controllers\V1\Contact\Organizations\OrganizationController;
+use Webkul\RestApi\Http\Controllers\V1\Contact\Persons\ActivityController;
+use Webkul\RestApi\Http\Controllers\V1\Contact\Persons\PersonController;
+use Webkul\RestApi\Http\Controllers\V1\Contact\Persons\TagController;
 
 Route::group([
     'prefix'     => 'contacts',
@@ -11,32 +13,52 @@ Route::group([
     /**
      * Person routes.
      */
-    Route::get('persons', [PersonController::class, 'index']);
+    Route::controller(PersonController::class)->prefix('persons')->group(function () {
+        Route::get('', 'index');
 
-    Route::get('persons/search', [PersonController::class, 'search'])->where('query', '[A-Za-z0–9\-]+');
+        Route::get('search', 'search')->where('query', '[A-Za-z0–9\-]+');
 
-    Route::get('persons/{id}', [PersonController::class, 'show'])->where('id', '[0-9]+');
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
-    Route::post('persons', [PersonController::class, 'store']);
+        Route::post('', 'store');
 
-    Route::put('persons/{id}', [PersonController::class, 'update']);
+        Route::put('{id}', 'update');
 
-    Route::delete('persons/{id}', [PersonController::class, 'destroy']);
+        Route::middleware(['throttle:100,60'])->delete('{id}', 'destroy');
 
-    Route::post('persons/mass-destroy', [PersonController::class, 'massDestroy']);
+        Route::post('mass-destroy', 'massDestroy');
+
+        /**
+         * Tag routes.
+         */
+        Route::controller(TagController::class)->prefix('{id}/tags')->group(function () {
+            Route::post('', 'attach');
+
+            Route::delete('', 'detach');
+        });
+
+        /**
+         * Activity routes.
+         */
+        Route::controller(ActivityController::class)->prefix('{id}/activities')->group(function () {
+            Route::get('', 'index');
+        });
+    });
 
     /**
      * Organization routes.
      */
-    Route::get('organizations', [OrganizationController::class, 'index']);
+    Route::controller(OrganizationController::class)->prefix('organizations')->group(function () {
+        Route::get('', 'index');
 
-    Route::get('organizations/{id}', [OrganizationController::class, 'show']);
+        Route::get('{id}', 'show');
 
-    Route::post('organizations', [OrganizationController::class, 'store']);
+        Route::post('', 'store');
 
-    Route::put('organizations/{id}', [OrganizationController::class, 'update']);
+        Route::put('{id}', 'update');
 
-    Route::delete('organizations/{id}', [OrganizationController::class, 'destroy']);
+        Route::delete('{id}', 'destroy');
 
-    Route::post('organizations/mass-destroy', [OrganizationController::class, 'massDestroy']);
+        Route::put('mass-destroy', 'massDestroy');
+    });
 });

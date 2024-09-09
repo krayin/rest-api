@@ -37,9 +37,7 @@ class AccountController
      *      )
      * )
      */
-    public function get()
-    {
-    }
+    public function get() {}
 
     /**
      * @OA\Post(
@@ -122,9 +120,7 @@ class AccountController
      *      )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -151,7 +147,5 @@ class AccountController
      *      )
      * )
      */
-    public function logout()
-    {
-    }
+    public function logout() {}
 }

@@ -2,10 +2,10 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Lead;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Lead\Repositories\LeadRepository;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
-use Webkul\RestApi\Http\Resources\V1\Lead\LeadResource;
 
 class TagController extends Controller
 {
@@ -14,53 +14,43 @@ class TagController extends Controller
      *
      * @return void
      */
-    public function __construct(protected LeadRepository $leadRepository)
-    {
-    }
+    public function __construct(protected LeadRepository $leadRepository) {}
 
     /**
-     * Store a newly created tag in storage.
-     *
-     * @param  int  $leadId
-     * @return \Illuminate\Http\Response
+     * Store a newly created resource in storage.
      */
-    public function store($leadId)
+    public function attach(int $id): JsonResource
     {
-        Event::dispatch('leads.tag.create.before', $leadId);
+        Event::dispatch('leads.tag.create.before', $id);
 
-        $lead = $this->leadRepository->find($leadId);
+        $lead = $this->leadRepository->find($id);
 
-        if (! $lead->tags->contains(request('id'))) {
-            $lead->tags()->attach(request('id'));
+        if (! $lead->tags->contains(request()->input('tag_id'))) {
+            $lead->tags()->attach(request()->input('tag_id'));
         }
 
         Event::dispatch('leads.tag.create.after', $lead);
 
-        return response([
-            'data'    => new LeadResource($lead),
-            'message' => trans('admin::app.leads.tag-create-success'),
+        return new JsonResource([
+            'message' => trans('rest-api::app.leads.view.tags.create-success'),
         ]);
     }
 
     /**
-     * Remove the specified tag from storage.
-     *
-     * @param  int  $leadId
-     * @return \Illuminate\Http\Response
+     * Remove the specified resource from storage.
      */
-    public function delete($leadId)
+    public function detach($leadId): JsonResource
     {
         Event::dispatch('leads.tag.delete.before', $leadId);
 
         $lead = $this->leadRepository->find($leadId);
 
-        $lead->tags()->detach(request('id'));
+        $lead->tags()->detach(request()->input('tag_id'));
 
         Event::dispatch('leads.tag.delete.after', $lead);
 
-        return response([
-            'data'    => new LeadResource($lead),
-            'message' => trans('admin::app.leads.tag-destroy-success'),
+        return new JsonResource([
+            'message' => trans('rest-api::app.leads.view.tags.delete-success'),
         ]);
     }
 }

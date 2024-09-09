@@ -4,17 +4,23 @@ use Illuminate\Support\Facades\Route;
 use Webkul\RestApi\Http\Controllers\V1\Product\ProductController;
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('products', [ProductController::class, 'index']);
+    Route::controller(ProductController::class)->prefix('products')->group(function () {
+        Route::get('', 'index');
 
-    Route::get('products/{id}', [ProductController::class, 'show']);
+        Route::post('', 'store');
 
-    Route::get('products/search', [ProductController::class, 'search']);
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
-    Route::post('products', [ProductController::class, 'store']);
+        Route::put('{id}', 'update');
 
-    Route::put('products/{id}', [ProductController::class, 'update']);
+        Route::get('search', 'search');
 
-    Route::delete('products/{id}', [ProductController::class, 'destroy']);
+        Route::get('{id}/warehouses', 'warehouses');
 
-    Route::post('products/mass-destroy', [ProductController::class, 'massDestroy']);
+        Route::post('{id}/inventories/{warehouseId?}', 'storeInventories');
+
+        Route::delete('{id}', 'destroy');
+
+        Route::post('mass-destroy', 'massDestroy');
+    });
 });

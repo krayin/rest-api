@@ -3,16 +3,20 @@
 use Illuminate\Support\Facades\Route;
 use Webkul\RestApi\Http\Controllers\V1\Quote\QuoteController;
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('quotes', [QuoteController::class, 'index']);
+Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'quotes'], function () {
+    Route::controller(QuoteController::class)->group(function () {
+        Route::get('', 'index');
 
-    Route::get('quotes/{id}', [QuoteController::class, 'show']);
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
-    Route::post('quotes', [QuoteController::class, 'store']);
+        Route::post('', 'store');
 
-    Route::put('quotes/{id}', [QuoteController::class, 'update']);
+        Route::put('{id}', 'update');
 
-    Route::delete('quotes/{id}', [QuoteController::class, 'destroy']);
+        Route::delete('{id}', 'destroy');
 
-    Route::post('quotes/mass-destroy', [QuoteController::class, 'massDestroy']);
+        Route::post('mass-destroy', 'massDestroy');
+
+        Route::get('search', 'search');
+    });
 });

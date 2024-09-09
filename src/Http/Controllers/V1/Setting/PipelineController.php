@@ -16,16 +16,12 @@ class PipelineController extends Controller
      *
      * @return void
      */
-    public function __construct(protected PipelineRepository $pipelineRepository)
-    {
-    }
+    public function __construct(protected PipelineRepository $pipelineRepository) {}
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResource
     {
         $pipelines = $this->allResources($this->pipelineRepository);
 
@@ -34,10 +30,8 @@ class PipelineController extends Controller
 
     /**
      * Show resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(int $id): PipelineResource
     {
         $resource = $this->pipelineRepository->find($id);
 
@@ -46,10 +40,8 @@ class PipelineController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store(PipelineForm $request)
+    public function store(PipelineForm $request): JsonResource
     {
         $request->merge([
             'is_default' => request()->has('is_default') ? 1 : 0,
@@ -63,17 +55,14 @@ class PipelineController extends Controller
 
         return new JsonResource([
             'data'    => new PipelineResource($pipeline),
-            'message' => trans('admin::app.settings.pipelines.create-success'),
+            'message' => trans('rest-api::app.settings.pipelines.create-success'),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(PipelineForm $request, $id)
+    public function update(PipelineForm $request, int $id): JsonResource
     {
         $request->merge([
             'is_default' => request()->has('is_default') ? 1 : 0,
@@ -87,23 +76,20 @@ class PipelineController extends Controller
 
         return new JsonResource([
             'data'    => new PipelineResource($pipeline),
-            'message' => trans('admin::app.settings.pipelines.update-success'),
+            'message' => trans('rest-api::app.settings.pipelines.updated-success'),
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): JsonResource
     {
         $pipeline = $this->pipelineRepository->findOrFail($id);
 
         if ($pipeline->is_default) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.pipelines.default-delete-error'),
+                'message' => trans('rest-api::app.settings.pipelines.default-delete-error'),
             ], 400);
         } else {
             $defaultPipeline = $this->pipelineRepository->getDefaultPipeline();
@@ -122,11 +108,11 @@ class PipelineController extends Controller
             Event::dispatch('settings.pipeline.delete.after', $id);
 
             return new JsonResource([
-                'message' => trans('admin::app.settings.pipelines.delete-success'),
+                'message' => trans('rest-api::app.settings.pipelines.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.pipelines.delete-failed'),
+                'message' => trans('rest-api::app.settings.pipelines.delete-failed'),
             ], 500);
         }
     }

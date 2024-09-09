@@ -78,9 +78,7 @@ class EmailController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Post(
@@ -92,66 +90,86 @@ class EmailController
      *     security={ {"sanctum_admin": {} }},
      *
      *     @OA\RequestBody(
-     *         required=true,
+     *          required=true,
      *
-     *         @OA\JsonContent(
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
      *
-     *             @OA\Property(
-     *                 property="is_draft",
-     *                 type="integer",
-     *                 description="Indicates if the email is a draft or not. (0 for false, 1 for true)"
-     *             ),
-     *             @OA\Property(
-     *                 property="id",
-     *                 type="integer",
-     *                 nullable=true,
-     *                 description="The ID of the email",
-     *                 example=null,
-     *             ),
-     *             @OA\Property(
-     *                 property="reply_to",
-     *                 title="Reply To",
-     *                 description="Reply To email addresses",
-     *                 type="array",
+     *              @OA\Schema(
      *
-     *                 @OA\Items(type="string"),
-     *                 example={"reply1@example.com", "reply2@example.com"}
-     *             ),
+     *                  @OA\Property(
+     *                      property="type",
+     *                      type="string",
+     *                      description="Type of the email",
+     *                      example="email"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="is_draft",
+     *                      type="boolean",
+     *                      description="Indicates if the email is a draft or not",
+     *                      example=true
+     *                  ),
+
+     *                  @OA\Property(
+     *                      property="reply_to[]",
+     *                      type="array",
+     *                      description="List of email addresses to reply to",
      *
-     *             @OA\Property(
-     *                 property="cc",
-     *                 description="List of email addresses to CC",
-     *                 title="CC",
-     *                 type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          format="email",
+     *                          example="example@mail.com"
+     *                      )
+     *                  ),
      *
-     *                 @OA\Items(type="string"),
-     *                 example={"cc1@example.com", "cc2@example.com"}
-     *             ),
+     *                  @OA\Property(
+     *                      property="cc[]",
+     *                      type="array",
+     *                      description="List of email addresses to cc",
      *
-     *             @OA\Property(
-     *                 property="bcc",
-     *                 description="List of email addresses to BCC",
-     *                 title="BCC",
-     *                 type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          format="email",
+     *                          example="example@mail.com"
+     *                      )
+     *                  ),
      *
-     *                 @OA\Items(type="string"),
-     *                 example={"bcc1@example.com", "bcc2@example.com"}
-     *             ),
+     *                  @OA\Property(
+     *                      property="bcc[]",
+     *                      type="array",
+     *                      description="List of email addresses to bcc",
      *
-     *             @OA\Property(
-     *                 property="subject",
-     *                 type="string",
-     *                 description="The subject of the email",
-     *                 example="subject"
-     *             ),
-     *             @OA\Property(
-     *                 property="reply",
-     *                 type="string",
-     *                 description="The content of the email reply",
-     *                 example="reply"
-     *             )
-     *         )
-     *     ),
+     *                      @OA\Items(
+     *                          type="string",
+     *                          format="email",
+     *                          example="example@mail.com"
+     *                      )
+     *                  ),
+     *
+     *                  @OA\Property(
+     *                      property="subject",
+     *                      type="string",
+     *                      description="Subject of the email",
+     *                      example="subject"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="reply",
+     *                      type="string",
+     *                      description="Message content of the email",
+     *                      example="message"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="attachments[]",
+     *                      type="array",
+     *                      description="Attachments of the email",
+     *
+     *                      @OA\Items(
+     *                          type="file",
+     *                      )
+     *                  ),
+     *              )
+     *          )
+     *      ),
      *
      *     @OA\Response(
      *         response=200,
@@ -174,9 +192,7 @@ class EmailController
      *     )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Get(
@@ -214,12 +230,10 @@ class EmailController
      *      )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
-     * @OA\Put(
+     * @OA\Post(
      *      path="/api/v1/mails/{id}",
      *      operationId="mailUpdate",
      *      tags={"Mail"},
@@ -237,64 +251,89 @@ class EmailController
      *          )
      *      ),
      *
-     *      @OA\RequestBody(
+     *     @OA\RequestBody(
      *          required=true,
      *
-     *          @OA\JsonContent(
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
      *
-     *              @OA\Property(
-     *                  property="is_draft",
-     *                  type="integer",
-     *                  description="Indicates if the email is a draft or not. (0 for false, 1 for true)"
-     *              ),
-     *              @OA\Property(
-     *                  property="id",
-     *                  type="integer",
-     *                  nullable=true,
-     *                  description="The ID of the email",
-     *                  example=null,
-     *              ),
-     *              @OA\Property(
-     *                  property="reply_to",
-     *                  title="Reply To",
-     *                  description="Reply To email addresses",
-     *                  type="array",
+     *              @OA\Schema(
      *
-     *                  @OA\Items(type="string"),
-     *                  example={"reply1@example.com", "reply2@example.com"}
-     *              ),
+     *                  @OA\Property(
+     *                      property="type",
+     *                      type="string",
+     *                      description="Type of the email",
+     *                      example="email"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="is_draft",
+     *                      type="boolean",
+     *                      description="Indicates if the email is a draft or not",
+     *                      example=true
+     *                  ),
+     *                  @OA\Property(
+     *                      property="_method",
+     *                      type="string",
+     *                      example="PUT",
+     *                      description="Method to be used for the request"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="reply_to[]",
+     *                      type="array",
+     *                      description="List of email addresses to reply to",
      *
-     *              @OA\Property(
-     *                  property="cc",
-     *                  description="List of email addresses to CC",
-     *                  title="CC",
-     *                  type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          format="email",
+     *                          example="example@mail.com"
+     *                      )
+     *                  ),
      *
-     *                  @OA\Items(type="string"),
-     *                  example={"cc1@example.com", "cc2@example.com"}
-     *              ),
+     *                  @OA\Property(
+     *                      property="cc[]",
+     *                      type="array",
+     *                      description="List of email addresses to cc",
      *
-     *              @OA\Property(
-     *                  property="bcc",
-     *                  description="List of email addresses to BCC",
-     *                  title="BCC",
-     *                  type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          format="email",
+     *                          example="example@mail.com"
+     *                      )
+     *                  ),
      *
-     *                  @OA\Items(type="string"),
-     *                  example={"bcc1@example.com", "bcc2@example.com"}
-     *              ),
+     *                  @OA\Property(
+     *                      property="bcc[]",
+     *                      type="array",
+     *                      description="List of email addresses to bcc",
      *
-     *              @OA\Property(
-     *                  property="subject",
-     *                  type="string",
-     *                  description="The subject of the email",
-     *                  example="subject"
-     *              ),
-     *              @OA\Property(
-     *                  property="reply",
-     *                  type="string",
-     *                  description="The content of the email reply",
-     *                  example="reply"
+     *                      @OA\Items(
+     *                          type="string",
+     *                          format="email",
+     *                          example="example@mail.com"
+     *                      )
+     *                  ),
+     *
+     *                  @OA\Property(
+     *                      property="subject",
+     *                      type="string",
+     *                      description="Subject of the email",
+     *                      example="subject"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="reply",
+     *                      type="string",
+     *                      description="Message content of the email",
+     *                      example="message"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="attachments[]",
+     *                      type="array",
+     *                      description="Attachments of the email",
+     *
+     *                      @OA\Items(
+     *                          type="file",
+     *                      )
+     *                  ),
      *              )
      *          )
      *      ),
@@ -312,9 +351,7 @@ class EmailController
      *      )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -362,9 +399,7 @@ class EmailController
      *      )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 
     /**
      * @OA\Post(
@@ -426,9 +461,7 @@ class EmailController
      *      )
      * )
      */
-    public function massUpdate()
-    {
-    }
+    public function massUpdate() {}
 
     /**
      * @OA\Post(
@@ -482,9 +515,7 @@ class EmailController
      *      )
      * )
      */
-    public function massDestroy()
-    {
-    }
+    public function massDestroy() {}
 
     /**
      * @OA\Get(
@@ -522,7 +553,5 @@ class EmailController
      *      )
      * )
      */
-    public function download()
-    {
-    }
+    public function download() {}
 }

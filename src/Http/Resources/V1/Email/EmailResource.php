@@ -3,6 +3,7 @@
 namespace Webkul\RestApi\Http\Resources\V1\Email;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Webkul\Admin\Http\Resources\EmailAttachmentResource;
 use Webkul\RestApi\Http\Resources\V1\Contact\PersonResource;
 use Webkul\RestApi\Http\Resources\V1\Lead\LeadResource;
 
@@ -35,6 +36,7 @@ class EmailResource extends JsonResource
             'reference_ids' => $this->reference_ids,
             'person'        => new PersonResource($this->person),
             'lead'          => new LeadResource($this->lead),
+            'attachments'   => EmailAttachmentResource::collection($this->attachments),
             'created_at'    => $this->created_at,
             'updated_at'    => $this->updated_at,
             'parent_id'     => $this->parent_id,

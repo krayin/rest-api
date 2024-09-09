@@ -3,6 +3,7 @@
 namespace Webkul\RestApi\Http\Resources\V1\Activity;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Webkul\Admin\Http\Resources\UserResource;
 
 class ActivityResource extends JsonResource
 {
@@ -23,7 +24,7 @@ class ActivityResource extends JsonResource
             'schedule_from' => $this->schedule_from,
             'schedule_to'   => $this->schedule_to,
             'is_done'       => $this->is_done,
-            'user_id'       => $this->user_id,
+            'user_id'       => new UserResource($this->user),
             'location'      => $this->location,
             'created_at'    => $this->created_at,
             'updated_at'    => $this->updated_at,

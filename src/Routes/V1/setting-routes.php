@@ -20,45 +20,53 @@ Route::group([
     /**
      * Group routes.
      */
-    Route::get('groups', [GroupController::class, 'index']);
+    Route::controller(GroupController::class)->prefix('groups')->group(function () {
+        Route::get('', 'index');
 
-    Route::get('groups/{id}', [GroupController::class, 'show']);
+        Route::post('', 'store');
 
-    Route::post('groups', [GroupController::class, 'store']);
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
-    Route::put('groups/{id}', [GroupController::class, 'update']);
+        Route::put('{id}', 'update');
 
-    Route::delete('groups/{id}', [GroupController::class, 'destroy']);
+        Route::delete('{id}', 'destroy');
+    });
 
     /**
      * Role routes.
      */
-    Route::get('roles', [RoleController::class, 'index']);
+    Route::controller(RoleController::class)->prefix('roles')->group(function () {
+        Route::get('', 'index');
 
-    Route::get('roles/{id}', [RoleController::class, 'show']);
+        Route::post('', 'store');
 
-    Route::post('roles', [RoleController::class, 'store']);
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
-    Route::put('roles/{id}', [RoleController::class, 'update']);
+        Route::put('{id}', 'update');
 
-    Route::delete('roles/{id}', [RoleController::class, 'destroy']);
+        Route::delete('{id}', 'destroy');
+    });
 
     /**
      * User routes.
      */
-    Route::get('users', [UserController::class, 'index']);
+    Route::controller(UserController::class)->prefix('users')->group(function () {
+        Route::get('', 'index');
 
-    Route::get('users/{id}', [UserController::class, 'show']);
+        Route::post('', 'store');
 
-    Route::post('users', [UserController::class, 'store']);
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
-    Route::put('users/{id}', [UserController::class, 'update']);
+        Route::put('{id}', 'update');
 
-    Route::delete('users/{id}', [UserController::class, 'destroy']);
+        Route::delete('{id}', 'destroy');
 
-    Route::post('users/mass-update', [UserController::class, 'massUpdate']);
+        Route::get('search', 'search');
 
-    Route::post('users/mass-destroy', [UserController::class, 'massDestroy']);
+        Route::post('mass-update', 'massUpdate');
+
+        Route::post('mass-destroy', 'massDestroy');
+    });
 
     /**
      * Lead pipeline routes.
@@ -145,28 +153,34 @@ Route::group([
     /**
      * Tag routes.
      */
-    Route::get('tags', [TagController::class, 'index']);
+    Route::controller(TagController::class)->prefix('tags')->group(function () {
+        Route::get('', 'index');
 
-    Route::get('tags/{id}', [TagController::class, 'show']);
+        Route::post('', 'store');
 
-    Route::post('tags', [TagController::class, 'store']);
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
-    Route::put('tags/{id}', [TagController::class, 'update']);
+        Route::put('{id}', 'update');
 
-    Route::delete('tags/{id}', [TagController::class, 'destroy']);
+        Route::get('search', 'search');
 
-    Route::post('tags/mass-destroy', [TagController::class, 'massDestroy']);
+        Route::delete('{id}', 'destroy');
+
+        Route::post('mass-destroy', 'massDestroy');
+    });
 
     /**
      * WebForms routes.
      */
-    Route::get('web-forms', [WebFormController::class, 'index']);
+    Route::controller(WebFormController::class)->prefix('web-forms')->group(function () {
+        Route::get('', 'index');
 
-    Route::get('web-forms/{id}', [WebFormController::class, 'show']);
+        Route::post('', 'store');
 
-    Route::post('web-forms', [WebFormController::class, 'store']);
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
-    Route::put('web-forms/{id}', [WebFormController::class, 'update']);
+        Route::put('{id}', 'update');
 
-    Route::delete('web-forms/{id}', [WebFormController::class, 'destroy']);
+        Route::delete('{id}', 'destroy');
+    });
 });

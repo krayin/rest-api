@@ -13,9 +13,7 @@ class ConfigurationController extends Controller
      *
      * @return void
      */
-    public function __construct(protected ConfigurationRepository $configurationRepository)
-    {
-    }
+    public function __construct(protected ConfigurationRepository $configurationRepository) {}
 
     /**
      * Store a newly created configuration in storage.
@@ -31,7 +29,7 @@ class ConfigurationController extends Controller
         Event::dispatch('core.configuration.save.after');
 
         return response([
-            'message' => trans('admin::app.configuration.save-message'),
+            'message' => trans('rest-api::app.configuration.save-success'),
         ]);
     }
 }

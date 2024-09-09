@@ -4,7 +4,7 @@ namespace Webkul\RestApi\Docs\Controllers;
 
 /**
  * @OA\Info(
- *      version="1.0.0",
+ *      version="2.0.0",
  *      title="Krayin Rest API Documentation",
  *      description="Krayin Rest API Documentation",
  *
@@ -40,7 +40,7 @@ namespace Webkul\RestApi\Docs\Controllers;
  * )
  * @OA\Tag(
  *     name="Contacts",
- *     description="API Endpoints for Contacts and Organizations."
+ *     description="API Endpoints for Persons and Organizations."
  * )
  * @OA\Tag(
  *     name="Products",
@@ -94,7 +94,13 @@ namespace Webkul\RestApi\Docs\Controllers;
  *     name="EmailTemplate",
  *     description="API Endpoints for EmailTemplate."
  * )
+ * @OA\Tag(
+ *     name="Warehouse",
+ *     description="API Endpoints for Warehouses."
+ * )
+ * @OA\Tag(
+ *     name="Webhook",
+ *     description="API Endpoints for Webhooks."
+ * )
  */
-class Controller
-{
-}
+class Controller {}

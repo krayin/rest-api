@@ -15,16 +15,12 @@ class TypeController extends Controller
      *
      * @return void
      */
-    public function __construct(protected TypeRepository $typeRepository)
-    {
-    }
+    public function __construct(protected TypeRepository $typeRepository) {}
 
     /**
      * Display a listing of the type.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResource
     {
         $types = $this->allResources($this->typeRepository);
 
@@ -32,11 +28,9 @@ class TypeController extends Controller
     }
 
     /**
-     * Show resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Show the specified resource.
      */
-    public function show(int $id)
+    public function show(int $id): TypeResource
     {
         $resource = $this->typeRepository->find($id);
 
@@ -45,10 +39,8 @@ class TypeController extends Controller
 
     /**
      * Store a newly created type in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(): JsonResource
     {
         $this->validate(request(), [
             'name' => 'required|unique:lead_types,name',
@@ -62,17 +54,14 @@ class TypeController extends Controller
 
         return new JsonResource([
             'data'    => new TypeResource($type),
-            'message' => trans('admin::app.settings.types.create-success'),
+            'message' => trans('rest-api::app.settings.types.create-success'),
         ]);
     }
 
     /**
      * Update the specified type in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(int $id): JsonResource
     {
         $this->validate(request(), [
             'name' => 'required|unique:lead_types,name,'.$id,
@@ -86,17 +75,14 @@ class TypeController extends Controller
 
         return new JsonResource([
             'data'    => new TypeResource($type),
-            'message' => trans('admin::app.settings.types.update-success'),
+            'message' => trans('rest-api::app.settings.types.update-success'),
         ]);
     }
 
     /**
      * Remove the specified type from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): JsonResource
     {
         try {
             Event::dispatch('settings.type.delete.before', $id);
@@ -106,11 +92,11 @@ class TypeController extends Controller
             Event::dispatch('settings.type.delete.after', $id);
 
             return new JsonResource([
-                'message' => trans('admin::app.settings.types.delete-success'),
+                'message' => trans('rest-api::app.settings.types.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.types.delete-failed'),
+                'message' => trans('rest-api::app.settings.types.delete-failed'),
             ], 500);
         }
     }

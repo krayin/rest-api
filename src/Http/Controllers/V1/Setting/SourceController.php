@@ -15,16 +15,12 @@ class SourceController extends Controller
      *
      * @return void
      */
-    public function __construct(protected SourceRepository $sourceRepository)
-    {
-    }
+    public function __construct(protected SourceRepository $sourceRepository) {}
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResource
     {
         $sources = $this->allResources($this->sourceRepository);
 
@@ -33,10 +29,8 @@ class SourceController extends Controller
 
     /**
      * Show resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(int $id): SourceResource
     {
         $resource = $this->sourceRepository->find($id);
 
@@ -45,10 +39,8 @@ class SourceController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(): JsonResource
     {
         $this->validate(request(), [
             'name' => 'required|unique:lead_sources,name',
@@ -62,17 +54,14 @@ class SourceController extends Controller
 
         return new JsonResource([
             'data'    => new SourceResource($source),
-            'message' => trans('admin::app.settings.sources.create-success'),
+            'message' => trans('rest-api::app.settings.sources.create-success'),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(int $id): JsonResource
     {
         $this->validate(request(), [
             'name' => 'required|unique:lead_sources,name,'.$id,
@@ -86,17 +75,14 @@ class SourceController extends Controller
 
         return new JsonResource([
             'data'    => new SourceResource($source),
-            'message' => trans('admin::app.settings.sources.update-success'),
+            'message' => trans('rest-api::app.settings.sources.update-success'),
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id): JsonResource
     {
         try {
             Event::dispatch('settings.source.delete.before', $id);
@@ -106,11 +92,11 @@ class SourceController extends Controller
             Event::dispatch('settings.source.delete.after', $id);
 
             return new JsonResource([
-                'message' => trans('admin::app.settings.sources.delete-success'),
+                'message' => trans('rest-api::app.settings.sources.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.sources.delete-failed'),
+                'message' => trans('rest-api::app.settings.sources.delete-failed'),
             ], 500);
         }
     }

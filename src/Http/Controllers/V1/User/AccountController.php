@@ -82,7 +82,7 @@ class AccountController extends Controller
      * Handle profile image upload.
      *
      * @param  array  $data
-     * @param  Object $user
+     * @param  object  $user
      * @return void
      */
     public function handleProfileImageUpload(&$data, $user)
@@ -92,20 +92,20 @@ class AccountController extends Controller
         if (! isset($data['image'])) {
             $data['image'] = $user->image;
         }
-    
+
         if (request()->hasFile('image')) {
-            $data['image'] = request()->file('image')->store('users/' . $user->id);
+            $data['image'] = request()->file('image')->store('users/'.$user->id);
         }
-    
+
         if (
             isset($data['remove_image'])
             && $data['remove_image']
         ) {
             $data['image'] = null;
         }
-    
+
         if (
-            $oldImage 
+            $oldImage
             && ($data['image'] !== $oldImage)
         ) {
             Storage::delete($oldImage);

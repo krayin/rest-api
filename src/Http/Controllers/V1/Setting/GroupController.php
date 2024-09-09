@@ -15,9 +15,7 @@ class GroupController extends Controller
      *
      * @return void
      */
-    public function __construct(protected GroupRepository $groupRepository)
-    {
-    }
+    public function __construct(protected GroupRepository $groupRepository) {}
 
     /**
      * Display a listing of the resource.
@@ -62,7 +60,7 @@ class GroupController extends Controller
 
         return new JsonResource([
             'data'    => new GroupResource($group),
-            'message' => trans('admin::app.settings.groups.create-success'),
+            'message' => trans('rest-api::app.settings.groups.create-success'),
         ]);
     }
 
@@ -86,7 +84,7 @@ class GroupController extends Controller
 
         return new JsonResource([
             'data'    => new GroupResource($group),
-            'message' => trans('admin::app.settings.groups.update-success'),
+            'message' => trans('rest-api::app.settings.groups.update-success'),
         ]);
     }
 
@@ -106,11 +104,11 @@ class GroupController extends Controller
             Event::dispatch('settings.group.delete.after', $id);
 
             return new JsonResource([
-                'message' => trans('admin::app.settings.groups.destroy-success'),
+                'message' => trans('rest-api::app.settings.groups.destroy-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.groups.delete-failed'),
+                'message' => trans('rest-api::app.settings.groups.delete-failed'),
             ], 500);
         }
     }
