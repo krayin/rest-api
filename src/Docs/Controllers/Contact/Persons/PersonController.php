@@ -214,7 +214,7 @@ class PersonController
      *                @OA\Items(
      *                    required={"value", "label"},
      *
-     *                    @OA\Property(property="value", type="string", description="Contact number", example="09315981404"),
+     *                    @OA\Property(property="value", type="string", description="Contact number", example="0123456789"),
      *                    @OA\Property(property="label", type="string", description="Label for the contact number", example="work")
      *                )
      *            ),
@@ -305,7 +305,7 @@ class PersonController
      *                   @OA\Items(
      *                       required={"value", "label"},
      *
-     *                       @OA\Property(property="value", type="string", description="Contact number", example="09315981404"),
+     *                       @OA\Property(property="value", type="string", description="Contact number", example="0123456789"),
      *                       @OA\Property(property="label", type="string", description="Label for the contact number", example="work")
      *                   )
      *               ),
