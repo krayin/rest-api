@@ -27,6 +27,7 @@ class AttributeResource extends JsonResource
             'is_unique'       => $this->is_unique,
             'quick_add'       => $this->quick_add,
             'is_user_defined' => $this->is_user_defined,
+            'options'         => $this->options,
             'created_at'      => $this->created_at,
             'updated_at'      => $this->updated_at,
         ];

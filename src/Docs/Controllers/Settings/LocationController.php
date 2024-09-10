@@ -2,7 +2,7 @@
 
 namespace Webkul\RestApi\Docs\Controllers\Settings;
 
-class LocationController 
+class LocationController
 {
     /**
      * @OA\Get(
@@ -17,46 +17,51 @@ class LocationController
      *          name="query",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="Los Angeles"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="search",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="warehouse_id:1;name:Los Angeles"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="searchFields",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="warehouse_id:=;name:like"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="searchJoin",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example="and"
      *          )
      *      ),
-     * 
+     *
      *      @OA\Parameter(
      *          name="limit",
      *          in="query",
      *          required=false,
+     *
      *          @OA\Schema(
      *              type="string",
      *              example=10
@@ -66,7 +71,9 @@ class LocationController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -76,9 +83,7 @@ class LocationController
      *      )
      * )
      */
-    public function search()
-    {
-    }
+    public function search() {}
 
     /**
      * @OA\Post(
@@ -88,10 +93,13 @@ class LocationController
      *      summary="Store the locations",
      *      description="Store the locations",
      *      security={ {"sanctum_admin": {} }},
-   
+
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="warehouse_id",
      *                  type="string",
@@ -110,7 +118,9 @@ class LocationController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -120,9 +130,7 @@ class LocationController
      *      )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -138,15 +146,18 @@ class LocationController
      *          in="path",
      *          required=true,
      *          description="ID of the location to update",
+     *
      *          @OA\Schema(
      *              type="integer",
      *              example=1
      *          )
      *      ),
-     * 
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="warehouse_id",
      *                  type="string",
@@ -165,7 +176,9 @@ class LocationController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="data",
      *                  type="object",
@@ -180,9 +193,7 @@ class LocationController
      *      )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -198,6 +209,7 @@ class LocationController
      *          in="path",
      *          required=true,
      *          description="ID of the location to delete",
+     *
      *          @OA\Schema(
      *              type="integer",
      *              example=1
@@ -207,7 +219,9 @@ class LocationController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
@@ -219,7 +233,9 @@ class LocationController
      *      @OA\Response(
      *          response=404,
      *          description="Location not found",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(
      *                  property="error",
      *                  type="string",
@@ -234,7 +250,5 @@ class LocationController
      *      )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 }

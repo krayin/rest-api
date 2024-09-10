@@ -78,9 +78,7 @@ class PersonController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Get(
@@ -119,9 +117,7 @@ class PersonController
      *     )
      * )
      */
-    public function search()
-    {
-    }
+    public function search() {}
 
     /**
      * @OA\Get(
@@ -162,9 +158,7 @@ class PersonController
      *     )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Post(
@@ -244,9 +238,7 @@ class PersonController
      *     )
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -337,9 +329,7 @@ class PersonController
      *        )
      *  )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -370,9 +360,7 @@ class PersonController
      *     )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 
     /**
      * @OA\Post(
@@ -410,7 +398,5 @@ class PersonController
      *     )
      * )
      */
-    public function massDestroy()
-    {
-    }
+    public function massDestroy() {}
 }

@@ -36,10 +36,11 @@ class EmailResource extends JsonResource
             'reference_ids' => $this->reference_ids,
             'person'        => new PersonResource($this->person),
             'lead'          => new LeadResource($this->lead),
+            'parent_id'     => $this->parent_id,
+            'parent'        => new EmailResource($this->parent),
             'attachments'   => EmailAttachmentResource::collection($this->attachments),
             'created_at'    => $this->created_at,
             'updated_at'    => $this->updated_at,
-            'parent_id'     => $this->parent_id,
         ];
     }
 }

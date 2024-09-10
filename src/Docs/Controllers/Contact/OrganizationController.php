@@ -78,9 +78,7 @@ class OrganizationController
      *     )
      * )
      */
-    public function index()
-    {
-    }
+    public function index() {}
 
     /**
      * @OA\Get(
@@ -121,9 +119,7 @@ class OrganizationController
      *     )
      * )
      */
-    public function show()
-    {
-    }
+    public function show() {}
 
     /**
      * @OA\Post(
@@ -168,9 +164,7 @@ class OrganizationController
      *     ),
      * )
      */
-    public function store()
-    {
-    }
+    public function store() {}
 
     /**
      * @OA\Put(
@@ -236,9 +230,7 @@ class OrganizationController
      *     )
      * )
      */
-    public function update()
-    {
-    }
+    public function update() {}
 
     /**
      * @OA\Delete(
@@ -270,9 +262,7 @@ class OrganizationController
      *     )
      * )
      */
-    public function destroy()
-    {
-    }
+    public function destroy() {}
 
     /**
      * @OA\Post(
@@ -312,7 +302,5 @@ class OrganizationController
      *     )
      * )
      */
-    public function massDestroy()
-    {
-    }
+    public function massDestroy() {}
 }
