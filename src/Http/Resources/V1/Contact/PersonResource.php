@@ -20,9 +20,9 @@ class PersonResource extends JsonResource
             'name'            => $this->name,
             'emails'          => $this->emails,
             'contact_numbers' => $this->contact_numbers,
-            'organization'    => new OrganizationResource($this->organization),
+            'organization'    => $this->when($this->organization, new OrganizationResource($this->organization)),
             'job_title'       => $this->job_title,
-            'sales_owner'     => new UserResource($this->user),
+            'sales_owner'     => $this->when($this->user, new UserResource($this->user)),
             'created_at'      => $this->created_at,
             'updated_at'      => $this->updated_at,
         ];

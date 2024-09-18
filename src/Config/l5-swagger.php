@@ -10,8 +10,8 @@ return [
 
             'routes' => [
                 /*
-                 * Route for accessing api documentation interface
-                */
+                 * Route for accessing api documentation interface.
+                 */
                 'api'             => 'api/documentation',
                 'docs'            => 'app/public/api-docs',
                 'oauth2_callback' => 'api/oauth2-callback',

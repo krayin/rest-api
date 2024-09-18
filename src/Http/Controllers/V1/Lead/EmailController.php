@@ -4,8 +4,8 @@ namespace Webkul\RestApi\Http\Controllers\V1\Lead;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Event;
-use Webkul\Admin\Http\Resources\ActivityResource;
 use Webkul\RestApi\Http\Controllers\V1\Mail\EmailController as BaseEmailController;
+use Webkul\RestApi\Http\Resources\V1\Activity\ActivityResource;
 
 class EmailController extends BaseEmailController
 {
