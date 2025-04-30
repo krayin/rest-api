@@ -154,9 +154,7 @@ class ProductController
      *         description="ID of the product",
      *         required=true,
      *
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
+     *         @OA\Schema(type="integer")
      *     ),
      *
      *     @OA\Parameter(
@@ -165,9 +163,7 @@ class ProductController
      *         description="ID of the warehouse (optional)",
      *         required=false,
      *
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
+     *         @OA\Schema(type="integer")
      *     ),
      *
      *     @OA\RequestBody(

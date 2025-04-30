@@ -2,6 +2,13 @@
 
 return [
     'common' => [
+        'auth' => [
+            'login' => [
+                'success' => 'Inicio de sesión exitoso.',
+                'logout'  => 'Cierre de sesión exitoso.',
+            ],
+        ],
+
         'resource-not-found'    => 'No se pudo encontrar el recurso solicitado.',
         'forbidden-error'       => 'No tienes permiso para acceder a este recurso.',
         'unauthenticated'       => 'No estás autenticado. Por favor, inicia sesión para continuar.',
@@ -103,11 +110,35 @@ return [
             'delete-failed'   => 'La eliminación del formulario web falló.',
         ],
 
+        'attributes' => [
+            'create-success'    => 'Atributo creado exitosamente.',
+            'update-success'    => 'Atributo actualizado exitosamente.',
+            'destroy-success'   => 'Atributo eliminado exitosamente.',
+            'delete-failed'     => 'Fallo al eliminar el atributo.',
+            'user-define-error' => 'No se puede eliminar un atributo definido por el usuario.',
+        ],
+
         'groups' => [
             'create-success'  => 'Grupo creado con éxito.',
             'update-success'  => 'Grupo actualizado con éxito.',
             'destroy-success' => 'Grupo eliminado con éxito.',
             'delete-failed'   => 'La eliminación del grupo falló.',
+        ],
+
+        'marketing' => [
+            'events' => [
+                'create-success'  => 'Evento de marketing creado con éxito.',
+                'update-success'  => 'Evento de marketing actualizado con éxito.',
+                'destroy-success' => 'Evento de marketing eliminado con éxito.',
+                'delete-failed'   => 'Error al eliminar el evento de marketing.',
+            ],
+
+            'campaigns' => [
+                'create-success'  => 'Campaña de marketing creada con éxito.',
+                'update-success'  => 'Campaña de marketing actualizada con éxito.',
+                'destroy-success' => 'Campaña de marketing eliminada con éxito.',
+                'delete-failed'   => 'Error al eliminar la campaña de marketing.',
+            ],
         ],
 
         'roles' => [

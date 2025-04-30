@@ -158,7 +158,7 @@ class TagController extends Controller
         }
 
         return new JsonResource([
-            'message' => trans('rest-api::app.response.delete-success'),
+            'message' => trans('rest-api::app.settings.tags.delete-success'),
         ]);
     }
 }

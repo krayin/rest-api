@@ -126,7 +126,7 @@ class PersonController extends Controller
             Event::dispatch('contacts.person.delete.after', $id);
 
             return new JsonResponse([
-                'message' => trans('rest-api::app.response.delete-success'),
+                'message' => trans('rest-api::app.contacts.persons.delete-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResponse([

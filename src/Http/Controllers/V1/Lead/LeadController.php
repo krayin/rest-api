@@ -167,7 +167,7 @@ class LeadController extends Controller
     public function updateStage(int $id): JsonResource
     {
         $this->validate(request(), [
-            'lead_pipeline_stage_id' => 'required',
+            'lead_pipeline_stage_id' => 'required|exists:lead_pipeline_stages,id',
         ]);
 
         $lead = $this->leadRepository->findOrFail($id);
@@ -285,6 +285,12 @@ class LeadController extends Controller
      */
     public function addProduct(int $leadId): JsonResource
     {
+        $this->validate(request(), [
+            'product_id' => 'required|exists:products,id',
+            'quantity'   => 'required|numeric|min:0',
+            'price'      => 'required|numeric|min:0',
+        ]);
+
         $product = $this->productRepository->updateOrCreate(
             [
                 'lead_id'    => $leadId,

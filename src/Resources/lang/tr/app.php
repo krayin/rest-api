@@ -2,6 +2,13 @@
 
 return [
     'common' => [
+        'auth' => [
+            'login' => [
+                'success' => 'Giriş başarılı.',
+                'logout'  => 'Çıkış başarılı.',
+            ],
+        ],
+
         'resource-not-found'    => 'İstenen kaynak bulunamadı.',
         'forbidden-error'       => 'Bu kaynağa erişim izniniz yok.',
         'unauthenticated'       => 'Kimliğiniz doğrulanmadı. Devam etmek için lütfen giriş yapın.',
@@ -103,11 +110,35 @@ return [
             'delete-failed'   => 'Web formu silme işlemi başarısız oldu.',
         ],
 
+        'attributes' => [
+            'create-success'    => 'Özellik başarıyla oluşturuldu.',
+            'update-success'    => 'Özellik başarıyla güncellendi.',
+            'destroy-success'   => 'Özellik başarıyla silindi.',
+            'delete-failed'     => 'Özellik silinirken hata oluştu.',
+            'user-define-error' => 'Kullanıcı tanımlı özellik silinemez.',
+        ],
+
         'groups' => [
             'create-success'  => 'Grup başarıyla oluşturuldu.',
             'update-success'  => 'Grup başarıyla güncellendi.',
             'destroy-success' => 'Grup başarıyla silindi.',
             'delete-failed'   => 'Grup silme işlemi başarısız oldu.',
+        ],
+
+        'marketing' => [
+            'events' => [
+                'create-success'  => 'Pazarlama etkinliği başarıyla oluşturuldu.',
+                'update-success'  => 'Pazarlama etkinliği başarıyla güncellendi.',
+                'destroy-success' => 'Pazarlama etkinliği başarıyla silindi.',
+                'delete-failed'   => 'Pazarlama etkinliği silinemedi.',
+            ],
+
+            'campaigns' => [
+                'create-success'  => 'Pazarlama kampanyası başarıyla oluşturuldu.',
+                'update-success'  => 'Pazarlama kampanyası başarıyla güncellendi.',
+                'destroy-success' => 'Pazarlama kampanyası başarıyla silindi.',
+                'delete-failed'   => 'Pazarlama kampanyası silinemedi.',
+            ],
         ],
 
         'roles' => [

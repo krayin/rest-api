@@ -5,6 +5,8 @@ use Webkul\RestApi\Http\Controllers\V1\Setting\AttributeController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\EmailTemplateController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\GroupController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\LocationController;
+use Webkul\RestApi\Http\Controllers\V1\Setting\Marketing\CampaignController;
+use Webkul\RestApi\Http\Controllers\V1\Setting\Marketing\EventController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\PipelineController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\RoleController;
 use Webkul\RestApi\Http\Controllers\V1\Setting\SourceController;
@@ -35,6 +37,39 @@ Route::group([
         Route::put('{id}', 'update');
 
         Route::delete('{id}', 'destroy');
+    });
+
+    /**
+     * Marketing Event routes.
+     */
+    Route::prefix('marketing')->group(function () {
+        Route::prefix('events')->controller(EventController::class)->group(function () {
+            Route::get('/', 'index');
+
+            Route::post('/', 'store');
+
+            Route::get('{id}', 'show')->where('id', '[0-9]+');
+
+            Route::put('{id}', 'update');
+
+            Route::delete('{id}', 'destroy');
+
+            Route::post('mass-destroy', 'massDestroy');
+        });
+
+        Route::prefix('campaigns')->controller(CampaignController::class)->group(function () {
+            Route::get('/', 'index');
+
+            Route::post('/', 'store');
+
+            Route::get('{id}', 'show')->where('id', '[0-9]+');
+
+            Route::put('{id}', 'update');
+
+            Route::delete('{id}', 'destroy');
+
+            Route::post('mass-destroy', 'massDestroy');
+        });
     });
 
     /**

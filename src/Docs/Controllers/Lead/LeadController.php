@@ -487,8 +487,8 @@ class LeadController
      *      path="/api/v1/leads/{id}",
      *      operationId="updateLeads",
      *      tags={"Leads"},
-     *      summary="Store the Leads",
-     *      description="Store the Leads",
+     *      summary="Update the Leads",
+     *      description="Update the Leads",
      *      security={ {"sanctum_admin": {} }},
      *
      *      @OA\Parameter(
@@ -777,8 +777,8 @@ class LeadController
      *      path="/api/v1/leads/product/{id}",
      *      operationId="deleteProductRelatedtoLead",
      *      tags={"Leads"},
-     *      summary="Store the products related to Leads",
-     *      description="Store the products related to Leads",
+     *      summary="Delete the products related to Leads",
+     *      description="Delete the products related to Leads",
      *      security={ {"sanctum_admin": {} }},
      *
      *      @OA\Parameter(

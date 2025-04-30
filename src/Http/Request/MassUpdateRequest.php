@@ -26,7 +26,7 @@ class MassUpdateRequest extends FormRequest
         return [
             'indices'      => ['required', 'array'],
             'indices.*'    => ['integer'],
-            'value'        => ['required'],
+            'value'        => 'required',
         ];
     }
 }

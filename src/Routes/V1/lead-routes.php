@@ -16,7 +16,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'leads'], function (
 
         Route::get('{id}', 'show')->where('id', '[0-9]+');
 
-        Route::post('leads', 'store');
+        Route::post('', 'store');
 
         Route::put('{id}', 'update');
 

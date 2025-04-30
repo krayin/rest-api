@@ -21,14 +21,18 @@ class ConfigurationController
      *                property="general",
      *                type="object",
      *                @OA\Property(
-     *                    property="locale_settings",
-     *                    type="object",
-     *                    @OA\Property(
-     *                        property="locale",
-     *                        type="string",
-     *                        description="Locale",
-     *                        example="en"
-     *                    )
+     *                   property="general",
+     *                   type="object",
+     *                   @OA\Property(
+     *                       property="locale_settings",
+     *                       type="object",
+     *                       @OA\Property(
+     *                           property="locale",
+     *                           type="string",
+     *                           description="Locale",
+     *                           example="en"
+     *                       )
+     *                  )
      *               )
      *            )
      *         )
