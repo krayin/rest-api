@@ -4,7 +4,7 @@ namespace Webkul\Email\Repositories;
 
 use Illuminate\Container\Container;
 use Webkul\Core\Eloquent\Repository;
-use Webkul\Email\Helpers\Htmlfilter;
+use Webkul\Email\Helpers\HtmlFilter;
 use Webkul\Email\Helpers\Parser;
 
 class EmailRepository extends Repository
@@ -17,7 +17,7 @@ class EmailRepository extends Repository
     public function __construct(
         protected AttachmentRepository $attachmentRepository,
         protected Parser $emailParser,
-        protected Htmlfilter $htmlFilter,
+        protected HtmlFilter $htmlFilter,
         Container $container
     ) {
         parent::__construct($container);
