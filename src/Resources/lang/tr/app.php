@@ -28,6 +28,7 @@ return [
         'updated-success' => 'Potansiyel müşteri başarıyla güncellendi.',
         'delete-success'  => 'Potansiyel müşteri başarıyla silindi.',
         'delete-failed'   => 'Potansiyel müşteri silme işlemi başarısız oldu.',
+        'no-valid-files'  => 'Geçerli dosya bulunamadı.',
 
         'view' => [
             'tags' => [
@@ -221,6 +222,18 @@ return [
             'update-success' => 'Webhook başarıyla güncellendi.',
             'delete-success' => 'Webhook başarıyla silindi.',
             'delete-failed'  => 'Webhook silme işlemi başarısız oldu.',
+        ],
+
+        'data-transfer' => [
+            'imports' => [
+                'create-success'    => 'İçe aktarma başarıyla oluşturuldu.',
+                'delete-failed'     => 'İçe aktarma silme işlemi beklenmedik şekilde başarısız oldu.',
+                'delete-success'    => 'İçe aktarma başarıyla silindi.',
+                'not-valid'         => 'İçe aktarma geçerli değil.',
+                'nothing-to-import' => 'İçe aktarılacak kaynak yok.',
+                'setup-queue-error' => 'Lütfen içe aktarma işlemini başlatmak için kuyruk sürücüsünü "database" veya "redis" olarak değiştirin.',
+                'update-success'    => 'İçe aktarma başarıyla güncellendi.',
+            ],
         ],
     ],
 

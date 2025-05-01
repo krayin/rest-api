@@ -28,6 +28,7 @@ return [
         'updated-success' => 'سرنخ با موفقیت به‌روزرسانی شد.',
         'delete-success'  => 'سرنخ با موفقیت حذف شد.',
         'delete-failed'   => 'حذف سرنخ با شکست مواجه شد.',
+        'no-valid-files'  => 'فایل معتبری یافت نشد.',
 
         'view' => [
             'tags' => [
@@ -221,6 +222,18 @@ return [
             'update-success' => 'وب‌هوک با موفقیت به‌روزرسانی شد.',
             'delete-success' => 'وب‌هوک با موفقیت حذف شد.',
             'delete-failed'  => 'حذف وب‌هوک ناموفق بود.',
+        ],
+
+        'data-transfer' => [
+            'imports' => [
+                'create-success'    => 'واردات با موفقیت ایجاد شد.',
+                'delete-failed'     => 'حذف واردات به‌طور غیرمنتظره‌ای با شکست مواجه شد.',
+                'delete-success'    => 'واردات با موفقیت حذف شد.',
+                'not-valid'         => 'واردات نامعتبر است.',
+                'nothing-to-import' => 'منابعی برای وارد کردن وجود ندارد.',
+                'setup-queue-error' => 'لطفاً درایور صف خود را به "database" یا "redis" تغییر دهید تا فرایند واردات آغاز شود.',
+                'update-success'    => 'واردات با موفقیت به‌روزرسانی شد.',
+            ],
         ],
 
         'configuration' => [

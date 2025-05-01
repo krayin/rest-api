@@ -28,6 +28,7 @@ return [
         'updated-success' => 'Lead actualizado con éxito.',
         'delete-success'  => 'Lead eliminado con éxito.',
         'delete-failed'   => 'La eliminación del lead falló.',
+        'no-valid-files'  => 'No se encontraron archivos válidos.',
 
         'view' => [
             'tags' => [
@@ -221,6 +222,18 @@ return [
             'update-success' => 'Webhook actualizado con éxito.',
             'delete-success' => 'Webhook eliminado con éxito.',
             'delete-failed'  => 'La eliminación del webhook falló.',
+        ],
+
+        'data-transfer' => [
+            'imports' => [
+                'create-success'    => 'Importación creada con éxito.',
+                'delete-failed'     => 'La eliminación de la importación falló inesperadamente.',
+                'delete-success'    => 'Importación eliminada con éxito.',
+                'not-valid'         => 'La importación no es válida.',
+                'nothing-to-import' => 'No hay recursos para importar.',
+                'setup-queue-error' => 'Cambie su controlador de cola a "database" o "redis" para iniciar el proceso de importación.',
+                'update-success'    => 'Importación actualizada con éxito.',
+            ],
         ],
     ],
 

@@ -25,7 +25,7 @@ class CampaignController extends Controller
     /**
      * Display a listing of the marketing campaigns.
      */
-    public function index()
+    public function index(): JsonResource
     {
         $campaigns = $this->allResources($this->campaignRepository);
 
@@ -35,7 +35,7 @@ class CampaignController extends Controller
     /**
      * Store a newly created marketing campaign in storage.
      */
-    public function store()
+    public function store(): JsonResource
     {
         $validatedData = $this->validate(request(), [
             'name'                  => 'required|string|max:255',
@@ -60,7 +60,7 @@ class CampaignController extends Controller
     /**
      * Show the specified Resource.
      */
-    public function show(int $id)
+    public function show(int $id): CampaignResource
     {
         $campaign = $this->campaignRepository->findOrFail($id);
 
@@ -70,7 +70,7 @@ class CampaignController extends Controller
     /**
      * Update the specified marketing campaign in storage.
      */
-    public function update(int $id)
+    public function update(int $id): JsonResource
     {
         $validatedData = $this->validate(request(), [
             'name'                  => 'required|string|max:255',
@@ -95,7 +95,7 @@ class CampaignController extends Controller
     /**
      * Remove the specified marketing campaign from storage.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): JsonResource
     {
         Event::dispatch('settings.marketing.campaigns.delete.before', $id);
 
@@ -111,7 +111,7 @@ class CampaignController extends Controller
     /**
      * Remove the specified marketing campaigns from storage.
      */
-    public function massDestroy(MassDestroyRequest $massDestroyRequest)
+    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource
     {
         $marketingCampaignIds = $massDestroyRequest->input('indices');
 

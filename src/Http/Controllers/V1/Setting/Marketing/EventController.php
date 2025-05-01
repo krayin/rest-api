@@ -19,7 +19,7 @@ class EventController extends Controller
     /**
      * Display a listing of the marketing events.
      */
-    public function index()
+    public function index(): JsonResource
     {
         $events = $this->allResources($this->eventRepository);
 
@@ -28,10 +28,8 @@ class EventController extends Controller
 
     /**
      * Show resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(int $id): EventResource
     {
         $resource = $this->eventRepository->find($id);
 
@@ -41,7 +39,7 @@ class EventController extends Controller
     /**
      * Store a newly created marketing event in storage.
      */
-    public function store()
+    public function store(): JsonResource
     {
         $validatedData = $this->validate(request(), [
             'name'        => 'required|max:60',
@@ -64,7 +62,7 @@ class EventController extends Controller
     /**
      * Update the specified marketing event in storage.
      */
-    public function update(int $id)
+    public function update(int $id): JsonResource
     {
         $validatedData = $this->validate(request(), [
             'name'        => 'required|max:60',
@@ -87,7 +85,7 @@ class EventController extends Controller
     /**
      * Remove the specified marketing event from storage.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): JsonResource
     {
         Event::dispatch('settings.marketing.events.delete.before', $id);
 
@@ -103,7 +101,7 @@ class EventController extends Controller
     /**
      * Remove the specified marketing events from storage.
      */
-    public function massDestroy(MassDestroyRequest $massDestroyRequest)
+    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource
     {
         $marketingEventIds = $massDestroyRequest->input('indices');
 

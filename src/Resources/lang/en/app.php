@@ -28,6 +28,7 @@ return [
         'updated-success' => 'Lead updated successfully.',
         'delete-success'  => 'Lead deleted successfully.',
         'delete-failed'   => 'Lead delete failed.',
+        'no-valid-files'  => 'No valid files found.',
 
         'view' => [
             'tags' => [
@@ -221,6 +222,18 @@ return [
             'update-success' => 'Webhook updated successfully.',
             'delete-success' => 'Webhook deleted successfully.',
             'delete-failed'  => 'Webhook delete failed.',
+        ],
+
+        'data-transfer' => [
+            'imports' => [
+                'create-success'    => 'Import created successfully.',
+                'delete-failed'     => 'Import deletion failed unexpectedly.',
+                'delete-success'    => 'Import deleted successfully.',
+                'not-valid'         => 'Import is invalid',
+                'nothing-to-import' => 'There are no resources to import.',
+                'setup-queue-error' => 'Please change your queue driver to "database" or "redis" to start the import process.',
+                'update-success'    => 'Import updated successfully.',
+            ],
         ],
     ],
 

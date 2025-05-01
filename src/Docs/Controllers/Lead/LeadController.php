@@ -483,6 +483,57 @@ class LeadController
     public function store() {}
 
     /**
+     * @OA\Post(
+     *      path="/api/v1/leads/create-by-ai",
+     *      operationId="storeLeadFiles",
+     *      tags={"Leads"},
+     *      summary="Upload files for Leads",
+     *      description="Upload multiple files for the Leads",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\RequestBody(
+     *          required=true,
+     *
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *
+     *              @OA\Schema(
+     *                  type="object",
+     *
+     *                  @OA\Property(
+     *                      property="files[]",
+     *                      type="array",
+     *                      description="Array of files to upload",
+     *
+     *                      @OA\Items(
+     *                          type="string",
+     *                          format="binary"
+     *                      )
+     *                  )
+     *              )
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="message", type="string", example="Lead Created Successfully."),
+     *              @OA\Property(property="data", type="object", ref="#/components/schemas/Lead")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      )
+     * )
+     */
+    public function storeFiles() {}
+
+    /**
      * @OA\Put(
      *      path="/api/v1/leads/{id}",
      *      operationId="updateLeads",

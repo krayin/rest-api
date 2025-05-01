@@ -28,6 +28,7 @@ return [
         'updated-success' => 'تم تحديث العميل المحتمل بنجاح.',
         'delete-success'  => 'تم حذف العميل المحتمل بنجاح.',
         'delete-failed'   => 'فشل حذف العميل المحتمل.',
+        'no-valid-files'  => 'لم يتم العثور على ملفات صالحة.',
 
         'view' => [
             'tags' => [
@@ -221,6 +222,18 @@ return [
             'update-success' => 'تم تحديث الربط بنجاح.',
             'delete-success' => 'تم حذف الربط بنجاح.',
             'delete-failed'  => 'فشل حذف الربط.',
+        ],
+
+        'data-transfer' => [
+            'imports' => [
+                'create-success'    => 'تم إنشاء الاستيراد بنجاح.',
+                'delete-failed'     => 'فشل حذف الاستيراد بشكل غير متوقع.',
+                'delete-success'    => 'تم حذف الاستيراد بنجاح.',
+                'not-valid'         => 'الاستيراد غير صالح.',
+                'nothing-to-import' => 'لا توجد موارد لاستيرادها.',
+                'setup-queue-error' => 'يرجى تغيير محرك قائمة الانتظار إلى "database" أو "redis" لبدء عملية الاستيراد.',
+                'update-success'    => 'تم تحديث الاستيراد بنجاح.',
+            ],
         ],
     ],
 
