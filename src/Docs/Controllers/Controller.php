@@ -102,5 +102,17 @@ namespace Webkul\RestApi\Docs\Controllers;
  *     name="Webhook",
  *     description="API Endpoints for Webhooks."
  * )
+ * @OA\Tag(
+ *     name="MarketingEvent",
+ *     description="API Endpoints for Marketing Event."
+ * )
+ * @OA\Tag(
+ *     name="MarketingCampaign",
+ *     description="API Endpoints for Marketing Campaign."
+ * )
+ * @OA\Tag(
+ *     name="DataTransfer",
+ *     description="API Endpoints for DataTransfer."
+ * )
  */
 class Controller {}

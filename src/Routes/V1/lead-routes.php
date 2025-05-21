@@ -16,13 +16,15 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'leads'], function (
 
         Route::get('{id}', 'show')->where('id', '[0-9]+');
 
-        Route::post('leads', 'store');
+        Route::post('', 'store');
 
         Route::put('{id}', 'update');
 
         Route::delete('{id}', 'destroy');
 
         Route::post('mass-update', 'massUpdate');
+
+        Route::post('create-by-ai', 'createByAI');
 
         Route::post('mass-destroy', 'massDestroy');
 

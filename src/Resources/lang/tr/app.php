@@ -2,6 +2,13 @@
 
 return [
     'common' => [
+        'auth' => [
+            'login' => [
+                'success' => 'Giriş başarılı.',
+                'logout'  => 'Çıkış başarılı.',
+            ],
+        ],
+
         'resource-not-found'    => 'İstenen kaynak bulunamadı.',
         'forbidden-error'       => 'Bu kaynağa erişim izniniz yok.',
         'unauthenticated'       => 'Kimliğiniz doğrulanmadı. Devam etmek için lütfen giriş yapın.',
@@ -21,6 +28,7 @@ return [
         'updated-success' => 'Potansiyel müşteri başarıyla güncellendi.',
         'delete-success'  => 'Potansiyel müşteri başarıyla silindi.',
         'delete-failed'   => 'Potansiyel müşteri silme işlemi başarısız oldu.',
+        'no-valid-files'  => 'Geçerli dosya bulunamadı.',
 
         'view' => [
             'tags' => [
@@ -103,11 +111,35 @@ return [
             'delete-failed'   => 'Web formu silme işlemi başarısız oldu.',
         ],
 
+        'attributes' => [
+            'create-success'    => 'Özellik başarıyla oluşturuldu.',
+            'update-success'    => 'Özellik başarıyla güncellendi.',
+            'destroy-success'   => 'Özellik başarıyla silindi.',
+            'delete-failed'     => 'Özellik silinirken hata oluştu.',
+            'user-define-error' => 'Kullanıcı tanımlı özellik silinemez.',
+        ],
+
         'groups' => [
             'create-success'  => 'Grup başarıyla oluşturuldu.',
             'update-success'  => 'Grup başarıyla güncellendi.',
             'destroy-success' => 'Grup başarıyla silindi.',
             'delete-failed'   => 'Grup silme işlemi başarısız oldu.',
+        ],
+
+        'marketing' => [
+            'events' => [
+                'create-success'  => 'Pazarlama etkinliği başarıyla oluşturuldu.',
+                'update-success'  => 'Pazarlama etkinliği başarıyla güncellendi.',
+                'destroy-success' => 'Pazarlama etkinliği başarıyla silindi.',
+                'delete-failed'   => 'Pazarlama etkinliği silinemedi.',
+            ],
+
+            'campaigns' => [
+                'create-success'  => 'Pazarlama kampanyası başarıyla oluşturuldu.',
+                'update-success'  => 'Pazarlama kampanyası başarıyla güncellendi.',
+                'destroy-success' => 'Pazarlama kampanyası başarıyla silindi.',
+                'delete-failed'   => 'Pazarlama kampanyası silinemedi.',
+            ],
         ],
 
         'roles' => [
@@ -190,6 +222,18 @@ return [
             'update-success' => 'Webhook başarıyla güncellendi.',
             'delete-success' => 'Webhook başarıyla silindi.',
             'delete-failed'  => 'Webhook silme işlemi başarısız oldu.',
+        ],
+
+        'data-transfer' => [
+            'imports' => [
+                'create-success'    => 'İçe aktarma başarıyla oluşturuldu.',
+                'delete-failed'     => 'İçe aktarma silme işlemi beklenmedik şekilde başarısız oldu.',
+                'delete-success'    => 'İçe aktarma başarıyla silindi.',
+                'not-valid'         => 'İçe aktarma geçerli değil.',
+                'nothing-to-import' => 'İçe aktarılacak kaynak yok.',
+                'setup-queue-error' => 'Lütfen içe aktarma işlemini başlatmak için kuyruk sürücüsünü "database" veya "redis" olarak değiştirin.',
+                'update-success'    => 'İçe aktarma başarıyla güncellendi.',
+            ],
         ],
     ],
 

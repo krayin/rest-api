@@ -483,12 +483,63 @@ class LeadController
     public function store() {}
 
     /**
+     * @OA\Post(
+     *      path="/api/v1/leads/create-by-ai",
+     *      operationId="storeLeadFiles",
+     *      tags={"Leads"},
+     *      summary="Upload files for Leads",
+     *      description="Upload multiple files for the Leads",
+     *      security={ {"sanctum_admin": {} }},
+     *
+     *      @OA\RequestBody(
+     *          required=true,
+     *
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *
+     *              @OA\Schema(
+     *                  type="object",
+     *
+     *                  @OA\Property(
+     *                      property="files[]",
+     *                      type="array",
+     *                      description="Array of files to upload",
+     *
+     *                      @OA\Items(
+     *                          type="string",
+     *                          format="binary"
+     *                      )
+     *                  )
+     *              )
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="message", type="string", example="Lead Created Successfully."),
+     *              @OA\Property(property="data", type="object", ref="#/components/schemas/Lead")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      )
+     * )
+     */
+    public function storeFiles() {}
+
+    /**
      * @OA\Put(
      *      path="/api/v1/leads/{id}",
      *      operationId="updateLeads",
      *      tags={"Leads"},
-     *      summary="Store the Leads",
-     *      description="Store the Leads",
+     *      summary="Update the Leads",
+     *      description="Update the Leads",
      *      security={ {"sanctum_admin": {} }},
      *
      *      @OA\Parameter(
@@ -777,8 +828,8 @@ class LeadController
      *      path="/api/v1/leads/product/{id}",
      *      operationId="deleteProductRelatedtoLead",
      *      tags={"Leads"},
-     *      summary="Store the products related to Leads",
-     *      description="Store the products related to Leads",
+     *      summary="Delete the products related to Leads",
+     *      description="Delete the products related to Leads",
      *      security={ {"sanctum_admin": {} }},
      *
      *      @OA\Parameter(

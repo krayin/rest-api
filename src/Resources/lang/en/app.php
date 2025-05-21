@@ -2,6 +2,13 @@
 
 return [
     'common' => [
+        'auth' => [
+            'login'    => [
+                'success' => 'Login successful.',
+                'logout'  => 'Logout successful.',
+            ],
+        ],
+
         'resource-not-found'    => 'The requested resource could not be found.',
         'forbidden-error'       => 'You do not have permission to access this resource.',
         'unauthenticated'       => 'You are not authenticated. Please log in to continue.',
@@ -21,6 +28,7 @@ return [
         'updated-success' => 'Lead updated successfully.',
         'delete-success'  => 'Lead deleted successfully.',
         'delete-failed'   => 'Lead delete failed.',
+        'no-valid-files'  => 'No valid files found.',
 
         'view' => [
             'tags' => [
@@ -103,11 +111,35 @@ return [
             'delete-failed'   => 'Web form delete failed.',
         ],
 
+        'attributes' => [
+            'create-success'    => 'Attribute created successfully.',
+            'update-success'    => 'Attribute updated successfully.',
+            'destroy-success'   => 'Attribute deleted successfully.',
+            'delete-failed'     => 'Attribute delete failed.',
+            'user-define-error' => 'User defined attribute can not be deleted.',
+        ],
+
         'groups' => [
             'create-success'  => 'Group created successfully.',
             'update-success'  => 'Group updated successfully.',
             'destroy-success' => 'Group deleted successfully.',
             'delete-failed'   => 'Group delete failed.',
+        ],
+
+        'marketing' => [
+            'events' => [
+                'create-success'  => 'Marketing event created successfully.',
+                'update-success'  => 'Marketing event updated successfully.',
+                'destroy-success' => 'Marketing event deleted successfully.',
+                'delete-failed'   => 'Marketing event delete failed.',
+            ],
+
+            'campaigns' => [
+                'create-success'  => 'Marketing campaigns created successfully.',
+                'update-success'  => 'Marketing campaigns updated successfully.',
+                'destroy-success' => 'Marketing campaigns deleted successfully.',
+                'delete-failed'   => 'Marketing campaigns delete failed.',
+            ],
         ],
 
         'roles' => [
@@ -190,6 +222,18 @@ return [
             'update-success' => 'Webhook updated successfully.',
             'delete-success' => 'Webhook deleted successfully.',
             'delete-failed'  => 'Webhook delete failed.',
+        ],
+
+        'data-transfer' => [
+            'imports' => [
+                'create-success'    => 'Import created successfully.',
+                'delete-failed'     => 'Import deletion failed unexpectedly.',
+                'delete-success'    => 'Import deleted successfully.',
+                'not-valid'         => 'Import is invalid',
+                'nothing-to-import' => 'There are no resources to import.',
+                'setup-queue-error' => 'Please change your queue driver to "database" or "redis" to start the import process.',
+                'update-success'    => 'Import updated successfully.',
+            ],
         ],
     ],
 
