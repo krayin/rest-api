@@ -34,7 +34,7 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'leads'], function (
 
         Route::delete('product/{lead_id}', 'removeProduct');
 
-        Route::get('kanban/look-up', 'kanbanLookup')->name('admin.leads.kanban.look_up');
+        Route::get('kanban/look-up', 'kanbanLookup');
 
         Route::get('search', 'search');
 
