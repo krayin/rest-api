@@ -83,7 +83,7 @@ class AttributeController extends Controller
 
         return new JsonResource([
             'data'    => new AttributeResource($attribute),
-            'message' => trans('admin::app.settings.attributes.create-success'),
+            'message' => trans('rest-api::app.settings.attributes.create-success'),
         ]);
     }
 
@@ -106,7 +106,7 @@ class AttributeController extends Controller
 
         return new JsonResource([
             'data'    => new AttributeResource($attribute),
-            'message' => trans('admin::app.settings.attributes.update-success'),
+            'message' => trans('rest-api::app.settings.attributes.update-success'),
         ]);
     }
 
@@ -119,7 +119,7 @@ class AttributeController extends Controller
 
         if (! $attribute->is_user_defined) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.attributes.user-define-error'),
+                'message' => trans('rest-api::app.settings.attributes.user-define-error'),
             ], 400);
         }
 
@@ -131,11 +131,11 @@ class AttributeController extends Controller
             Event::dispatch('settings.attribute.delete.after', $id);
 
             return new JsonResource([
-                'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.settings.attributes.attribute')]),
+                'message' => trans('rest-api::app.settings.attributes.destroy-success'),
             ]);
         } catch (\Exception $exception) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.attributes.delete-failed'),
+                'message' => trans('rest-api::app.settings.attributes.delete-failed'),
             ], 500);
         }
     }
@@ -167,12 +167,12 @@ class AttributeController extends Controller
 
         if (! $count) {
             return new JsonResource([
-                'message' => trans('admin::app.settings.attributes.mass-delete-failed'),
+                'message' => trans('rest-api::app.settings.attributes.delete-failed'),
             ], 500);
         }
 
         return new JsonResource([
-            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.settings.attributes.title')]),
+            'message' => trans('rest-api::app.settings.attributes.destroy-success', ['name' => trans('rest-api::app.settings.attributes.title')]),
         ]);
     }
 

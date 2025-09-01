@@ -34,10 +34,6 @@ class RestApiServiceProvider extends ServiceProvider
         ], 'krayin-rest-api-swagger');
 
         $this->app->singleton(ExceptionHandler::class, Handler::class);
-
-        $this->publishes([
-            dirname(__DIR__).'/Repositories/EmailRepository.php' => base_path('packages/Webkul/Email/src/Repositories/EmailRepository.php'),
-        ]);
     }
 
     /**

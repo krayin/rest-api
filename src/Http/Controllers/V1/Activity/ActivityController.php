@@ -242,7 +242,7 @@ class ActivityController extends Controller
         }
 
         return new JsonResponse([
-            'message' => trans('admin::app.response.destroy-success', ['name' => trans('admin::app.activities.title')]),
+            'message' => trans('admin::app.activities.destroy-success'),
         ]);
     }
 }

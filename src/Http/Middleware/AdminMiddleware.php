@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\RestApi\Middleware;
+namespace Webkul\RestApi\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
@@ -22,7 +22,7 @@ class AdminMiddleware
         if (EnsureFrontendRequestsAreStateful::fromFrontend($request)) {
             if (! auth('admin')->user()) {
                 return response([
-                    'message' => __('rest-api::app.common-response.error.not-authorized'),
+                    'message' => __('rest-api::app.common.forbidden-error'),
                 ], 401);
             }
 
@@ -37,7 +37,7 @@ class AdminMiddleware
         }
 
         return response([
-            'message' => __('rest-api::app.common-response.error.not-authorized'),
+            'message' => __('rest-api::app.common.forbidden-error'),
         ], 401);
     }
 }

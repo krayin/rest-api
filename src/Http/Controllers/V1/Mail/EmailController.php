@@ -57,36 +57,16 @@ class EmailController extends Controller
     public function store(): JsonResponse
     {
         $this->validate(request(), [
-            'reply_to' => 'required|array|min:1',
-            'reply'    => 'required',
+            'reply_to'   => 'required|array|min:1',
+            'reply_to.*' => 'email',
+            'reply'      => 'required',
         ]);
 
         Event::dispatch('email.create.before');
 
-        $uniqueId = time().'@'.config('mail.domain');
+        $email = $this->emailRepository->create(request()->all());
 
-        $referenceIds = [];
-
-        if ($parentId = request()->input('parent_id')) {
-            $parent = $this->emailRepository->findOrFail($parentId);
-
-            $referenceIds = $parent->reference_ids ?? [];
-        }
-
-        $email = $this->emailRepository->create(array_merge(request()->all(), [
-            'source'        => 'web',
-            'from'          => 'admin@example.com',
-            'user_type'     => 'admin',
-            'folders'       => ($isDraft = request()->input('is_draft') == 'true') ? ['draft'] : ['outbox'],
-            'name'          => auth()->guard()->user()->name,
-            'unique_id'     => $uniqueId,
-            'message_id'    => $uniqueId,
-            'reference_ids' => array_merge($referenceIds, [$uniqueId]),
-            'user_id'       => auth()->guard()->user()->id,
-            'attachments'   => request()->file('attachments'),
-        ]));
-
-        if (! $isDraft) {
+        if (! request()->boolean('is_draft')) {
             try {
                 Mail::send(new Email($email));
 
@@ -98,13 +78,6 @@ class EmailController extends Controller
         }
 
         Event::dispatch('email.create.after', $email);
-
-        if ($isDraft) {
-            return response()->json([
-                'data'    => new EmailResource($email),
-                'message' => trans('rest-api::app.mail.saved-to-draft'),
-            ]);
-        }
 
         return response()->json([
             'data'    => new EmailResource($email),
@@ -121,8 +94,10 @@ class EmailController extends Controller
 
         $data = request()->all();
 
+        $data['is_draft'] = request()->boolean('is_draft');
+
         if (! is_null($isDraft = $data['is_draft'])) {
-            $data['folders'] = $isDraft == 'true' ? ['draft'] : ['outbox'];
+            $data['folders'] = $isDraft ? ['draft'] : ['outbox'];
         }
 
         $data['source'] = 'web';

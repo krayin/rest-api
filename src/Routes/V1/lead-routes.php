@@ -24,6 +24,8 @@ Route::group(['middleware' => ['auth:sanctum'], 'prefix' => 'leads'], function (
 
         Route::post('mass-update', 'massUpdate');
 
+        Route::post('create-by-ai', 'createByAI');
+
         Route::post('mass-destroy', 'massDestroy');
 
         Route::put('attributes/edit/{id}', 'updateAttributes');

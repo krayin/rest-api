@@ -187,8 +187,8 @@ class AttributeController
      *      ),
      *
      *      @OA\Parameter(
-     *          name="path",
-     *          description="path",
+     *          name="query",
+     *          description="query",
      *          required=true,
      *          in="query",
      *
