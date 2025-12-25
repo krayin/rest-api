@@ -25,8 +25,8 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'mails'], function () 
     });
 
     Route::controller(TagController::class)->prefix('{id}/tags')->group(function () {
-        Route::post('', 'attach')->name('admin.mail.tags.attach');
+        Route::post('', 'attach');
 
-        Route::delete('', 'detach')->name('admin.mail.tags.detach');
+        Route::delete('', 'detach');
     });
 });
