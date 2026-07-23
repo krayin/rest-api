@@ -4,22 +4,15 @@ namespace Webkul\RestApi\Http\Controllers\V1;
 
 use Webkul\Core\Eloquent\Repository;
 use Webkul\RestApi\Http\Controllers\RestApiController;
+use Webkul\RestApi\Http\Controllers\V1\Concerns\ManagesResources;
+use Webkul\RestApi\Http\Controllers\V1\Concerns\RespondsWithJson;
+use Webkul\RestApi\Http\Controllers\V1\Concerns\SanitizesListQuery;
 
 class Controller extends RestApiController
 {
-    /**
-     * Exclude keys which not needed during searching.
-     *
-     * @var array
-     */
-    protected $excludeKeys = [
-        'entity_type',
-        'limit',
-        'page',
-        'pagination',
-        'order',
-        'sort',
-    ];
+    use ManagesResources;
+    use RespondsWithJson;
+    use SanitizesListQuery;
 
     /**
      * Add entity type.
@@ -36,24 +29,14 @@ class Controller extends RestApiController
      *
      * @return Illuminate\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection
      */
-    protected function allResources(Repository $repository)
+    protected function allResources(Repository $repository, array $with = [])
     {
         $query = $repository->query();
 
-        foreach (request()->except($this->excludeKeys) as $input => $value) {
-            $query = $query->whereIn($input, array_map('trim', explode(',', $value)));
+        if ($with) {
+            $query = $query->with($with);
         }
 
-        if ($sort = request()->input('sort')) {
-            $query = $query->orderBy($sort, request()->input('order') ?? 'desc');
-        } else {
-            $query = $query->orderBy('id', 'desc');
-        }
-
-        if (is_null(request()->input('pagination')) || request()->input('pagination')) {
-            return $query->paginate(request()->input('limit') ?? 10);
-        }
-
-        return $query->get();
+        return $this->applyListQuery($query);
     }
 }

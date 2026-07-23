@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Lead\Repositories\TypeRepository;
@@ -32,7 +33,7 @@ class TypeController extends Controller
      */
     public function show(int $id): TypeResource
     {
-        $resource = $this->typeRepository->find($id);
+        $resource = $this->findOrFailResource($this->typeRepository, $id);
 
         return new TypeResource($resource);
     }
@@ -63,6 +64,8 @@ class TypeController extends Controller
      */
     public function update(int $id): JsonResource
     {
+        $this->findOrFailResource($this->typeRepository, $id);
+
         $this->validate(request(), [
             'name' => 'required|unique:lead_types,name,'.$id,
         ]);
@@ -82,22 +85,14 @@ class TypeController extends Controller
     /**
      * Remove the specified type from storage.
      */
-    public function destroy(int $id): JsonResource
+    public function destroy(int $id): JsonResource|JsonResponse
     {
-        try {
-            Event::dispatch('settings.type.delete.before', $id);
-
-            $this->typeRepository->delete($id);
-
-            Event::dispatch('settings.type.delete.after', $id);
-
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.types.delete-success'),
-            ]);
-        } catch (\Exception $exception) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.types.delete-failed'),
-            ], 500);
-        }
+        return $this->destroyResource(
+            $this->typeRepository,
+            $id,
+            'rest-api::app.settings.types.delete-success',
+            'settings.type',
+            'rest-api::app.settings.types.delete-failed',
+        );
     }
 }

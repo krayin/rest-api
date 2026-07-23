@@ -22,6 +22,11 @@ class ConfigurationController extends Controller
      */
     public function store()
     {
+        $this->validate(request(), [
+            'general.locale_and_currency.locale' => 'sometimes|exists:locales,code',
+            'locale'                             => 'sometimes|exists:locales,code',
+        ]);
+
         Event::dispatch('core.configuration.save.before');
 
         $this->configurationRepository->create(request()->all());

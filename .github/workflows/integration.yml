@@ -1,0 +1,115 @@
+name: integration
+
+# Provisions a throwaway Krayin CRM, installs THIS plugin on top of it, serves
+# it, and runs the black-box Integration test suite against the real API. This
+# is what proves the plugin actually works end-to-end with the CRM (real
+# controllers, repositories and Krayin attribute validation) — the package-only
+# unit/feature matrix in tests.yml cannot.
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: krayin
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=15
+
+    steps:
+      - name: Checkout plugin
+        uses: actions/checkout@v4
+        with:
+          path: plugin
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, dom, curl, libxml, fileinfo, pdo_mysql, gd, intl, zip, bcmath
+          coverage: none
+
+      - name: Create a fresh Krayin app
+        run: composer create-project krayin/laravel-crm krayin-app --no-interaction --prefer-dist
+
+      - name: Require the checked-out plugin (path repository)
+        working-directory: krayin-app
+        run: |
+          composer config repositories.local-rest-api path ../plugin
+          composer require "krayin/rest-api:@dev" --no-interaction --no-update
+          composer update krayin/rest-api --with-all-dependencies --no-interaction
+
+      - name: Configure environment
+        working-directory: krayin-app
+        run: |
+          [ -f .env ] || cp .env.example .env
+          php artisan key:generate
+          sed -i 's/^DB_CONNECTION=.*/DB_CONNECTION=mysql/' .env
+          sed -i 's/^DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+          sed -i 's/^DB_PORT=.*/DB_PORT=3306/' .env
+          sed -i 's/^DB_DATABASE=.*/DB_DATABASE=krayin/' .env
+          sed -i 's/^DB_USERNAME=.*/DB_USERNAME=root/' .env
+          sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=root/' .env
+          sed -i 's#^APP_URL=.*#APP_URL=http://127.0.0.1:8000#' .env
+          echo 'SANCTUM_STATEFUL_DOMAINS=127.0.0.1:8000' >> .env
+
+      - name: Install Krayin + this plugin (non-interactive)
+        working-directory: krayin-app
+        run: |
+          php artisan krayin-crm:install --skip-env-check --skip-admin-creation
+          php artisan krayin-rest-api:install
+
+      - name: Create the API admin user the tests log in as
+        working-directory: krayin-app
+        run: |
+          php artisan tinker --execute='
+            $role = Webkul\User\Models\Role::orderBy("id")->first();
+            $u = Webkul\User\Models\User::firstOrNew(["email" => "api@example.com"]);
+            $u->name = "API Tester";
+            $u->password = Hash::make("secret-Password-1");
+            $u->role_id = $role->id;
+            $u->status = 1;
+            $u->view_permission = "global";
+            $u->save();
+            echo "admin ready: " . $u->email . PHP_EOL;
+          '
+
+      - name: Serve Krayin
+        working-directory: krayin-app
+        run: |
+          php artisan serve --host 127.0.0.1 --port 8000 > server.log 2>&1 &
+          for i in $(seq 1 30); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8000/api/documentation || true)
+            if [ "$code" = "200" ]; then echo "Krayin is up"; break; fi
+            echo "waiting for Krayin ($code)..."; sleep 2
+          done
+
+      - name: Install plugin dev dependencies
+        working-directory: plugin
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run the Integration suite against the live app
+        working-directory: plugin
+        env:
+          KRAYIN_BASE_URL: http://127.0.0.1:8000
+          KRAYIN_API_EMAIL: api@example.com
+          KRAYIN_API_PASSWORD: secret-Password-1
+        run: vendor/bin/phpunit --testsuite Integration
+
+      - name: Dump server log on failure
+        if: failure()
+        working-directory: krayin-app
+        run: cat server.log || true

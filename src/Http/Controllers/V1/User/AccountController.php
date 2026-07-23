@@ -36,16 +36,16 @@ class AccountController extends Controller
 
         $data = $request->validate([
             'name'             => 'required',
-            'email'            => 'email|unique:users,email,'.$user->id,
+            'email'            => 'required|email|unique:users,email,'.$user->id,
             'password'         => 'nullable|min:6|confirmed',
-            'current_password' => 'nullable|required|min:6',
+            'current_password' => 'required|min:6',
             'image'            => 'mimes:jpeg,jpg,png,gif',
             'remove_image'     => 'sometimes|boolean',
         ]);
 
         if (! Hash::check($data['current_password'], $user->password)) {
             return response([
-                'message' => trans('admin::app.user.account.password-match'),
+                'message' => trans('rest-api::app.common.current-password-mismatch'),
             ], 400);
         }
 
@@ -54,7 +54,7 @@ class AccountController extends Controller
             || isset($data['view_permission'])
         ) {
             return response([
-                'message' => trans('admin::app.user.account.permission-denied'),
+                'message' => trans('rest-api::app.common.permission-denied'),
             ], 400);
         }
 
@@ -74,7 +74,7 @@ class AccountController extends Controller
 
         return response([
             'data'    => new UserResource($user),
-            'message' => trans('admin::app.user.account.account-save'),
+            'message' => trans('rest-api::app.common.account-update-success'),
         ]);
     }
 

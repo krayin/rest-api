@@ -93,6 +93,8 @@ class ProductController extends Controller
      */
     public function warehouses(int $id): JsonResponse
     {
+        $this->productRepository->findOrFail($id);
+
         $warehouses = $this->productRepository->getInventoriesGroupedByWarehouse($id);
 
         return response()->json(array_values($warehouses));
@@ -105,6 +107,11 @@ class ProductController extends Controller
      */
     public function store(AttributeForm $request)
     {
+        $this->validate(request(), [
+            'price'    => 'sometimes|numeric|min:0',
+            'quantity' => 'sometimes|integer|min:0',
+        ]);
+
         Event::dispatch('product.create.before');
 
         $product = $this->productRepository->create(request()->all());
@@ -125,6 +132,13 @@ class ProductController extends Controller
      */
     public function update(AttributeForm $request, $id)
     {
+        $this->findOrFailResource($this->productRepository, $id);
+
+        $this->validate(request(), [
+            'price'    => 'sometimes|numeric|min:0',
+            'quantity' => 'sometimes|integer|min:0',
+        ]);
+
         Event::dispatch('product.update.before', $id);
 
         $product = $this->productRepository->update($request->all(), $id);
@@ -145,21 +159,13 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            Event::dispatch('settings.products.delete.before', $id);
-
-            $this->productRepository->delete($id);
-
-            Event::dispatch('settings.products.delete.after', $id);
-
-            return new JsonResource([
-                'message' => trans('rest-api::app.products.delete-success'),
-            ]);
-        } catch (\Exception $exception) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.products.delete-failed'),
-            ], 500);
-        }
+        return $this->destroyResource(
+            $this->productRepository,
+            $id,
+            'rest-api::app.products.delete-success',
+            'product',
+            'rest-api::app.products.delete-failed',
+        );
     }
 
     /**
@@ -169,24 +175,16 @@ class ProductController extends Controller
      */
     public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        $productIds = $massDestroyRequest->input('indices', []);
+        $result = $this->massDestroyResources(
+            $this->productRepository,
+            $massDestroyRequest->input('indices', []),
+            'product',
+        );
 
-        foreach ($productIds as $productId) {
-            $product = $this->productRepository->find($productId);
-
-            if (! $product) {
-                continue;
-            }
-
-            Event::dispatch('product.delete.before', $productId);
-
-            $product->delete($productId);
-
-            Event::dispatch('product.delete.after', $productId);
+        if ($result['deleted'] === 0) {
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
         }
 
-        return new JsonResource([
-            'message' => trans('rest-api::app.products.delete-success'),
-        ]);
+        return $this->respondSuccess(trans('rest-api::app.products.delete-success'));
     }
 }

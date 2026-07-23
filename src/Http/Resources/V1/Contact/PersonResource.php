@@ -3,10 +3,13 @@
 namespace Webkul\RestApi\Http\Resources\V1\Contact;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Webkul\RestApi\Http\Resources\V1\Concerns\InteractsWithCustomAttributes;
 use Webkul\RestApi\Http\Resources\V1\Setting\UserResource;
 
 class PersonResource extends JsonResource
 {
+    use InteractsWithCustomAttributes;
+
     /**
      * Transform the resource into an array.
      *
@@ -15,7 +18,7 @@ class PersonResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        return array_merge($this->customAttributes(), [
             'id'              => $this->id,
             'name'            => $this->name,
             'emails'          => $this->emails,
@@ -25,6 +28,6 @@ class PersonResource extends JsonResource
             'sales_owner'     => $this->when($this->user, new UserResource($this->user)),
             'created_at'      => $this->created_at,
             'updated_at'      => $this->updated_at,
-        ];
+        ]);
     }
 }

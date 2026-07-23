@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting\Marketing;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Marketing\Repositories\EventRepository;
@@ -31,7 +32,7 @@ class EventController extends Controller
      */
     public function show(int $id): EventResource
     {
-        $resource = $this->eventRepository->find($id);
+        $resource = $this->findOrFailResource($this->eventRepository, $id);
 
         return new EventResource($resource);
     }
@@ -64,6 +65,8 @@ class EventController extends Controller
      */
     public function update(int $id): JsonResource
     {
+        $this->findOrFailResource($this->eventRepository, $id);
+
         $validatedData = $this->validate(request(), [
             'name'        => 'required|max:60',
             'description' => 'required',
@@ -85,42 +88,32 @@ class EventController extends Controller
     /**
      * Remove the specified marketing event from storage.
      */
-    public function destroy(int $id): JsonResource
+    public function destroy(int $id): JsonResource|JsonResponse
     {
-        Event::dispatch('settings.marketing.events.delete.before', $id);
-
-        $this->eventRepository->delete($id);
-
-        Event::dispatch('settings.marketing.events.delete.after', $id);
-
-        return new JsonResource([
-            'message' => trans('rest-api::app.settings.marketing.events.destroy-success'),
-        ]);
+        return $this->destroyResource(
+            $this->eventRepository,
+            $id,
+            'rest-api::app.settings.marketing.events.destroy-success',
+            'settings.marketing.events',
+            'rest-api::app.settings.marketing.events.delete-failed',
+        );
     }
 
     /**
      * Remove the specified marketing events from storage.
      */
-    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource
+    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource|JsonResponse
     {
-        $marketingEventIds = $massDestroyRequest->input('indices');
+        $result = $this->massDestroyResources(
+            $this->eventRepository,
+            $massDestroyRequest->input('indices', []),
+            'settings.marketing.events',
+        );
 
-        foreach ($marketingEventIds as $marketingEventId) {
-            $marketingEvent = $this->eventRepository->find($marketingEventId);
-
-            if (! $marketingEvent) {
-                continue;
-            }
-
-            Event::dispatch('settings.marketing.events.delete.before', $marketingEventId);
-
-            $marketingEvent?->delete();
-
-            Event::dispatch('settings.marketing.events.delete.after', $marketingEventId);
+        if ($result['deleted'] === 0) {
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
         }
 
-        return new JsonResource([
-            'message' => trans('rest-api::app.settings.marketing.events.destroy-success'),
-        ]);
+        return $this->respondSuccess(trans('rest-api::app.settings.marketing.events.destroy-success'));
     }
 }

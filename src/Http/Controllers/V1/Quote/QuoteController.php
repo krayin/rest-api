@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Quote;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
@@ -46,7 +47,7 @@ class QuoteController extends Controller
      */
     public function show(int $id)
     {
-        $quote = $this->quoteRepository->find($id);
+        $quote = $this->findOrFailResource($this->quoteRepository, $id);
 
         return new QuoteResource($quote);
     }
@@ -58,6 +59,13 @@ class QuoteController extends Controller
      */
     public function store(AttributeForm $request)
     {
+        $this->validate(request(), [
+            'person_id'  => 'nullable|exists:persons,id',
+            'lead_id'    => 'nullable|exists:leads,id',
+            'user_id'    => 'nullable|exists:users,id',
+            'expired_at' => 'nullable|date|after_or_equal:today',
+        ]);
+
         Event::dispatch('quote.create.before');
 
         $quote = $this->quoteRepository->create($request->all());
@@ -85,6 +93,15 @@ class QuoteController extends Controller
      */
     public function update(AttributeForm $request, $id)
     {
+        $this->findOrFailResource($this->quoteRepository, $id);
+
+        $this->validate(request(), [
+            'person_id'  => 'nullable|exists:persons,id',
+            'lead_id'    => 'nullable|exists:leads,id',
+            'user_id'    => 'nullable|exists:users,id',
+            'expired_at' => 'nullable|date|after_or_equal:today',
+        ]);
+
         Event::dispatch('quote.update.before', $id);
 
         $quote = $this->quoteRepository->update($request->all(), $id);
@@ -113,23 +130,13 @@ class QuoteController extends Controller
      */
     public function destroy($id)
     {
-        $this->quoteRepository->findOrFail($id);
-
-        try {
-            Event::dispatch('quote.delete.before', $id);
-
-            $this->quoteRepository->delete($id);
-
-            Event::dispatch('quote.delete.after', $id);
-
-            return new JsonResource([
-                'message' => trans('rest-api::app.quotes.delete-success'),
-            ]);
-        } catch (\Exception $exception) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.quotes.delete-failed'),
-            ], 500);
-        }
+        return $this->destroyResource(
+            $this->quoteRepository,
+            $id,
+            'rest-api::app.quotes.delete-success',
+            'quote',
+            'rest-api::app.quotes.delete-failed',
+        );
     }
 
     /**
@@ -152,24 +159,16 @@ class QuoteController extends Controller
      */
     public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        $quoteIds = $massDestroyRequest->input('indices', []);
+        $result = $this->massDestroyResources(
+            $this->quoteRepository,
+            $massDestroyRequest->input('indices', []),
+            'quote',
+        );
 
-        foreach ($quoteIds as $quoteId) {
-            $quote = $this->quoteRepository->find($quoteId);
-
-            if (! $quote) {
-                continue;
-            }
-
-            Event::dispatch('quote.delete.before', $quoteId);
-
-            $quote->delete($quoteId);
-
-            Event::dispatch('quote.delete.after', $quoteId);
+        if ($result['deleted'] === 0) {
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
         }
 
-        return new JsonResource([
-            'message' => trans('rest-api::app.quotes.delete-success'),
-        ]);
+        return $this->respondSuccess(trans('rest-api::app.quotes.delete-success'));
     }
 }

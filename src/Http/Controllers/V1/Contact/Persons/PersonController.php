@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Event;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Webkul\Admin\Http\Requests\AttributeForm;
 use Webkul\Contact\Repositories\PersonRepository;
+use Webkul\RestApi\Http\Controllers\V1\Concerns\ResolvesAuthorizedUserIds;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Resources\V1\Contact\PersonResource;
@@ -15,6 +16,14 @@ use Webkul\User\Repositories\UserRepository;
 
 class PersonController extends Controller
 {
+    use ResolvesAuthorizedUserIds;
+
+    /**
+     * Relations eager-loaded for list/search so rendering PersonResource (and
+     * its nested organization/sales-owner resources) does not N+1 per row.
+     */
+    const LIST_RELATIONS = ['attribute_values', 'organization.attribute_values', 'user'];
+
     /**
      * Create a new controller instance.
      *
@@ -34,7 +43,7 @@ class PersonController extends Controller
      */
     public function index()
     {
-        $persons = $this->allResources($this->personRepository);
+        $persons = $this->allResources($this->personRepository, self::LIST_RELATIONS);
 
         return PersonResource::collection($persons);
     }
@@ -46,7 +55,7 @@ class PersonController extends Controller
      */
     public function show(int $id)
     {
-        $resource = $this->personRepository->find($id);
+        $resource = $this->findOrFailResource($this->personRepository, $id);
 
         return new PersonResource($resource);
     }
@@ -59,12 +68,14 @@ class PersonController extends Controller
         if ($userIds = $this->getAuthorizedUserIds()) {
             $persons = $this->personRepository
                 ->pushCriteria(app(RequestCriteria::class))
-                ->limit(request()->input('limit') ?? 10)
+                ->with(self::LIST_RELATIONS)
+                ->limit(request()->input('limit') ?? self::DEFAULT_PER_PAGE)
                 ->findWhereIn('user_id', $userIds);
         } else {
             $persons = $this->personRepository
                 ->pushCriteria(app(RequestCriteria::class))
-                ->limit(request()->input('limit') ?? 10)
+                ->with(self::LIST_RELATIONS)
+                ->limit(request()->input('limit') ?? self::DEFAULT_PER_PAGE)
                 ->all();
         }
 
@@ -98,6 +109,8 @@ class PersonController extends Controller
      */
     public function update(AttributeForm $request, $id)
     {
+        $this->findOrFailResource($this->personRepository, $id);
+
         Event::dispatch('contacts.person.update.before', $id);
 
         $person = $this->personRepository->update($this->sanitizeRequestedPersonData(), $id);
@@ -118,21 +131,13 @@ class PersonController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            Event::dispatch('contacts.person.delete.before', $id);
-
-            $this->personRepository->delete($id);
-
-            Event::dispatch('contacts.person.delete.after', $id);
-
-            return new JsonResponse([
-                'message' => trans('rest-api::app.contacts.persons.delete-success'),
-            ]);
-        } catch (\Exception $exception) {
-            return new JsonResponse([
-                'message' => trans('rest-api::app.contacts.persons.delete-success'),
-            ], 500);
-        }
+        return $this->destroyResource(
+            $this->personRepository,
+            $id,
+            'rest-api::app.contacts.persons.delete-success',
+            'contacts.person',
+            'rest-api::app.contacts.persons.delete-failed',
+        );
     }
 
     /**
@@ -142,25 +147,17 @@ class PersonController extends Controller
      */
     public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        $personIds = $massDestroyRequest->input('indices', []);
+        $result = $this->massDestroyResources(
+            $this->personRepository,
+            $massDestroyRequest->input('indices', []),
+            'contact.person',
+        );
 
-        foreach ($personIds as $personId) {
-            $person = $this->personRepository->find($personId);
-
-            if (! $person) {
-                continue;
-            }
-
-            Event::dispatch('contact.person.delete.before', $personId);
-
-            $person->delete($personId);
-
-            Event::dispatch('contact.person.delete.after', $personId);
+        if ($result['deleted'] === 0) {
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
         }
 
-        return new JsonResponse([
-            'message' => trans('rest-api::app.contacts.persons.delete-success'),
-        ]);
+        return $this->respondSuccess(trans('rest-api::app.contacts.persons.delete-success'));
     }
 
     /**
@@ -170,26 +167,26 @@ class PersonController extends Controller
     {
         $data = request()->all();
 
-        $data['contact_numbers'] = collect($data['contact_numbers'])->filter(fn ($number) => ! is_null($number['value']))->toArray();
+        // `contact_numbers` is optional: a person can be created with just an
+        // email and no phone. Krayin's PersonRepository indexes
+        // `contact_numbers[0]['value']` whenever the key is present, so passing
+        // an empty array (or omitting a `value`) makes core crash with an
+        // "Undefined array key" that, under production error handling, becomes a
+        // 500 instead of simply persisting a person without a phone. So keep the
+        // key only when there is at least one real number, and drop it entirely
+        // otherwise.
+        $numbers = collect($data['contact_numbers'] ?? [])
+            ->filter(fn ($number) => ! is_null($number['value'] ?? null))
+            ->values()
+            ->toArray();
+
+        if ($numbers) {
+            $data['contact_numbers'] = $numbers;
+        } else {
+            unset($data['contact_numbers']);
+        }
 
         return $data;
     }
 
-    /**
-     * Get the authorized user ids.
-     */
-    private function getAuthorizedUserIds(): ?array
-    {
-        $user = auth()->user();
-
-        if ($user->view_permission == 'global') {
-            return null;
-        }
-
-        if ($user->view_permission == 'group') {
-            return $this->userRepository->getCurrentUserGroupsUserIds();
-        } else {
-            return [$user->id];
-        }
-    }
 }

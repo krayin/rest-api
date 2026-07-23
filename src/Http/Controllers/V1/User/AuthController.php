@@ -2,7 +2,6 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\User;
 
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -14,8 +13,6 @@ use Webkul\User\Repositories\UserRepository;
 
 class AuthController extends Controller
 {
-    use SendsPasswordResetEmails;
-
     /**
      * Login user.
      *

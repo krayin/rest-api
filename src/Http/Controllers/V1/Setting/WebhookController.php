@@ -29,6 +29,10 @@ class WebhookController extends Controller
      */
     public function store(WebhookRequest $webhookRequest): JsonResponse
     {
+        $this->validate(request(), [
+            'name' => 'required|unique:webhooks,name',
+        ]);
+
         Event::dispatch('settings.webhook.create.before');
 
         $webhook = $this->webhookRepository->create($webhookRequest->validated());
@@ -56,6 +60,12 @@ class WebhookController extends Controller
      */
     public function update(WebhookRequest $webhookRequest, int $id): JsonResponse
     {
+        $this->findOrFailResource($this->webhookRepository, $id);
+
+        $this->validate(request(), [
+            'name' => 'required|unique:webhooks,name,'.$id,
+        ]);
+
         Event::dispatch('settings.webhook.update.before', $id);
 
         $webhook = $this->webhookRepository->update($webhookRequest->validated(), $id);

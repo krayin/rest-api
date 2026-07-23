@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
@@ -36,7 +37,7 @@ class GroupController extends Controller
      */
     public function show(int $id)
     {
-        $resource = $this->groupRepository->find($id);
+        $resource = $this->findOrFailResource($this->groupRepository, $id);
 
         return new GroupResource($resource);
     }
@@ -49,7 +50,8 @@ class GroupController extends Controller
     public function store()
     {
         $this->validate(request(), [
-            'name' => 'required|unique:groups,name',
+            'name'        => 'required|unique:groups,name',
+            'description' => 'required',
         ]);
 
         Event::dispatch('settings.group.create.before');
@@ -72,8 +74,11 @@ class GroupController extends Controller
      */
     public function update($id)
     {
+        $this->findOrFailResource($this->groupRepository, $id);
+
         $this->validate(request(), [
-            'name' => 'required|unique:groups,name,'.$id,
+            'name'        => 'required|unique:groups,name,'.$id,
+            'description' => 'required',
         ]);
 
         Event::dispatch('settings.group.update.before', $id);
@@ -96,20 +101,12 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            Event::dispatch('settings.group.delete.before', $id);
-
-            $this->groupRepository->delete($id);
-
-            Event::dispatch('settings.group.delete.after', $id);
-
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.groups.destroy-success'),
-            ]);
-        } catch (\Exception $exception) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.groups.delete-failed'),
-            ], 500);
-        }
+        return $this->destroyResource(
+            $this->groupRepository,
+            $id,
+            'rest-api::app.settings.groups.destroy-success',
+            'settings.group',
+            'rest-api::app.settings.groups.delete-failed',
+        );
     }
 }

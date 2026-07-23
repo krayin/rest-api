@@ -38,6 +38,11 @@ class LocationController extends Controller
      */
     public function store(AttributeForm $request): JsonResponse
     {
+        $this->validate(request(), [
+            'name'         => 'required|unique:warehouse_locations,name,NULL,id,warehouse_id,'.request('warehouse_id'),
+            'warehouse_id' => 'required|exists:warehouses,id',
+        ]);
+
         Event::dispatch('settings.location.create.before');
 
         $location = $this->locationRepository->create(request()->all());
@@ -55,6 +60,13 @@ class LocationController extends Controller
      */
     public function update(int $id)
     {
+        $this->findOrFailResource($this->locationRepository, $id);
+
+        $this->validate(request(), [
+            'name'         => 'required|unique:warehouse_locations,name,'.$id.',id,warehouse_id,'.request('warehouse_id'),
+            'warehouse_id' => 'required|exists:warehouses,id',
+        ]);
+
         Event::dispatch('settings.location.update.before', $id);
 
         $location = $this->locationRepository->update(request()->all(), $id);
@@ -63,7 +75,7 @@ class LocationController extends Controller
 
         return new JsonResponse([
             'data'    => $location,
-            'message' => trans('rest-api::app.settings.warehouses.view.locations.create-success'),
+            'message' => trans('rest-api::app.settings.warehouses.view.locations.update-success'),
         ]);
     }
 

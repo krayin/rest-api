@@ -61,6 +61,10 @@ class WarehouseController extends Controller
      */
     public function store(AttributeForm $request): JsonResponse
     {
+        $this->validate(request(), [
+            'country' => 'nullable|exists:countries,code',
+        ]);
+
         Event::dispatch('settings.warehouse.create.before');
 
         $warehouse = $this->warehouseRepository->create($request->all());
@@ -78,6 +82,12 @@ class WarehouseController extends Controller
      */
     public function update(AttributeForm $request, int $id)
     {
+        $this->findOrFailResource($this->warehouseRepository, $id);
+
+        $this->validate(request(), [
+            'country' => 'nullable|exists:countries,code',
+        ]);
+
         Event::dispatch('settings.warehouse.update.before', $id);
 
         $warehouse = $this->warehouseRepository->update($request->all(), $id);
@@ -109,7 +119,7 @@ class WarehouseController extends Controller
             ], 200);
         } catch (\Exception $exception) {
             return response()->json([
-                'message' => trans('rest-api::app.settings.warehouses.delete-success'),
+                'message' => trans('rest-api::app.settings.warehouses.delete-failed'),
             ], 400);
         }
     }

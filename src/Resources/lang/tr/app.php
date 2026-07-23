@@ -13,6 +13,12 @@ return [
         'forbidden-error'       => 'Bu kaynağa erişim izniniz yok.',
         'unauthenticated'       => 'Kimliğiniz doğrulanmadı. Devam etmek için lütfen giriş yapın.',
         'internal-server-error' => 'Sunucuda beklenmeyen bir hata oluştu. Lütfen daha sonra tekrar deneyin.',
+        'nothing-to-delete'     => 'Silinecek eşleşen kayıt bulunamadı.',
+        'method-not-allowed'    => 'Kullanılan HTTP yöntemi bu uç nokta için izin verilmiyor.',
+        'tag-not-attached'      => 'Etiket bu kayda ekli değil.',
+        'current-password-mismatch' => 'Girdiğiniz mevcut şifre yanlış.',
+        'permission-denied'         => 'Bu alanları değiştirme izniniz yok.',
+        'account-update-success'    => 'Hesap başarıyla güncellendi.',
     ],
 
     'products' => [
@@ -29,6 +35,7 @@ return [
         'delete-success'  => 'Potansiyel müşteri başarıyla silindi.',
         'delete-failed'   => 'Potansiyel müşteri silme işlemi başarısız oldu.',
         'no-valid-files'  => 'Geçerli dosya bulunamadı.',
+        'product-remove-success' => 'Ürün, olası müşteriden başarıyla kaldırıldı.',
 
         'view' => [
             'tags' => [
@@ -57,6 +64,9 @@ return [
         'delete-success' => 'E-posta başarıyla silindi.',
         'delete-failed'  => 'E-posta silme işlemi başarısız oldu.',
         'saved-to-draft' => 'E-posta taslak olarak kaydedildi.',
+        'trash-success'       => 'E-posta çöp kutusuna başarıyla taşındı.',
+        'mass-update-success' => 'Seçili e-postalar başarıyla güncellendi.',
+        'destroy-success'     => 'Seçili e-postalar başarıyla silindi.',
 
         'view' => [
             'tags' => [
@@ -146,7 +156,10 @@ return [
             'create-success' => 'Rol başarıyla oluşturuldu.',
             'update-success' => 'Rol başarıyla güncellendi.',
             'delete-success' => 'Rol başarıyla silindi.',
-            'delete-failed'  => 'Rol silme işlemi başarısız oldu.',
+            'delete-failed'             => 'Rol silme işlemi başarısız oldu.',
+            'being-used'                => 'Bu rol bir veya daha fazla kullanıcıya atanmış ve silinemez.',
+            'last-delete-error'         => 'En az bir rol gereklidir.',
+            'current-role-delete-error' => 'Şu anda size atanmış olan rolü silemezsiniz.',
         ],
 
         'users' => [
@@ -166,6 +179,7 @@ return [
             'updated-success'      => 'Pipeline başarıyla güncellendi.',
             'delete-success'       => 'Pipeline başarıyla silindi.',
             'default-delete-error' => 'Varsayılan pipeline silinemez.',
+            'delete-failed'        => 'Pipeline silme işlemi başarısız oldu.',
         ],
 
         'sources' => [

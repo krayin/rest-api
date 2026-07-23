@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting\Marketing;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\EmailTemplate\Repositories\EmailTemplateRepository;
@@ -72,6 +73,8 @@ class CampaignController extends Controller
      */
     public function update(int $id): JsonResource
     {
+        $this->findOrFailResource($this->campaignRepository, $id);
+
         $validatedData = $this->validate(request(), [
             'name'                  => 'required|string|max:255',
             'subject'               => 'required|string|max:255',
@@ -95,42 +98,32 @@ class CampaignController extends Controller
     /**
      * Remove the specified marketing campaign from storage.
      */
-    public function destroy(int $id): JsonResource
+    public function destroy(int $id): JsonResource|JsonResponse
     {
-        Event::dispatch('settings.marketing.campaigns.delete.before', $id);
-
-        $this->campaignRepository->delete($id);
-
-        Event::dispatch('settings.marketing.campaigns.delete.after', $id);
-
-        return new JsonResource([
-            'message' => trans('rest-api::app.settings.marketing.campaigns.destroy-success'),
-        ]);
+        return $this->destroyResource(
+            $this->campaignRepository,
+            $id,
+            'rest-api::app.settings.marketing.campaigns.destroy-success',
+            'settings.marketing.campaigns',
+            'rest-api::app.settings.marketing.campaigns.delete-failed',
+        );
     }
 
     /**
      * Remove the specified marketing campaigns from storage.
      */
-    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource
+    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource|JsonResponse
     {
-        $marketingCampaignIds = $massDestroyRequest->input('indices');
+        $result = $this->massDestroyResources(
+            $this->campaignRepository,
+            $massDestroyRequest->input('indices', []),
+            'settings.marketing.campaigns',
+        );
 
-        foreach ($marketingCampaignIds as $marketingCampaignId) {
-            $campaign = $this->campaignRepository->find($marketingCampaignId);
-
-            if (! $campaign) {
-                continue;
-            }
-
-            Event::dispatch('settings.marketing.campaigns.delete.before', $campaign);
-
-            $campaign?->delete();
-
-            Event::dispatch('settings.marketing.campaigns.delete.after', $campaign);
+        if ($result['deleted'] === 0) {
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
         }
 
-        return new JsonResource([
-            'message' => trans('rest-api::app.settings.marketing.campaigns.destroy-success'),
-        ]);
+        return $this->respondSuccess(trans('rest-api::app.settings.marketing.campaigns.destroy-success'));
     }
 }

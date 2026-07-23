@@ -21,9 +21,13 @@ class TagController extends Controller
      */
     public function attach(int $id): JsonResponse
     {
-        Event::dispatch('persons.tag.create.before', $id);
+        $this->validate(request(), [
+            'tag_id' => 'required|exists:tags,id',
+        ]);
 
-        $person = $this->personRepository->find($id);
+        $person = $this->personRepository->findOrFail($id);
+
+        Event::dispatch('persons.tag.create.before', $id);
 
         if (! $person->tags->contains(request()->input('tag_id'))) {
             $person->tags()->attach(request()->input('tag_id'));
@@ -41,16 +45,24 @@ class TagController extends Controller
      */
     public function detach(int $personId): JsonResponse
     {
+        $person = $this->personRepository->findOrFail($personId);
+
+        $tagId = request()->input('tag_id');
+
+        if (! $person->tags->contains($tagId)) {
+            return response()->json([
+                'message' => trans('rest-api::app.common.tag-not-attached'),
+            ], 404);
+        }
+
         Event::dispatch('persons.tag.delete.before', $personId);
 
-        $person = $this->personRepository->find($personId);
-
-        $person->tags()->detach(request()->input('tag_id'));
+        $person->tags()->detach($tagId);
 
         Event::dispatch('persons.tag.delete.after', $person);
 
         return response()->json([
-            'message' => trans('rest-api::app.contacts.persons.view.tags.destroy-success'),
+            'message' => trans('rest-api::app.contacts.persons.view.tags.delete-success'),
         ]);
     }
 }

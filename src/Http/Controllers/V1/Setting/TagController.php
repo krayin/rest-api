@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -38,7 +39,7 @@ class TagController extends Controller
      */
     public function show(int $id)
     {
-        $resource = $this->tagRepository->find($id);
+        $resource = $this->findOrFailResource($this->tagRepository, $id);
 
         return new TagResource($resource);
     }
@@ -91,6 +92,8 @@ class TagController extends Controller
      */
     public function update($id)
     {
+        $this->findOrFailResource($this->tagRepository, $id);
+
         $this->validate(request(), [
             'name' => 'required|unique:tags,name,'.$id,
         ]);
@@ -115,23 +118,13 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            Event::dispatch('settings.tag.delete.before', $id);
-
-            $tag = $this->tagRepository->find($id);
-
-            $tag?->delete();
-
-            Event::dispatch('settings.tag.delete.after', $id);
-
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.tags.delete-success'),
-            ]);
-        } catch (\Exception $exception) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.tags.delete-failed'),
-            ], 500);
-        }
+        return $this->destroyResource(
+            $this->tagRepository,
+            $id,
+            'rest-api::app.settings.tags.delete-success',
+            'settings.tag',
+            'rest-api::app.settings.tags.delete-failed',
+        );
     }
 
     /**
@@ -141,24 +134,16 @@ class TagController extends Controller
      */
     public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        $tagIds = $massDestroyRequest->input('indices', []);
+        $result = $this->massDestroyResources(
+            $this->tagRepository,
+            $massDestroyRequest->input('indices', []),
+            'settings.tag',
+        );
 
-        foreach ($tagIds as $tagId) {
-            $tag = $this->tagRepository->find($tagId);
-
-            if (! $tag) {
-                continue;
-            }
-
-            Event::dispatch('settings.tag.delete.before', $tagId);
-
-            $tag->delete($tagId);
-
-            Event::dispatch('settings.tag.delete.after', $tagId);
+        if ($result['deleted'] === 0) {
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
         }
 
-        return new JsonResource([
-            'message' => trans('rest-api::app.settings.tags.delete-success'),
-        ]);
+        return $this->respondSuccess(trans('rest-api::app.settings.tags.delete-success'));
     }
 }

@@ -23,9 +23,13 @@ class TagController extends Controller
      */
     public function attach($id)
     {
-        Event::dispatch('warehouse.tag.create.before', $id);
+        $this->validate(request(), [
+            'tag_id' => 'required|exists:tags,id',
+        ]);
 
-        $warehouse = $this->warehouseRepository->find($id);
+        $warehouse = $this->warehouseRepository->findOrFail($id);
+
+        Event::dispatch('warehouse.tag.create.before', $id);
 
         if (! $warehouse->tags->contains(request()->input('tag_id'))) {
             $warehouse->tags()->attach(request()->input('tag_id'));
@@ -46,16 +50,23 @@ class TagController extends Controller
      */
     public function detach($warehouseId)
     {
+        $warehouse = $this->warehouseRepository->findOrFail($warehouseId);
+
+        $tagId = request()->input('tag_id');
+
+        if (! $warehouse->tags->contains($tagId)) {
+            return $this->respondError(
+                trans('rest-api::app.common.tag-not-attached'),
+                404,
+            );
+        }
+
         Event::dispatch('warehouse.tag.delete.before', $warehouseId);
 
-        $warehouse = $this->warehouseRepository->find($warehouseId);
-
-        $warehouse->tags()->detach(request()->input('tag_id'));
+        $warehouse->tags()->detach($tagId);
 
         Event::dispatch('warehouse.tag.delete.after', $warehouse);
 
-        return response()->json([
-            'message' => trans('rest-api::app.settings.warehouses.view.tags.delete-success'),
-        ]);
+        return $this->respondSuccess(trans('rest-api::app.settings.warehouses.view.tags.delete-success'));
     }
 }

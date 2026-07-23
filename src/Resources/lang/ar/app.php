@@ -13,6 +13,12 @@ return [
         'forbidden-error'       => 'ليس لديك إذن للوصول إلى هذا المورد.',
         'unauthenticated'       => 'أنت غير مصرح. يرجى تسجيل الدخول للمتابعة.',
         'internal-server-error' => 'حدث خطأ غير متوقع في الخادم. يرجى المحاولة لاحقًا.',
+        'nothing-to-delete'     => 'لم يتم العثور على سجلات مطابقة لحذفها.',
+        'method-not-allowed'    => 'طريقة HTTP المستخدمة غير مسموح بها لهذا المسار.',
+        'tag-not-attached'      => 'العلامة غير مرتبطة بهذا السجل.',
+        'current-password-mismatch' => 'كلمة المرور الحالية التي أدخلتها غير صحيحة.',
+        'permission-denied'         => 'ليس لديك إذن لتغيير هذه الحقول.',
+        'account-update-success'    => 'تم تحديث الحساب بنجاح.',
     ],
 
     'products' => [
@@ -29,6 +35,7 @@ return [
         'delete-success'  => 'تم حذف العميل المحتمل بنجاح.',
         'delete-failed'   => 'فشل حذف العميل المحتمل.',
         'no-valid-files'  => 'لم يتم العثور على ملفات صالحة.',
+        'product-remove-success' => 'تمت إزالة المنتج من العميل المحتمل بنجاح.',
 
         'view' => [
             'tags' => [
@@ -57,6 +64,9 @@ return [
         'delete-success' => 'تم حذف البريد الإلكتروني بنجاح.',
         'delete-failed'  => 'فشل حذف البريد الإلكتروني.',
         'saved-to-draft' => 'تم حفظ البريد الإلكتروني في المسودات.',
+        'trash-success'       => 'تم نقل البريد الإلكتروني إلى سلة المهملات بنجاح.',
+        'mass-update-success' => 'تم تحديث الرسائل المحددة بنجاح.',
+        'destroy-success'     => 'تم حذف الرسائل المحددة بنجاح.',
 
         'view' => [
             'tags' => [
@@ -146,7 +156,10 @@ return [
             'create-success' => 'تم إنشاء الدور بنجاح.',
             'update-success' => 'تم تحديث الدور بنجاح.',
             'delete-success' => 'تم حذف الدور بنجاح.',
-            'delete-failed'  => 'فشل حذف الدور.',
+            'delete-failed'             => 'فشل حذف الدور.',
+            'being-used'                => 'هذا الدور مُسند إلى مستخدم واحد أو أكثر ولا يمكن حذفه.',
+            'last-delete-error'         => 'مطلوب دور واحد على الأقل.',
+            'current-role-delete-error' => 'لا يمكنك حذف الدور المُسند إليك حاليًا.',
         ],
 
         'users' => [
@@ -166,6 +179,7 @@ return [
             'updated-success'      => 'تم تحديث المسار بنجاح.',
             'delete-success'       => 'تم حذف المسار بنجاح.',
             'default-delete-error' => 'لا يمكن حذف المسار الافتراضي.',
+            'delete-failed'        => 'فشل حذف المسار.',
         ],
 
         'sources' => [

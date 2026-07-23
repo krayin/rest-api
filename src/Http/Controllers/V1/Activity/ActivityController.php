@@ -5,6 +5,7 @@ namespace Webkul\RestApi\Http\Controllers\V1\Activity;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Webkul\Activity\Repositories\ActivityRepository;
 use Webkul\Activity\Repositories\FileRepository;
 use Webkul\Lead\Repositories\LeadRepository;
@@ -12,6 +13,7 @@ use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Request\MassUpdateRequest;
 use Webkul\RestApi\Http\Resources\V1\Activity\ActivityResource;
+use Webkul\RestApi\Support\ParticipantNormalizer;
 
 class ActivityController extends Controller
 {
@@ -58,12 +60,20 @@ class ActivityController extends Controller
     public function store()
     {
         $this->validate(request(), [
-            'type'          => 'required',
+            'type'          => 'required|in:call,meeting,lunch,note,file,email',
             'comment'       => 'required_if:type,note',
             'schedule_from' => 'required_unless:type,note,file',
             'schedule_to'   => 'required_unless:type,note,file',
             'file'          => 'required_if:type,file',
         ]);
+
+        /**
+         * Normalize `participants` into the nested `{users, persons}` shape the
+         * core ActivityRepository expects, so a flat `participants:[1,2]` (user
+         * ids) actually links participants. Must run before the overlap check
+         * below, which also relies on the nested shape.
+         */
+        $this->normalizeParticipantsInput();
 
         if (request('type') === 'meeting') {
             /**
@@ -77,15 +87,16 @@ class ActivityController extends Controller
             );
 
             if ($isOverlapping) {
-                if (request()->ajax()) {
-                    return response()->json([
-                        'message' => trans('admin::app.activities.overlapping-error'),
-                    ], 400);
-                }
-
-                session()->flash('success', trans('admin::app.activities.overlapping-error'));
-
-                return redirect()->back();
+                /**
+                 * Always answer with a JSON 400 for this REST endpoint. The
+                 * previous `request()->ajax()` check failed for typical API
+                 * clients (ForceJsonResponse sets Accept, not X-Requested-With),
+                 * so they fell through to a session flash + 302 redirect that
+                 * also mislabeled the error under the `success` key.
+                 */
+                return response()->json([
+                    'message' => trans('admin::app.activities.overlapping-error'),
+                ], 400);
             }
         }
 
@@ -99,7 +110,7 @@ class ActivityController extends Controller
         Event::dispatch('activity.create.after', $activity);
 
         return new JsonResponse([
-            'data'    => new ActivityResource($activity->refresh()),
+            'data'    => new ActivityResource($activity->load('participants', 'files', 'user')),
             'message' => trans('rest-api::app.activities.create-success'),
         ]);
     }
@@ -112,25 +123,25 @@ class ActivityController extends Controller
      */
     public function update($id)
     {
+        $this->findOrFailResource($this->activityRepository, $id);
+
+        $this->validate(request(), [
+            'type'    => 'sometimes|required|in:call,meeting,lunch,note,file,email',
+            'lead_id' => 'nullable|exists:leads,id',
+        ]);
+
+        /**
+         * Normalize `participants` into the nested `{users, persons}` shape so a
+         * flat `participants:[1,2]` links participants. The core repository's
+         * update() already deletes + recreates participants from this shape, so
+         * we no longer sync them here (that duplicate loop also read the wrong,
+         * flat keys and did nothing).
+         */
+        $this->normalizeParticipantsInput();
+
         Event::dispatch('activity.update.before', $id);
 
         $activity = $this->activityRepository->update(request()->all(), $id);
-
-        if (request()->has('participants')) {
-            $activity->participants()->delete();
-
-            $participantUserIds = request()->input('participants.users', []);
-
-            foreach ($participantUserIds as $userId) {
-                $activity->participants()->create(['user_id' => $userId]);
-            }
-
-            $participantPersonIds = request()->input('participants.persons', []);
-
-            foreach ($participantPersonIds as $personId) {
-                $activity->participants()->create(['person_id' => $personId]);
-            }
-        }
 
         if ($leadId = request()->input('lead_id')) {
             $lead = $this->leadRepository->find($leadId);
@@ -143,9 +154,38 @@ class ActivityController extends Controller
         Event::dispatch('activity.update.after', $activity);
 
         return new JsonResponse([
-            'data'    => new ActivityResource($activity),
-            'message' => trans('admin::app.activities.update-success', ['type' => trans('admin::app.activities.'.$activity->type)]),
+            'data'    => new ActivityResource($activity->load('participants', 'files', 'user')),
+            'message' => trans('rest-api::app.activities.update-success'),
         ]);
+    }
+
+    /**
+     * Normalize and validate the request's `participants` input in place.
+     *
+     * Accepts either the nested shape the Krayin core consumes
+     * (`participants[users][]` / `participants[persons][]`, sent by the panel
+     * and multipart form-data) or a flat array of user ids (`participants:[1,2]`,
+     * as REST clients naturally send). A flat array is treated as user ids;
+     * persons require the nested shape. The normalized value is merged back into
+     * the request so the core ActivityRepository create()/update() can sync it,
+     * and the overlap check receives the shape it expects.
+     *
+     * @return void
+     */
+    protected function normalizeParticipantsInput()
+    {
+        if (! request()->has('participants')) {
+            return;
+        }
+
+        $participants = (new ParticipantNormalizer)->normalize(request()->input('participants'));
+
+        Validator::make($participants, [
+            'users.*'   => 'integer|distinct|exists:users,id',
+            'persons.*' => 'integer|distinct|exists:persons,id',
+        ])->validate();
+
+        request()->merge(['participants' => $participants]);
     }
 
     /**
@@ -169,22 +209,18 @@ class ActivityController extends Controller
      */
     public function destroy($id)
     {
-        $activity = $this->activityRepository->findOrFail($id);
+        $this->activityRepository->findOrFail($id);
 
         try {
             Event::dispatch('activity.delete.before', $id);
 
-            $activity?->delete($id);
+            $this->activityRepository->delete($id);
 
             Event::dispatch('activity.delete.after', $id);
 
-            return response([
-                'message' => trans('admin::app.activities.destroy-success', ['type' => trans('admin::app.activities.'.$activity->type)]),
-            ]);
+            return $this->respondSuccess(trans('rest-api::app.activities.delete-success'));
         } catch (\Exception $exception) {
-            return response([
-                'message' => trans('admin::app.activities.destroy-failed', ['type' => trans('admin::app.activities.'.$activity->type)]),
-            ], 500);
+            return $this->respondError(trans('rest-api::app.activities.delete-failed'), 500);
         }
     }
 
@@ -195,9 +231,13 @@ class ActivityController extends Controller
      */
     public function massUpdate(MassUpdateRequest $massUpdateRequest)
     {
-        $activityIds = $massUpdateRequest->input('indices', []);
+        $this->validate(request(), [
+            'value' => 'required|boolean',
+        ]);
 
-        foreach ($activityIds as $activityId) {
+        $count = 0;
+
+        foreach ($massUpdateRequest->input('indices', []) as $activityId) {
             $activity = $this->activityRepository->find($activityId);
 
             if (! $activity) {
@@ -211,11 +251,15 @@ class ActivityController extends Controller
             ]);
 
             Event::dispatch('activity.update.after', $activity);
+
+            $count++;
         }
 
-        return new JsonResponse([
-            'message' => trans('admin::app.activities.mass-update-success'),
-        ]);
+        if (! $count) {
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
+        }
+
+        return $this->respondSuccess(trans('rest-api::app.activities.update-success'));
     }
 
     /**
@@ -225,24 +269,16 @@ class ActivityController extends Controller
      */
     public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        $activityIds = $massDestroyRequest->input('indices', []);
+        $result = $this->massDestroyResources(
+            $this->activityRepository,
+            $massDestroyRequest->input('indices', []),
+            'activity',
+        );
 
-        foreach ($activityIds as $activityId) {
-            $activity = $this->activityRepository->find($activityId);
-
-            if (! $activity) {
-                continue;
-            }
-
-            Event::dispatch('activity.delete.before', $activityId);
-
-            $activity->delete($activityId);
-
-            Event::dispatch('activity.delete.after', $activityId);
+        if ($result['deleted'] === 0) {
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
         }
 
-        return new JsonResponse([
-            'message' => trans('admin::app.activities.destroy-success'),
-        ]);
+        return $this->respondSuccess(trans('rest-api::app.activities.delete-success'));
     }
 }

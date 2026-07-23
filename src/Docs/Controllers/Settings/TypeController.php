@@ -2,264 +2,226 @@
 
 namespace Webkul\RestApi\Docs\Controllers\Settings;
 
+use OpenApi\Attributes as OA;
+
 class TypeController
 {
-    /**
-     * @OA\Get(
-     *      path="/api/v1/settings/types",
-     *      operationId="typeList",
-     *      tags={"Type"},
-     *      summary="Get list of types",
-     *      security={ {"sanctum_admin": {} }},
-     *
-     *      @OA\Parameter(
-     *          name="sort",
-     *          description="Sort column",
-     *          example="id",
-     *          required=false,
-     *          in="query",
-     *
-     *          @OA\Schema(
-     *              type="string"
-     *          )
-     *      ),
-     *
-     *      @OA\Parameter(
-     *          name="order",
-     *          description="Sort order",
-     *          required=false,
-     *          in="query",
-     *
-     *          @OA\Schema(
-     *              type="string",
-     *              enum={"desc", "asc"}
-     *          )
-     *      ),
-     *
-     *      @OA\Parameter(
-     *          name="page",
-     *          description="Page number",
-     *          required=false,
-     *          in="query",
-     *
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *
-     *      @OA\Parameter(
-     *          name="limit",
-     *          description="Limit",
-     *          in="query",
-     *
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *
-     *          @OA\JsonContent(
-     *
-     *               @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @OA\Items(ref="#/components/schemas/Type")
-     *              )
-     *          )
-     *      ),
-     *
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     )
-     * )
-     */
+    #[OA\Get(
+        path: '/api/v1/settings/types',
+        operationId: 'typeList',
+        tags: ['Type'],
+        summary: 'Get list of types',
+        security: [['sanctum_admin' => []]],
+        parameters: [
+            new OA\Parameter(
+                name: 'sort',
+                description: 'Sort column',
+                example: 'id',
+                required: false,
+                in: 'query',
+                schema: new OA\Schema(type: 'string')
+            ),
+            new OA\Parameter(
+                name: 'order',
+                description: 'Sort order',
+                required: false,
+                in: 'query',
+                schema: new OA\Schema(type: 'string', enum: ['desc', 'asc'])
+            ),
+            new OA\Parameter(
+                name: 'page',
+                description: 'Page number',
+                required: false,
+                in: 'query',
+                schema: new OA\Schema(type: 'integer')
+            ),
+            new OA\Parameter(
+                name: 'limit',
+                description: 'Limit',
+                in: 'query',
+                schema: new OA\Schema(type: 'integer')
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/Type')
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Unauthorized'
+            ),
+        ]
+    )]
     public function index() {}
 
-    /**
-     * @OA\Get(
-     *      path="/api/v1/settings/types/{id}",
-     *      operationId="typesFetch",
-     *      tags={"Type"},
-     *      summary="Get source by id",
-     *      security={ {"sanctum_admin": {} }},
-     *
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Source Id",
-     *          required=true,
-     *          in="path",
-     *
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *
-     *          @OA\JsonContent(
-     *
-     *               @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @OA\Items(ref="#/components/schemas/Type")
-     *              )
-     *          )
-     *      ),
-     *
-     *      @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     )
-     * )
-     */
+    #[OA\Get(
+        path: '/api/v1/settings/types/{id}',
+        operationId: 'typesFetch',
+        tags: ['Type'],
+        summary: 'Get source by id',
+        security: [['sanctum_admin' => []]],
+        parameters: [
+            new OA\Parameter(
+                name: 'id',
+                description: 'Source Id',
+                required: true,
+                in: 'path',
+                schema: new OA\Schema(type: 'integer')
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/Type')
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Unauthorized'
+            ),
+        ]
+    )]
     public function show() {}
 
-    /**
-     * @OA\Post(
-     *      path="/api/v1/settings/types",
-     *      operationId="typeCreate",
-     *      tags={"Type"},
-     *      summary="Create new source",
-     *      security={ {"sanctum_admin": {} }},
-     *
-     *      @OA\RequestBody(
-     *
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *
-     *              @OA\Schema(
-     *
-     *                  @OA\Property(
-     *                      property="name",
-     *                      description="Name of the source",
-     *                      type="string",
-     *                      example="Freelancing"
-     *                  ),
-     *              )
-     *          )
-     *      ),
-     *
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *
-     *          @OA\JsonContent(
-     *
-     *               @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @OA\Items(ref="#/components/schemas/Type")
-     *              )
-     *          )
-     *      ),
-     *
-     *      @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     )
-     * )
-     */
+    #[OA\Post(
+        path: '/api/v1/settings/types',
+        operationId: 'typeCreate',
+        tags: ['Type'],
+        summary: 'Create new source',
+        security: [['sanctum_admin' => []]],
+        requestBody: new OA\RequestBody(
+            content: new OA\MediaType(
+                mediaType: 'application/json',
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            property: 'name',
+                            description: 'Name of the source',
+                            type: 'string',
+                            example: 'Freelancing'
+                        ),
+                    ]
+                )
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/Type')
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Unauthorized'
+            ),
+        ]
+    )]
     public function store() {}
 
-    /**
-     * @OA\Put(
-     *      path="/api/v1/settings/types/{id}",
-     *      operationId="typesUpdate",
-     *      tags={"Type"},
-     *      summary="Update source",
-     *      security={ {"sanctum_admin": {} }},
-     *
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Source Id",
-     *          required=true,
-     *          in="path",
-     *
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *
-     *      @OA\RequestBody(
-     *
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *
-     *              @OA\Schema(
-     *
-     *                  @OA\Property(
-     *                      property="name",
-     *                      description="Name of the source",
-     *                      type="string",
-     *                      example="Freelancing"
-     *                  ),
-     *              )
-     *          )
-     *      ),
-     *
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *
-     *          @OA\JsonContent(
-     *
-     *               @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *
-     *                  @OA\Items(ref="#/components/schemas/Type")
-     *              )
-     *          )
-     *      ),
-     *
-     *      @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     )
-     * )
-     */
+    #[OA\Put(
+        path: '/api/v1/settings/types/{id}',
+        operationId: 'typesUpdate',
+        tags: ['Type'],
+        summary: 'Update source',
+        security: [['sanctum_admin' => []]],
+        parameters: [
+            new OA\Parameter(
+                name: 'id',
+                description: 'Source Id',
+                required: true,
+                in: 'path',
+                schema: new OA\Schema(type: 'integer')
+            ),
+        ],
+        requestBody: new OA\RequestBody(
+            content: new OA\MediaType(
+                mediaType: 'application/json',
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            property: 'name',
+                            description: 'Name of the source',
+                            type: 'string',
+                            example: 'Freelancing'
+                        ),
+                    ]
+                )
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            type: 'array',
+                            items: new OA\Items(ref: '#/components/schemas/Type')
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Unauthorized'
+            ),
+        ]
+    )]
     public function update() {}
 
-    /**
-     * @OA\Delete(
-     *      path="/api/v1/settings/types/{id}",
-     *      operationId="typesDelete",
-     *      tags={"Type"},
-     *      summary="Delete source",
-     *      security={ {"sanctum_admin": {} }},
-     *
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Source Id",
-     *          required=true,
-     *          in="path",
-     *
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *
-     *          @OA\JsonContent(ref="#/components/schemas/Type")
-     *       ),
-     *
-     *      @OA\Response(
-     *         response=401,
-     *         description="Unauthorized"
-     *     )
-     * )
-     */
+    #[OA\Delete(
+        path: '/api/v1/settings/types/{id}',
+        operationId: 'typesDelete',
+        tags: ['Type'],
+        summary: 'Delete source',
+        security: [['sanctum_admin' => []]],
+        parameters: [
+            new OA\Parameter(
+                name: 'id',
+                description: 'Source Id',
+                required: true,
+                in: 'path',
+                schema: new OA\Schema(type: 'integer')
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Successful operation',
+                content: new OA\JsonContent(ref: '#/components/schemas/Type')
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Unauthorized'
+            ),
+        ]
+    )]
     public function destroy() {}
 }

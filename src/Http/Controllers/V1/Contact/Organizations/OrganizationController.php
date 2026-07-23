@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Contact\Organizations;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Admin\Http\Requests\AttributeForm;
@@ -29,7 +30,7 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        $organizations = $this->allResources($this->organizationRepository);
+        $organizations = $this->allResources($this->organizationRepository, ['attribute_values']);
 
         return OrganizationResource::collection($organizations);
     }
@@ -41,7 +42,7 @@ class OrganizationController extends Controller
      */
     public function show(int $id)
     {
-        $resource = $this->organizationRepository->find($id);
+        $resource = $this->findOrFailResource($this->organizationRepository, $id);
 
         return new OrganizationResource($resource);
     }
@@ -53,6 +54,10 @@ class OrganizationController extends Controller
      */
     public function store(AttributeForm $request)
     {
+        $this->validate(request(), [
+            'address.country' => 'nullable|exists:countries,code',
+        ]);
+
         Event::dispatch('contacts.organization.create.before');
 
         $organization = $this->organizationRepository->create($request->all());
@@ -73,6 +78,12 @@ class OrganizationController extends Controller
      */
     public function update(AttributeForm $request, $id)
     {
+        $this->findOrFailResource($this->organizationRepository, $id);
+
+        $this->validate(request(), [
+            'address.country' => 'nullable|exists:countries,code',
+        ]);
+
         Event::dispatch('contacts.organization.update.before', $id);
 
         $organization = $this->organizationRepository->update($request->all(), $id);
@@ -93,21 +104,13 @@ class OrganizationController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            Event::dispatch('contact.organization.delete.before', $id);
-
-            $this->organizationRepository->delete($id);
-
-            Event::dispatch('contact.organization.delete.after', $id);
-
-            return new JsonResource([
-                'message' => trans('rest-api::app.contacts.organizations.delete-success'),
-            ]);
-        } catch (\Exception $exception) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.contacts.organizations.delete-failed'),
-            ], 500);
-        }
+        return $this->destroyResource(
+            $this->organizationRepository,
+            $id,
+            'rest-api::app.contacts.organizations.delete-success',
+            'contact.organization',
+            'rest-api::app.contacts.organizations.delete-failed',
+        );
     }
 
     /**
@@ -117,24 +120,16 @@ class OrganizationController extends Controller
      */
     public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
-        $organizationIds = $massDestroyRequest->input('indices', []);
+        $result = $this->massDestroyResources(
+            $this->organizationRepository,
+            $massDestroyRequest->input('indices', []),
+            'contact.organization',
+        );
 
-        foreach ($organizationIds as $organizationId) {
-            $organization = $this->organizationRepository->find($organizationId);
-
-            if (! $organization) {
-                continue;
-            }
-
-            Event::dispatch('contact.organization.delete.before', $organizationId);
-
-            $organization->delete($organizationId);
-
-            Event::dispatch('contact.organization.delete.after', $organizationId);
+        if ($result['deleted'] === 0) {
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
         }
 
-        return new JsonResource([
-            'message' => trans('rest-api::app.contacts.organizations.delete-success'),
-        ]);
+        return $this->respondSuccess(trans('rest-api::app.contacts.organizations.delete-success'));
     }
 }

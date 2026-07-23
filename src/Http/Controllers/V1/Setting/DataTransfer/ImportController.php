@@ -43,8 +43,8 @@ class ImportController extends Controller
 
         $this->validate(request(), [
             'type'                => 'required|in:'.implode(',', $importers),
-            'action'              => 'required:in:append,delete',
-            'validation_strategy' => 'required:in:stop-on-errors,skip-errors',
+            'action'              => 'required|in:append,delete',
+            'validation_strategy' => 'required|in:stop-on-errors,skip-errors',
             'allowed_errors'      => 'required|integer|min:0',
             'field_separator'     => 'required',
             'file'                => 'required|mimes:csv,xls,xlsx,txt',
@@ -84,9 +84,7 @@ class ImportController extends Controller
         Event::dispatch('data_transfer.imports.create.after', $import);
 
         return new JsonResource([
-            'data'    => [
-                'id' => $import->id,
-            ],
+            'data'    => new ImportResource($import),
             'message' => trans('rest-api::app.settings.data-transfer.imports.create-success'),
         ]);
     }
@@ -112,8 +110,8 @@ class ImportController extends Controller
 
         $this->validate(request(), [
             'type'                => 'required|in:'.implode(',', $importers),
-            'action'              => 'required:in:append,delete',
-            'validation_strategy' => 'required:in:stop-on-errors,skip-errors',
+            'action'              => 'required|in:append,delete',
+            'validation_strategy' => 'required|in:stop-on-errors,skip-errors',
             'allowed_errors'      => 'required|integer|min:0',
             'field_separator'     => 'required',
             'file'                => 'mimes:csv,xls,xlsx,txt',
@@ -165,9 +163,7 @@ class ImportController extends Controller
         Event::dispatch('data_transfer.imports.update.after', $import);
 
         return new JsonResource([
-            'data'    => [
-                'id' => $import->id,
-            ],
+            'data'    => new ImportResource($import),
             'message' => trans('rest-api::app.settings.data-transfer.imports.update-success'),
         ]);
     }

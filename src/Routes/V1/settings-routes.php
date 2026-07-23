@@ -106,7 +106,7 @@ Route::group([
 
         Route::post('mass-update', 'massUpdate');
 
-        Route::post('mass-destroy', 'massDestroy');
+        Route::match(['delete', 'post'], 'mass-destroy', 'massDestroy');
     });
 
     /**
@@ -115,7 +115,7 @@ Route::group([
     Route::controller(PipelineController::class)->prefix('pipelines')->group(function () {
         Route::get('', 'index');
 
-        Route::get('{id}', 'show');
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
         Route::post('', 'store');
 
@@ -132,7 +132,7 @@ Route::group([
 
         Route::post('', 'store');
 
-        Route::get('{id}', 'show');
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
         Route::put('{id}', 'update');
 
@@ -147,7 +147,7 @@ Route::group([
 
         Route::post('', 'store');
 
-        Route::get('{id}', 'show');
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
         Route::put('{id}', 'update');
 
@@ -162,13 +162,13 @@ Route::group([
 
         Route::post('', 'store');
 
-        Route::get('{id}', 'show');
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
         Route::put('{id}', 'update');
 
         Route::delete('{id}', 'destroy');
 
-        Route::post('mass-destroy', 'massDestroy');
+        Route::match(['delete', 'post'], 'mass-destroy', 'massDestroy');
 
         Route::get('lookup/{lookup?}', 'lookup');
 
@@ -187,7 +187,7 @@ Route::group([
 
         Route::post('', 'store');
 
-        Route::get('{id}', 'show');
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
         Route::put('{id}', 'update');
 
@@ -202,7 +202,7 @@ Route::group([
 
         Route::post('', 'store');
 
-        Route::get('{id}', 'show');
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
         Route::put('{id}', 'update');
 
@@ -257,7 +257,7 @@ Route::group([
 
         Route::post('', 'store');
 
-        Route::get('{id}', 'show');
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
         Route::put('{id}', 'update');
 
@@ -305,7 +305,7 @@ Route::group([
         Route::controller(ImportController::class)->prefix('imports')->group(function () {
             Route::get('', 'index');
 
-            Route::get('{id}', 'show');
+            Route::get('{id}', 'show')->where('id', '[0-9]+');
 
             Route::post('', 'store');
 

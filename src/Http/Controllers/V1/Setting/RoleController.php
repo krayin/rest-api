@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
@@ -32,7 +33,7 @@ class RoleController extends Controller
      */
     public function show(int $id): RoleResource
     {
-        $resource = $this->roleRepository->find($id);
+        $resource = $this->findOrFailResource($this->roleRepository, $id);
 
         return new RoleResource($resource);
     }
@@ -44,7 +45,8 @@ class RoleController extends Controller
     {
         $this->validate(request(), [
             'name'            => 'required|unique:roles,name',
-            'permission_type' => 'required',
+            'permission_type' => 'required|in:all,custom',
+            'permissions'     => 'sometimes|array',
         ]);
 
         Event::dispatch('settings.role.create.before');
@@ -73,9 +75,12 @@ class RoleController extends Controller
      */
     public function update(int $id): JsonResource
     {
+        $this->findOrFailResource($this->roleRepository, $id);
+
         $this->validate(request(), [
-            'name'            => 'required',
-            'permission_type' => 'required',
+            'name'            => 'required|unique:roles,name,'.$id,
+            'permission_type' => 'required|in:all,custom',
+            'permissions'     => 'sometimes|array',
         ]);
 
         Event::dispatch('settings.role.update.before', $id);
@@ -102,37 +107,32 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id): JsonResource
+    public function destroy(int $id): JsonResource|JsonResponse
     {
-        $response = ['code' => 400];
-
         $role = $this->roleRepository->findOrFail($id);
 
         if ($role->admins && $role->admins->count() >= 1) {
-            $response['message'] = trans('rest-api::app.settings.roles.being-used');
-        } elseif ($this->roleRepository->count() == 1) {
-            $response['message'] = trans('rest-api::app.settings.roles.last-delete-error');
-        } else {
-            try {
-                Event::dispatch('settings.role.delete.before', $id);
-
-                if (auth()->guard()->user()->role_id == $id) {
-                    $response['message'] = trans('rest-api::app.settings.roles.current-role-delete-error');
-                } else {
-                    $this->roleRepository->delete($id);
-
-                    Event::dispatch('settings.role.delete.after', $id);
-
-                    $response = [
-                        'code'    => 200,
-                        'message' => trans('rest-api::app.settings.roles.delete-success'),
-                    ];
-                }
-            } catch (\Exception $exception) {
-                report($exception);
-            }
+            return $this->respondError(trans('rest-api::app.settings.roles.being-used'), 400);
         }
 
-        return new JsonResource(['message' => $response['message']], $response['code']);
+        if ($this->roleRepository->count() == 1) {
+            return $this->respondError(trans('rest-api::app.settings.roles.last-delete-error'), 400);
+        }
+
+        if (auth()->guard()->user()->role_id == $id) {
+            return $this->respondError(trans('rest-api::app.settings.roles.current-role-delete-error'), 400);
+        }
+
+        try {
+            Event::dispatch('settings.role.delete.before', $id);
+
+            $this->roleRepository->delete($id);
+
+            Event::dispatch('settings.role.delete.after', $id);
+
+            return $this->respondSuccess(trans('rest-api::app.settings.roles.delete-success'));
+        } catch (\Exception $exception) {
+            return $this->respondError(trans('rest-api::app.settings.roles.delete-failed'), 500);
+        }
     }
 }

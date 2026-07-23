@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Attribute\Repositories\AttributeRepository;
@@ -94,6 +95,8 @@ class WebFormController extends Controller
      */
     public function update($id)
     {
+        $this->findOrFailResource($this->webFormRepository, $id);
+
         $this->validate(request(), [
             'title'                  => 'required',
             'submit_button_label'    => 'required',
@@ -125,20 +128,12 @@ class WebFormController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            Event::dispatch('settings.web_forms.delete.before', $id);
-
-            $this->webFormRepository->delete($id);
-
-            Event::dispatch('settings.web_forms.delete.after', $id);
-
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.web-forms.delete-success'),
-            ], 200);
-        } catch (\Exception $exception) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.web-forms.delete-failed'),
-            ], 400);
-        }
+        return $this->destroyResource(
+            $this->webFormRepository,
+            $id,
+            'rest-api::app.settings.web-forms.delete-success',
+            'settings.web_forms',
+            'rest-api::app.settings.web-forms.delete-failed',
+        );
     }
 }

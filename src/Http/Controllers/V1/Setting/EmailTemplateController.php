@@ -37,7 +37,7 @@ class EmailTemplateController extends Controller
      */
     public function show(int $id): EmailTemplateResource
     {
-        $resource = $this->emailTemplateRepository->find($id);
+        $resource = $this->findOrFailResource($this->emailTemplateRepository, $id);
 
         return new EmailTemplateResource($resource);
     }
@@ -48,7 +48,7 @@ class EmailTemplateController extends Controller
     public function store(): JsonResponse
     {
         $this->validate(request(), [
-            'name'    => 'required',
+            'name'    => 'required|unique:email_templates,name',
             'subject' => 'required',
             'content' => 'required',
         ]);
@@ -70,8 +70,10 @@ class EmailTemplateController extends Controller
      */
     public function update(int $id): JsonResponse
     {
+        $this->findOrFailResource($this->emailTemplateRepository, $id);
+
         $this->validate(request(), [
-            'name'    => 'required',
+            'name'    => 'required|unique:email_templates,name,'.$id,
             'subject' => 'required',
             'content' => 'required',
         ]);
@@ -91,22 +93,14 @@ class EmailTemplateController extends Controller
     /**
      * Remove the specified email template from storage.
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(int $id): JsonResource|JsonResponse
     {
-        try {
-            Event::dispatch('settings.email_templates.delete.before', $id);
-
-            $this->emailTemplateRepository->delete($id);
-
-            Event::dispatch('settings.email_templates.delete.after', $id);
-
-            return response()->json([
-                'message' => trans('rest-api::app.settings.email-templates.delete-success'),
-            ]);
-        } catch (\Exception $exception) {
-            return response()->json([
-                'message' => trans('rest-api::app.settings.email-templates.delete-failed'),
-            ], 500);
-        }
+        return $this->destroyResource(
+            $this->emailTemplateRepository,
+            $id,
+            'rest-api::app.settings.email-templates.delete-success',
+            'settings.email_templates',
+            'rest-api::app.settings.email-templates.delete-failed',
+        );
     }
 }

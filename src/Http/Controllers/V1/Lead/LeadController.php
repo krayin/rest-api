@@ -3,6 +3,7 @@
 namespace Webkul\RestApi\Http\Controllers\V1\Lead;
 
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
@@ -20,6 +21,7 @@ use Webkul\Lead\Repositories\SourceRepository;
 use Webkul\Lead\Repositories\StageRepository;
 use Webkul\Lead\Repositories\TypeRepository;
 use Webkul\Lead\Services\MagicAIService;
+use Webkul\RestApi\Http\Controllers\V1\Concerns\ResolvesAuthorizedUserIds;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
 use Webkul\RestApi\Http\Request\MassDestroyRequest;
 use Webkul\RestApi\Http\Request\MassUpdateRequest;
@@ -30,10 +32,24 @@ use Webkul\User\Repositories\UserRepository;
 
 class LeadController extends Controller
 {
+    use ResolvesAuthorizedUserIds;
+
     /**
      * Const variable for supported types.
      */
     const SUPPORTED_TYPES = 'pdf,bmp,jpeg,jpg,png,webp';
+
+    /**
+     * Relations eager-loaded for list/search so rendering LeadResource (and its
+     * nested person/user/product resources) does not trigger an N+1 per row.
+     */
+    const LIST_RELATIONS = [
+        'attribute_values',
+        'user',
+        'products.product',
+        'person.organization',
+        'person.user',
+    ];
 
     /**
      * Create a new controller instance.
@@ -59,7 +75,7 @@ class LeadController extends Controller
      */
     public function index(): JsonResource
     {
-        $leads = $this->allResources($this->leadRepository);
+        $leads = $this->allResources($this->leadRepository, self::LIST_RELATIONS);
 
         return LeadResource::collection($leads);
     }
@@ -85,7 +101,7 @@ class LeadController extends Controller
 
         $data['status'] = 1;
 
-        if ($data['lead_pipeline_stage_id']) {
+        if (! empty($data['lead_pipeline_stage_id'])) {
             $stage = $this->stageRepository->findOrFail($data['lead_pipeline_stage_id']);
 
             $data['lead_pipeline_id'] = $stage->lead_pipeline_id;
@@ -122,18 +138,50 @@ class LeadController extends Controller
 
         $data = $request->all();
 
-        if ($data['lead_pipeline_stage_id']) {
+        /**
+         * Unlike store(), a partial update must NOT fall back to the default
+         * pipeline's first stage when lead_pipeline_stage_id is absent from the
+         * request. The admin Kanban form always submits the stage, but an API
+         * client may PUT/PATCH a single field. Injecting a default here silently
+         * moves the lead to the pipeline's first stage and — because that stage is
+         * neither "won" nor "lost" — makes the core LeadRepository::update() reset
+         * closed_at to null (the core only recomputes the stage/closed_at when the
+         * key is present in $data). So resolve and attach the stage (and its
+         * pipeline) ONLY when the caller actually supplied one; otherwise the lead
+         * keeps its current stage and closed_at is left untouched.
+         */
+        if (! empty($data['lead_pipeline_stage_id'])) {
             $stage = $this->stageRepository->findOrFail($data['lead_pipeline_stage_id']);
 
             $data['lead_pipeline_id'] = $stage->lead_pipeline_id;
-        } else {
-            $pipeline = $this->pipelineRepository->getDefaultPipeline();
+        }
 
-            $stage = $pipeline->stages()->first();
+        /**
+         * Guard against the core repository wiping expected_close_date on a partial
+         * update — the same partial-destructive pattern as the stage above, but this
+         * one lives in the core so we defend it from here. Webkul's
+         * LeadRepository::update() runs
+         *
+         *     if (empty($data['expected_close_date'])) { $data['expected_close_date'] = null; }
+         *
+         * WITHOUT an isset guard, so an API PUT that simply omits the field would
+         * null out the lead's existing expected close date. While the key is
+         * genuinely ABSENT from the request (not merely sent empty — that stays a
+         * deliberate "clear it"), re-inject the lead's current value so it survives.
+         *
+         * Forward-safe workaround: the day the core guards this field with isset()
+         * — the way it already treats lead_pipeline_stage_id — this block just feeds
+         * back the same value the core would keep anyway, so it stays correct and
+         * can be deleted with no behavioural change. If the lead does not exist,
+         * find() returns null and we leave $data untouched so the update still
+         * surfaces the usual 404.
+         */
+        if (! array_key_exists('expected_close_date', $data)) {
+            $current = $this->leadRepository->find($id);
 
-            $data['lead_pipeline_id'] = $pipeline->id;
-
-            $data['lead_pipeline_stage_id'] = $stage->id;
+            if ($current && $current->expected_close_date) {
+                $data['expected_close_date'] = $current->expected_close_date;
+            }
         }
 
         $lead = $this->leadRepository->update($data, $id);
@@ -319,12 +367,14 @@ class LeadController extends Controller
         if ($userIds = $this->getAuthorizedUserIds()) {
             $results = $this->leadRepository
                 ->pushCriteria(app(RequestCriteria::class))
-                ->limit(request()->input('limit') ?? 10)
+                ->with(self::LIST_RELATIONS)
+                ->limit(request()->input('limit') ?? self::DEFAULT_PER_PAGE)
                 ->findWhereIn('user_id', $userIds);
         } else {
             $results = $this->leadRepository
                 ->pushCriteria(app(RequestCriteria::class))
-                ->limit(request()->input('limit') ?? 10)
+                ->with(self::LIST_RELATIONS)
+                ->limit(request()->input('limit') ?? self::DEFAULT_PER_PAGE)
                 ->all();
         }
 
@@ -469,37 +519,17 @@ class LeadController extends Controller
             Event::dispatch('lead.product.delete.after', $id);
 
             return new JsonResource([
-                'message' => trans('rest-api::app.leads.delete-success'),
+                'message' => trans('rest-api::app.leads.product-remove-success'),
             ]);
         } catch (\Exception $exception) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.leads.delete-failed'),
-            ]);
-        }
-    }
-
-    /**
-     * Get the authorized user ids.
-     */
-    private function getAuthorizedUserIds(): ?array
-    {
-        $user = auth()->user();
-
-        if ($user->view_permission == 'global') {
-            return null;
-        }
-
-        if ($user->view_permission == 'group') {
-            return $this->userRepository->getCurrentUserGroupsUserIds();
-        } else {
-            return [$user->id];
+            return $this->respondError(trans('rest-api::app.leads.delete-failed'), 500);
         }
     }
 
     /**
      * Remove the lead from storage.
      */
-    public function destroy(int $id): JsonResource
+    public function destroy(int $id): JsonResource|JsonResponse
     {
         $lead = $this->leadRepository->findOrFail($id);
 
@@ -510,24 +540,29 @@ class LeadController extends Controller
 
             Event::dispatch('lead.delete.after', $id);
 
-            return new JsonResource([
-                'message' => trans('rest-api::app.leads.delete-success'),
-            ]);
+            return $this->respondSuccess(trans('rest-api::app.leads.delete-success'));
         } catch (\Exception $exception) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.leads.delete-failed'),
-            ], 500);
+            /**
+             * Return a real HTTP 500 on failure. Previously this returned
+             * `new JsonResource([...], 500)`, where JsonResource ignores the
+             * second argument, so a failed delete was emitted as HTTP 200.
+             */
+            return $this->respondError(trans('rest-api::app.leads.delete-failed'), 500);
         }
     }
 
     /**
      * Mass update the leads.
      */
-    public function massUpdate(MassUpdateRequest $massUpdateRequest): JsonResource
+    public function massUpdate(MassUpdateRequest $massUpdateRequest): JsonResource|JsonResponse
     {
-        $leadIds = $massUpdateRequest->input('indices', []);
+        $this->validate(request(), [
+            'value' => 'required|exists:lead_pipeline_stages,id',
+        ]);
 
-        foreach ($leadIds as $leadId) {
+        $count = 0;
+
+        foreach ($massUpdateRequest->input('indices', []) as $leadId) {
             $lead = $this->leadRepository->find($leadId);
 
             if (! $lead) {
@@ -538,38 +573,34 @@ class LeadController extends Controller
 
             $lead->update(['lead_pipeline_stage_id' => $massUpdateRequest->input('value')]);
 
-            Event::dispatch('lead.update.before', $leadId);
+            Event::dispatch('lead.update.after', $leadId);
+
+            $count++;
         }
 
-        return new JsonResource([
-            'message' => trans('rest-api::app.leads.updated-success'),
-        ]);
+        if (! $count) {
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
+        }
+
+        return $this->respondSuccess(trans('rest-api::app.leads.updated-success'));
     }
 
     /**
      * Mass delete the leads.
      */
-    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource
+    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource|JsonResponse
     {
-        $leadIds = $massDestroyRequest->input('indices', []);
+        $result = $this->massDestroyResources(
+            $this->leadRepository,
+            $massDestroyRequest->input('indices', []),
+            'lead',
+        );
 
-        foreach ($leadIds as $leadId) {
-            $lead = $this->leadRepository->find($leadId);
-
-            if (! $lead) {
-                continue;
-            }
-
-            Event::dispatch('lead.delete.before', $leadId);
-
-            $lead->delete();
-
-            Event::dispatch('lead.delete.after', $leadId);
+        if ($result['deleted'] === 0) {
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
         }
 
-        return new JsonResource([
-            'message' => trans('rest-api::app.leads.delete-success'),
-        ]);
+        return $this->respondSuccess(trans('rest-api::app.leads.delete-success'));
     }
 
     /**
@@ -696,7 +727,6 @@ class LeadController extends Controller
                 'label'              => trans('admin::app.leads.index.kanban.columns.expected-close-date'),
                 'type'               => 'date',
                 'searchable'         => false,
-                'searchable'         => false,
                 'sortable'           => true,
                 'filterable'         => true,
                 'filterable_type'    => 'date_range',
@@ -707,7 +737,6 @@ class LeadController extends Controller
                 'index'              => 'created_at',
                 'label'              => trans('admin::app.leads.index.kanban.columns.created-at'),
                 'type'               => 'date',
-                'searchable'         => false,
                 'searchable'         => false,
                 'sortable'           => true,
                 'filterable'         => true,

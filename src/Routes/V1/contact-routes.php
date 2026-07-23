@@ -26,7 +26,7 @@ Route::group([
 
         Route::middleware(['throttle:100,60'])->delete('{id}', 'destroy');
 
-        Route::post('mass-destroy', 'massDestroy');
+        Route::match(['delete', 'post'], 'mass-destroy', 'massDestroy');
 
         /**
          * Tag routes.
@@ -51,7 +51,7 @@ Route::group([
     Route::controller(OrganizationController::class)->prefix('organizations')->group(function () {
         Route::get('', 'index');
 
-        Route::get('{id}', 'show');
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
         Route::post('', 'store');
 
@@ -59,6 +59,6 @@ Route::group([
 
         Route::delete('{id}', 'destroy');
 
-        Route::post('mass-destroy', 'massDestroy');
+        Route::match(['delete', 'post'], 'mass-destroy', 'massDestroy');
     });
 });

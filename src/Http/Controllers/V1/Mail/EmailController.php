@@ -46,7 +46,7 @@ class EmailController extends Controller
      */
     public function show($id): JsonResource
     {
-        $resource = $this->emailRepository->find($id);
+        $resource = $this->findOrFailResource($this->emailRepository, $id);
 
         return new EmailResource($resource);
     }
@@ -64,9 +64,15 @@ class EmailController extends Controller
 
         Event::dispatch('email.create.before');
 
-        $email = $this->emailRepository->create(request()->all());
+        $data = request()->all();
 
-        if (! request()->boolean('is_draft')) {
+        $isDraft = request()->boolean('is_draft');
+
+        $data['folders'] = $isDraft ? ['draft'] : ['outbox'];
+
+        $email = $this->emailRepository->create($data);
+
+        if (! $isDraft) {
             try {
                 Mail::send(new Email($email));
 
@@ -74,6 +80,12 @@ class EmailController extends Controller
                     'folders' => ['inbox', 'sent'],
                 ], $email->id);
             } catch (\Exception $e) {
+                /**
+                 * Delivery failed: log it instead of swallowing silently. The
+                 * email keeps the `outbox` folder set above (it is not marked
+                 * sent), so a failed send stays distinguishable and debuggable.
+                 */
+                report($e);
             }
         }
 
@@ -81,7 +93,7 @@ class EmailController extends Controller
 
         return response()->json([
             'data'    => new EmailResource($email),
-            'message' => trans('rest-api::app.mail.create-success'),
+            'message' => trans($isDraft ? 'rest-api::app.mail.saved-to-draft' : 'rest-api::app.mail.create-success'),
         ]);
     }
 
@@ -90,26 +102,23 @@ class EmailController extends Controller
      */
     public function update(int $id)
     {
+        $this->findOrFailResource($this->emailRepository, $id);
+
         Event::dispatch('email.update.before', $id);
 
         $data = request()->all();
 
-        $data['is_draft'] = request()->boolean('is_draft');
+        $isDraft = request()->boolean('is_draft');
 
-        if (! is_null($isDraft = $data['is_draft'])) {
-            $data['folders'] = $isDraft ? ['draft'] : ['outbox'];
-        }
+        $data['is_draft'] = $isDraft;
+        $data['folders']  = $isDraft ? ['draft'] : ['outbox'];
+        $data['source']   = 'web';
 
-        $data['source'] = 'web';
-
-        $email = $this->emailRepository->update($data, $data['id'] ?? $id);
+        $email = $this->emailRepository->update($data, $id);
 
         Event::dispatch('email.update.after', $email);
 
-        if (
-            ! is_null($isDraft)
-            && ! $isDraft
-        ) {
+        if (! $isDraft) {
             try {
                 Mail::send(new Email($email));
 
@@ -117,26 +126,18 @@ class EmailController extends Controller
                     'folders' => ['inbox', 'sent'],
                 ], $email->id);
             } catch (\Exception $e) {
+                /**
+                 * Delivery failed: log it instead of swallowing silently. The
+                 * email keeps the `outbox` folder set above (it is not marked
+                 * sent), so a failed send stays distinguishable and debuggable.
+                 */
+                report($e);
             }
         }
 
-        if (! is_null($isDraft)) {
-            if ($isDraft) {
-                return response([
-                    'data'    => new EmailResource($email),
-                    'message' => trans('rest-api::app.mail.saved-to-draft'),
-                ]);
-            } else {
-                return response([
-                    'data'    => new EmailResource($email),
-                    'message' => trans('rest-api::app.mail.create-success'),
-                ]);
-            }
-        }
-
-        return new JsonResource([
+        return response()->json([
             'data'    => new EmailResource($email),
-            'message' => trans('rest-api::app.mail.update-success'),
+            'message' => trans($isDraft ? 'rest-api::app.mail.saved-to-draft' : 'rest-api::app.mail.update-success'),
         ]);
     }
 
@@ -148,9 +149,11 @@ class EmailController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $type = request()->input('type', 'delete');
+        $this->emailRepository->findOrFail($id);
 
+        $type = request()->input('type', 'delete');
+
+        try {
             Event::dispatch("email.$type.before", $id);
 
             if ($type == 'trash') {
@@ -163,13 +166,13 @@ class EmailController extends Controller
 
             Event::dispatch("email.$type.after", $id);
 
-            return new JsonResource([
-                'message' => trans('rest-api::app.mail.delete-success'),
-            ]);
+            return $this->respondSuccess(trans(
+                $type == 'trash'
+                    ? 'rest-api::app.mail.trash-success'
+                    : 'rest-api::app.mail.delete-success'
+            ));
         } catch (\Exception $exception) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.mail.delete-failed'),
-            ], 500);
+            return $this->respondError(trans('rest-api::app.mail.delete-failed'), 500);
         }
     }
 
@@ -180,9 +183,13 @@ class EmailController extends Controller
      */
     public function massUpdate(MassUpdateRequest $massUpdateRequest)
     {
-        $emailIds = $massUpdateRequest->input('indices', []);
+        $this->validate(request(), [
+            'folders' => 'required|array|min:1',
+        ]);
 
-        foreach ($emailIds as $emailId) {
+        $count = 0;
+
+        foreach ($massUpdateRequest->input('indices', []) as $emailId) {
             $email = $this->emailRepository->find($emailId);
 
             if (! $email) {
@@ -196,11 +203,15 @@ class EmailController extends Controller
             ]);
 
             Event::dispatch('email.update.after', $emailId);
+
+            $count++;
         }
 
-        return new JsonResource([
-            'message' => trans('rest-api::app.mail.mass-update-success'),
-        ]);
+        if (! $count) {
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
+        }
+
+        return $this->respondSuccess(trans('rest-api::app.mail.mass-update-success'));
     }
 
     /**
@@ -213,6 +224,8 @@ class EmailController extends Controller
         $emails = $massDestroyRequest->input('indices', []);
 
         $type = request()->input('type', 'delete');
+
+        $count = 0;
 
         foreach ($emails as $emailId) {
             $email = $this->emailRepository->find($emailId);
@@ -232,11 +245,15 @@ class EmailController extends Controller
             }
 
             Event::dispatch("email.$type.after", $emailId);
+
+            $count++;
         }
 
-        return response([
-            'message' => trans('rest-api::app.mail.destroy-success'),
-        ]);
+        if (! $count) {
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
+        }
+
+        return $this->respondSuccess(trans('rest-api::app.mail.destroy-success'));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Webkul\Lead\Repositories\SourceRepository;
@@ -32,7 +33,7 @@ class SourceController extends Controller
      */
     public function show(int $id): SourceResource
     {
-        $resource = $this->sourceRepository->find($id);
+        $resource = $this->findOrFailResource($this->sourceRepository, $id);
 
         return new SourceResource($resource);
     }
@@ -63,6 +64,8 @@ class SourceController extends Controller
      */
     public function update(int $id): JsonResource
     {
+        $this->findOrFailResource($this->sourceRepository, $id);
+
         $this->validate(request(), [
             'name' => 'required|unique:lead_sources,name,'.$id,
         ]);
@@ -82,22 +85,14 @@ class SourceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id): JsonResource
+    public function destroy(int $id): JsonResource|JsonResponse
     {
-        try {
-            Event::dispatch('settings.source.delete.before', $id);
-
-            $this->sourceRepository->delete($id);
-
-            Event::dispatch('settings.source.delete.after', $id);
-
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.sources.delete-success'),
-            ]);
-        } catch (\Exception $exception) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.sources.delete-failed'),
-            ], 500);
-        }
+        return $this->destroyResource(
+            $this->sourceRepository,
+            $id,
+            'rest-api::app.settings.sources.delete-success',
+            'settings.source',
+            'rest-api::app.settings.sources.delete-failed',
+        );
     }
 }

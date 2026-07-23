@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1\Setting;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
@@ -43,7 +44,7 @@ class UserController extends Controller
      */
     public function show(int $id): UserResource
     {
-        $resource = $this->userRepository->find($id);
+        $resource = $this->findOrFailResource($this->userRepository, $id);
 
         return new UserResource($resource);
     }
@@ -69,18 +70,20 @@ class UserController extends Controller
         $this->validate(request(), [
             'email'            => 'required|email|unique:users,email',
             'name'             => 'required',
-            'password'         => 'nullable',
-            'confirm_password' => 'nullable|required_with:password|same:password',
-            'role_id'          => 'required',
+            'password'         => 'required|min:6',
+            'confirm_password' => 'required|same:password',
+            'role_id'          => 'required|exists:roles,id',
+            'view_permission'  => 'required|in:global,group,individual',
+            'status'           => 'sometimes|boolean',
+            'groups'           => 'sometimes|array',
+            'groups.*'         => 'integer|exists:groups,id',
         ]);
 
         $data = request()->all();
 
-        if (! empty($data['password'])) {
-            $data['password'] = bcrypt($data['password']);
-        }
+        $data['password'] = bcrypt($data['password']);
 
-        $data['status'] = isset($data['status']) ? 1 : 0;
+        $data['status'] = request()->boolean('status') ? 1 : 0;
 
         Event::dispatch('settings.user.create.before');
 
@@ -114,18 +117,23 @@ class UserController extends Controller
      */
     public function update($id)
     {
+        $this->findOrFailResource($this->userRepository, $id);
+
         $this->validate(request(), [
             'email'            => 'required|email|unique:users,email,'.$id,
             'name'             => 'required',
-            'password'         => 'nullable',
+            'password'         => 'nullable|min:6',
             'confirm_password' => 'nullable|required_with:password|same:password',
-            'role_id'          => 'required',
+            'role_id'          => 'required|exists:roles,id',
             'status'           => 'required|in:0,1',
+            'view_permission'  => 'required|in:global,group,individual',
+            'groups'           => 'sometimes|array',
+            'groups.*'         => 'integer|exists:groups,id',
         ]);
 
         $data = request()->all();
 
-        if (! $data['password']) {
+        if (empty($data['password'])) {
             unset($data['password'], $data['confirm_password']);
         } else {
             $data['password'] = bcrypt($data['password']);
@@ -156,41 +164,41 @@ class UserController extends Controller
     /**
      * Destroy specified user.
      */
-    public function destroy(int $id): JsonResource
+    public function destroy(int $id): JsonResource|JsonResponse
     {
+        $this->findOrFailResource($this->userRepository, $id);
+
         if (auth()->guard()->user()->id == $id) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.users.delete-failed'),
-            ], 400);
-        } elseif ($this->userRepository->count() == 1) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.users.last-delete-error'),
-            ], 400);
-        } else {
-            Event::dispatch('settings.user.delete.before', $id);
+            return $this->respondError(trans('rest-api::app.settings.users.delete-failed'), 400);
+        }
 
-            try {
-                $this->userRepository->delete($id);
+        if ($this->userRepository->count() == 1) {
+            return $this->respondError(trans('rest-api::app.settings.users.last-delete-error'), 400);
+        }
 
-                Event::dispatch('settings.user.delete.after', $id);
+        Event::dispatch('settings.user.delete.before', $id);
 
-                return new JsonResource([
-                    'message' => trans('rest-api::app.settings.users.delete-success'),
-                ]);
-            } catch (\Exception $exception) {
-                return new JsonResource([
-                    'message' => $exception->getMessage(),
-                ], 500);
-            }
+        try {
+            $this->userRepository->delete($id);
+
+            Event::dispatch('settings.user.delete.after', $id);
+
+            return $this->respondSuccess(trans('rest-api::app.settings.users.delete-success'));
+        } catch (\Exception $exception) {
+            return $this->respondError(trans('rest-api::app.settings.users.delete-failed'), 500);
         }
     }
 
     /**
      * Mass update the specified resources.
      */
-    public function massUpdate(MassUpdateRequest $massUpdateRequest): JsonResource
+    public function massUpdate(MassUpdateRequest $massUpdateRequest): JsonResource|JsonResponse
     {
-        $userIds = $massUpdateRequest->input('indices');
+        $this->validate(request(), [
+            'value' => 'required|in:0,1',
+        ]);
+
+        $userIds = $massUpdateRequest->input('indices', []);
 
         $count = 0;
 
@@ -199,11 +207,15 @@ class UserController extends Controller
                 continue;
             }
 
-            Event::dispatch('settings.user.update.before', $userId);
-
             $user = $this->userRepository->find($userId);
 
-            $user?->update(['status' => $massUpdateRequest->input('value')]);
+            if (! $user) {
+                continue;
+            }
+
+            Event::dispatch('settings.user.update.before', $userId);
+
+            $user->update(['status' => $massUpdateRequest->input('value')]);
 
             Event::dispatch('settings.user.update.after', $userId);
 
@@ -211,22 +223,18 @@ class UserController extends Controller
         }
 
         if (! $count) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.users.mass-update-failed'),
-            ], 500);
+            return $this->respondError(trans('rest-api::app.settings.users.mass-update-failed'), 404);
         }
 
-        return new JsonResource([
-            'message' => trans('rest-api::app.settings.users.mass-update-success'),
-        ]);
+        return $this->respondSuccess(trans('rest-api::app.settings.users.mass-update-success'));
     }
 
     /**
      * Mass delete the specified resources.
      */
-    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource
+    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource|JsonResponse
     {
-        $userIds = $massDestroyRequest->input('indices');
+        $userIds = $massDestroyRequest->input('indices', []);
 
         $count = 0;
 
@@ -235,11 +243,15 @@ class UserController extends Controller
                 continue;
             }
 
-            Event::dispatch('settings.user.delete.before', $userId);
-
             $user = $this->userRepository->find($userId);
 
-            $user?->delete();
+            if (! $user) {
+                continue;
+            }
+
+            Event::dispatch('settings.user.delete.before', $userId);
+
+            $user->delete();
 
             Event::dispatch('settings.user.delete.after', $userId);
 
@@ -247,13 +259,9 @@ class UserController extends Controller
         }
 
         if (! $count) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.users.mass-delete-failed'),
-            ], 500);
+            return $this->respondError(trans('rest-api::app.settings.users.mass-delete-failed'), 404);
         }
 
-        return new JsonResource([
-            'message' => trans('rest-api::app.settings.users.mass-delete-success'),
-        ]);
+        return $this->respondSuccess(trans('rest-api::app.settings.users.mass-delete-success'));
     }
 }

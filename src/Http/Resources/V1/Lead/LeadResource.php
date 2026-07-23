@@ -3,12 +3,15 @@
 namespace Webkul\RestApi\Http\Resources\V1\Lead;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Webkul\RestApi\Http\Resources\V1\Concerns\InteractsWithCustomAttributes;
 use Webkul\RestApi\Http\Resources\V1\Contact\PersonResource;
 use Webkul\RestApi\Http\Resources\V1\Product\LeadProductResource;
 use Webkul\RestApi\Http\Resources\V1\Setting\UserResource;
 
 class LeadResource extends JsonResource
 {
+    use InteractsWithCustomAttributes;
+
     /**
      * Transform the resource into an array.
      *
@@ -17,7 +20,7 @@ class LeadResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        return array_merge($this->customAttributes(), [
             'id'                     => $this->id,
             'title'                  => $this->title,
             'description'            => $this->description,
@@ -35,6 +38,6 @@ class LeadResource extends JsonResource
             'created_at'             => $this->created_at,
             'updated_at'             => $this->updated_at,
             'expected_close_date'    => $this->expected_close_date,
-        ];
+        ]);
     }
 }

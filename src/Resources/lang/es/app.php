@@ -13,6 +13,12 @@ return [
         'forbidden-error'       => 'No tienes permiso para acceder a este recurso.',
         'unauthenticated'       => 'No estás autenticado. Por favor, inicia sesión para continuar.',
         'internal-server-error' => 'Ocurrió un error inesperado en el servidor. Por favor, inténtalo de nuevo más tarde.',
+        'nothing-to-delete'     => 'No se encontraron registros coincidentes para eliminar.',
+        'method-not-allowed'    => 'El método HTTP utilizado no está permitido para este endpoint.',
+        'tag-not-attached'      => 'La etiqueta no está asociada a este registro.',
+        'current-password-mismatch' => 'La contraseña actual que ingresaste es incorrecta.',
+        'permission-denied'         => 'No tienes permiso para cambiar estos campos.',
+        'account-update-success'    => 'Cuenta actualizada con éxito.',
     ],
 
     'products' => [
@@ -29,6 +35,7 @@ return [
         'delete-success'  => 'Lead eliminado con éxito.',
         'delete-failed'   => 'La eliminación del lead falló.',
         'no-valid-files'  => 'No se encontraron archivos válidos.',
+        'product-remove-success' => 'Producto eliminado del lead con éxito.',
 
         'view' => [
             'tags' => [
@@ -57,6 +64,9 @@ return [
         'delete-success' => 'Correo electrónico eliminado con éxito.',
         'delete-failed'  => 'La eliminación del correo electrónico falló.',
         'saved-to-draft' => 'Correo electrónico guardado como borrador.',
+        'trash-success'       => 'Correo electrónico movido a la papelera con éxito.',
+        'mass-update-success' => 'Correos seleccionados actualizados con éxito.',
+        'destroy-success'     => 'Correos seleccionados eliminados con éxito.',
 
         'view' => [
             'tags' => [
@@ -146,7 +156,10 @@ return [
             'create-success' => 'Rol creado con éxito.',
             'update-success' => 'Rol actualizado con éxito.',
             'delete-success' => 'Rol eliminado con éxito.',
-            'delete-failed'  => 'La eliminación del rol falló.',
+            'delete-failed'             => 'La eliminación del rol falló.',
+            'being-used'                => 'Este rol está asignado a uno o más usuarios y no se puede eliminar.',
+            'last-delete-error'         => 'Se requiere al menos un rol.',
+            'current-role-delete-error' => 'No puedes eliminar el rol que tienes asignado actualmente.',
         ],
 
         'users' => [
@@ -166,6 +179,7 @@ return [
             'updated-success'      => 'Pipeline actualizado con éxito.',
             'delete-success'       => 'Pipeline eliminado con éxito.',
             'default-delete-error' => 'No se puede eliminar el pipeline predeterminado.',
+            'delete-failed'        => 'No se pudo eliminar el pipeline.',
         ],
 
         'sources' => [

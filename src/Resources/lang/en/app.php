@@ -13,6 +13,12 @@ return [
         'forbidden-error'       => 'You do not have permission to access this resource.',
         'unauthenticated'       => 'You are not authenticated. Please log in to continue.',
         'internal-server-error' => 'An unexpected error occurred on the server. Please try again later.',
+        'nothing-to-delete'     => 'No matching records were found to delete.',
+        'method-not-allowed'    => 'The HTTP method used is not allowed for this endpoint.',
+        'tag-not-attached'      => 'The tag is not attached to this record.',
+        'current-password-mismatch' => 'The current password you entered is incorrect.',
+        'permission-denied'         => 'You do not have permission to change these fields.',
+        'account-update-success'    => 'Account updated successfully.',
     ],
 
     'products' => [
@@ -29,6 +35,7 @@ return [
         'delete-success'  => 'Lead deleted successfully.',
         'delete-failed'   => 'Lead delete failed.',
         'no-valid-files'  => 'No valid files found.',
+        'product-remove-success' => 'Product removed from the lead successfully.',
 
         'view' => [
             'tags' => [
@@ -57,6 +64,9 @@ return [
         'delete-success' => 'Email deleted successfully.',
         'delete-failed'  => 'Email delete failed.',
         'saved-to-draft' => 'Email saved to draft.',
+        'trash-success'       => 'Email moved to trash successfully.',
+        'mass-update-success' => 'Selected emails updated successfully.',
+        'destroy-success'     => 'Selected emails deleted successfully.',
 
         'view' => [
             'tags' => [
@@ -146,7 +156,10 @@ return [
             'create-success' => 'Role created successfully.',
             'update-success' => 'Role updated successfully.',
             'delete-success' => 'Role deleted successfully.',
-            'delete-failed'  => 'Role delete failed.',
+            'delete-failed'             => 'Role delete failed.',
+            'being-used'                => 'This role is assigned to one or more users and cannot be deleted.',
+            'last-delete-error'         => 'At least one role is required.',
+            'current-role-delete-error' => 'You cannot delete the role currently assigned to you.',
         ],
 
         'users' => [
@@ -166,6 +179,7 @@ return [
             'updated-success'      => 'Pipeline updated successfully.',
             'delete-success'       => 'Pipeline deleted successfully.',
             'default-delete-error' => 'Default pipeline can not be deleted.',
+            'delete-failed'        => 'Pipeline delete failed.',
         ],
 
         'sources' => [

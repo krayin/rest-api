@@ -21,9 +21,13 @@ class TagController extends Controller
      */
     public function attach(int $id): JsonResponse
     {
-        Event::dispatch('mails.tag.create.before', $id);
+        $this->validate(request(), [
+            'tag_id' => 'required|exists:tags,id',
+        ]);
 
-        $mail = $this->emailRepository->find($id);
+        $mail = $this->emailRepository->findOrFail($id);
+
+        Event::dispatch('mails.tag.create.before', $id);
 
         if (! $mail->tags->contains(request()->input('tag_id'))) {
             $mail->tags()->attach(request()->input('tag_id'));
@@ -41,11 +45,19 @@ class TagController extends Controller
      */
     public function detach(int $mailId): JsonResponse
     {
+        $mail = $this->emailRepository->findOrFail($mailId);
+
+        $tagId = request()->input('tag_id');
+
+        if (! $mail->tags->contains($tagId)) {
+            return response()->json([
+                'message' => trans('rest-api::app.common.tag-not-attached'),
+            ], 404);
+        }
+
         Event::dispatch('mails.tag.delete.before', $mailId);
 
-        $mail = $this->emailRepository->find($mailId);
-
-        $mail->tags()->detach(request()->input('tag_id'));
+        $mail->tags()->detach($tagId);
 
         Event::dispatch('mails.tag.delete.after', $mail);
 

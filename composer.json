@@ -12,8 +12,25 @@
             "Webkul\\RestApi\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\RestApi\\Tests\\": "tests/"
+        }
+    },
     "require": {
-        "darkaonline/l5-swagger": "^8.6"
+        "php": "^8.2",
+        "darkaonline/l5-swagger": "^9.0",
+        "laravel/sanctum": "^4.0"
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "^7.8",
+        "orchestra/testbench": "^10.0",
+        "phpunit/phpunit": "^11.5"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test-coverage": "phpunit --coverage-text",
+        "test-integration": "phpunit --testsuite Integration"
     },
     "extra": {
         "laravel": {
@@ -22,5 +39,6 @@
             ]
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

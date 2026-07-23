@@ -37,7 +37,7 @@ class AttributeController extends Controller
      */
     public function show(int $id): AttributeResource
     {
-        $resource = $this->attributeRepository->find($id);
+        $resource = $this->findOrFailResource($this->attributeRepository, $id);
 
         return new AttributeResource($resource);
     }
@@ -68,9 +68,13 @@ class AttributeController extends Controller
     public function store(): JsonResource
     {
         $this->validate(request(), [
-            'code' => ['required', 'unique:attributes,code,NULL,NULL,entity_type,'.request('entity_type'), new Code],
-            'name' => 'required',
-            'type' => 'required',
+            'code'        => ['required', 'unique:attributes,code,NULL,NULL,entity_type,'.request('entity_type'), new Code],
+            'name'        => 'required',
+            'type'        => 'required|in:text,textarea,price,boolean,select,multiselect,datetime,date,lookup,image,file,checkbox,address,email,phone',
+            'entity_type' => 'required|string',
+            'lookup_type' => 'nullable|string|required_if:type,lookup',
+            'is_required' => 'sometimes|boolean',
+            'is_unique'   => 'sometimes|boolean',
         ]);
 
         Event::dispatch('settings.attribute.create.before');
@@ -92,10 +96,16 @@ class AttributeController extends Controller
      */
     public function update(int $id): JsonResource
     {
+        $this->findOrFailResource($this->attributeRepository, $id);
+
         $this->validate(request(), [
-            'code' => ['required', 'unique:attributes,code,NULL,NULL,entity_type,'.$id, new Code],
-            'name' => 'required',
-            'type' => 'required',
+            'code'        => ['required', 'unique:attributes,code,NULL,NULL,entity_type,'.$id, new Code],
+            'name'        => 'required',
+            'type'        => 'required|in:text,textarea,price,boolean,select,multiselect,datetime,date,lookup,image,file,checkbox,address,email,phone',
+            'entity_type' => 'required|string',
+            'lookup_type' => 'nullable|string|required_if:type,lookup',
+            'is_required' => 'sometimes|boolean',
+            'is_unique'   => 'sometimes|boolean',
         ]);
 
         Event::dispatch('settings.attribute.update.before', $id);
@@ -113,14 +123,15 @@ class AttributeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id): JsonResource
+    public function destroy(int $id): JsonResource|JsonResponse
     {
         $attribute = $this->attributeRepository->findOrFail($id);
 
         if (! $attribute->is_user_defined) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.attributes.user-define-error'),
-            ], 400);
+            return $this->respondError(
+                trans('rest-api::app.settings.attributes.user-define-error'),
+                400,
+            );
         }
 
         try {
@@ -130,20 +141,19 @@ class AttributeController extends Controller
 
             Event::dispatch('settings.attribute.delete.after', $id);
 
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.attributes.destroy-success'),
-            ]);
+            return $this->respondSuccess(trans('rest-api::app.settings.attributes.destroy-success'));
         } catch (\Exception $exception) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.attributes.delete-failed'),
-            ], 500);
+            return $this->respondError(
+                trans('rest-api::app.settings.attributes.delete-failed'),
+                500,
+            );
         }
     }
 
     /**
      * Mass delete the specified resources.
      */
-    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource
+    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource|JsonResponse
     {
         $attributeIds = $massDestroyRequest->input('indices', []);
 
@@ -152,7 +162,7 @@ class AttributeController extends Controller
         foreach ($attributeIds as $attributeId) {
             $attribute = $this->attributeRepository->find($attributeId);
 
-            if (! $attribute->is_user_defined) {
+            if (! $attribute || ! $attribute->is_user_defined) {
                 continue;
             }
 
@@ -166,14 +176,10 @@ class AttributeController extends Controller
         }
 
         if (! $count) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.attributes.delete-failed'),
-            ], 500);
+            return $this->respondError(trans('rest-api::app.common.nothing-to-delete'), 404);
         }
 
-        return new JsonResource([
-            'message' => trans('rest-api::app.settings.attributes.destroy-success', ['name' => trans('rest-api::app.settings.attributes.title')]),
-        ]);
+        return $this->respondSuccess(trans('rest-api::app.settings.attributes.destroy-success'));
     }
 
     /**
