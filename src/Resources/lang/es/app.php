@@ -143,10 +143,13 @@ return [
         ],
 
         'roles' => [
-            'create-success' => 'Rol creado con éxito.',
-            'update-success' => 'Rol actualizado con éxito.',
-            'delete-success' => 'Rol eliminado con éxito.',
-            'delete-failed'  => 'La eliminación del rol falló.',
+            'create-success'            => 'Rol creado con éxito.',
+            'update-success'            => 'Rol actualizado con éxito.',
+            'delete-success'            => 'Rol eliminado con éxito.',
+            'delete-failed'             => 'La eliminación del rol falló.',
+            'being-used'                => 'No se puede eliminar el rol, ya que está asignado a un usuario.',
+            'last-delete-error'         => 'Se requiere al menos un rol.',
+            'current-role-delete-error' => 'No se puede eliminar el rol asignado al usuario actual.',
         ],
 
         'users' => [

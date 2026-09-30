@@ -143,10 +143,13 @@ return [
         ],
 
         'roles' => [
-            'create-success' => 'Role created successfully.',
-            'update-success' => 'Role updated successfully.',
-            'delete-success' => 'Role deleted successfully.',
-            'delete-failed'  => 'Role delete failed.',
+            'create-success'            => 'Role created successfully.',
+            'update-success'            => 'Role updated successfully.',
+            'delete-success'            => 'Role deleted successfully.',
+            'delete-failed'             => 'Role delete failed.',
+            'being-used'                => 'Role can not be deleted, as it is assigned to a user.',
+            'last-delete-error'         => 'At least one role is required.',
+            'current-role-delete-error' => 'Can not delete the role assigned to the current user.',
         ],
 
         'users' => [
