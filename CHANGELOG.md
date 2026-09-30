@@ -1,6 +1,10 @@
 # CHANGELOG
 This changelog consists of the bug & security fixes and new features being included in the releases listed below.
 
+## **v2.2.6 (XXXX 2026)** - *Release*
+
+* Update Changelog
+
 ## **v2.1.1 (1st of September 2025)** - *Release*
 
 * Update Changelog
