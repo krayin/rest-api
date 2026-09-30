@@ -1,4 +1,4 @@
-import { test, expect, unique, logResponseOnFailure } from '../../fixtures/api.fixture';
+import { test, expect, unique, logResponseOnFailure, config } from '../../fixtures/api.fixture';
 
 test.describe('Quotes API', () => {
   test('@auth @crud @negative @regression list quotes without token', async ({ apiClient }) => {
@@ -31,6 +31,7 @@ test.describe('Quotes API', () => {
     const response = await quoteService.create({
       subject: unique('Quote'),
       person_id: person.id,
+      user_id: config.userId,
       items: [{ product_id: product.id, quantity: 2, price: 50 }],
     });
 
@@ -84,6 +85,7 @@ test.describe('Quotes API', () => {
     const createResponse = await quoteService.create({
       subject: unique('Quote'),
       person_id: person.id,
+      user_id: config.userId,
       items: [{ product_id: product.id, quantity: 2, price: 50 }],
     });
     const { data: quote } = await createResponse.json();
@@ -119,6 +121,7 @@ test.describe('Quotes API', () => {
     const createResponse = await quoteService.create({
       subject: unique('Quote'),
       person_id: person.id,
+      user_id: config.userId,
       items: [{ product_id: product.id, quantity: 2, price: 50 }],
     });
     const { data: quote } = await createResponse.json();
@@ -155,6 +158,7 @@ test.describe('Quotes API', () => {
     const createResponse = await quoteService.create({
       subject: unique('Quote'),
       person_id: person.id,
+      user_id: config.userId,
       items: [{ product_id: product.id, quantity: 2, price: 50 }],
     });
     const { data: quote } = await createResponse.json();
@@ -192,6 +196,7 @@ test.describe('Quotes API', () => {
     const createResponse = await quoteService.create({
       subject: unique('Quote'),
       person_id: person.id,
+      user_id: config.userId,
       items: [{ product_id: product.id, quantity: 2, price: 50 }],
     });
     const { data: quote } = await createResponse.json();
@@ -239,6 +244,7 @@ test.describe('Quotes API', () => {
     const createResponse = await quoteService.create({
       subject: unique('Quote'),
       person_id: person.id,
+      user_id: config.userId,
       items: [{ product_id: product.id, quantity: 2, price: 50 }],
     });
     const { data: quote } = await createResponse.json();
@@ -272,6 +278,7 @@ test.describe('Quotes API', () => {
     const createResponse = await quoteService.create({
       subject: unique('Quote'),
       person_id: person.id,
+      user_id: config.userId,
       items: [{ product_id: product.id, quantity: 2, price: 50 }],
     });
     const { data: quote } = await createResponse.json();
@@ -326,6 +333,7 @@ test.describe('Quotes API', () => {
     const createResponse = await quoteService.create({
       subject: unique('Quote'),
       person_id: person.id,
+      user_id: config.userId,
       items: [{ product_id: product.id, quantity: 2, price: 50 }],
     });
     const { data: quote } = await createResponse.json();
@@ -349,6 +357,7 @@ test.describe('Quotes API', () => {
     const response = await quoteService.create({
       subject: unique('Quote'),
       person_id: 999999,
+      user_id: config.userId,
       items: [{ product_id: 1, quantity: 1, price: 10 }],
     });
     await logResponseOnFailure(response, 'issue40: create quote with non-existent person');
@@ -365,6 +374,7 @@ test.describe('Quotes API', () => {
     const response = await quoteService.create({
       subject: unique('Quote'),
       person_id: person.id,
+      user_id: config.userId,
       expired_at: '2020-01-01',
       items: [{ product_id: 1, quantity: 1, price: 10 }],
     });

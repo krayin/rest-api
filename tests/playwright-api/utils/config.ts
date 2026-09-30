@@ -36,6 +36,14 @@ export const config = {
   },
 
   /**
+   * Id of the account the suite authenticates as. `quotes.user_id` is NOT NULL
+   * with a foreign key to `users.id`, and the API does not default it to the
+   * token owner, so every quote payload has to carry an owner explicitly.
+   * CI seeds the admin as id 1; override with TEST_USER_ID elsewhere.
+   */
+  userId: Number(process.env.TEST_USER_ID ?? 1),
+
+  /**
    * Low-permission user for authorization (403) coverage. Specs that need it
    * must skip themselves when it is not configured — see `hasLimitedUser`.
    */
