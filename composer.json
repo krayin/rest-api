@@ -13,7 +13,9 @@
         }
     },
     "require": {
-        "darkaonline/l5-swagger": "^8.6"
+        "darkaonline/l5-swagger": "^8.6 || ^9.0 || ^10.0 || ^11.0",
+        "doctrine/annotations": "^2.0",
+        "php": "^8.2"
     },
     "extra": {
         "laravel": {
@@ -22,5 +24,6 @@
             ]
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

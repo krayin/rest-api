@@ -21,9 +21,13 @@ class TagController extends Controller
      */
     public function attach(int $id): JsonResource
     {
+        $this->validate(request(), [
+            'tag_id' => 'required|integer|exists:tags,id',
+        ]);
+
         Event::dispatch('leads.tag.create.before', $id);
 
-        $lead = $this->leadRepository->find($id);
+        $lead = $this->leadRepository->findOrFail($id);
 
         if (! $lead->tags->contains(request()->input('tag_id'))) {
             $lead->tags()->attach(request()->input('tag_id'));
@@ -41,9 +45,13 @@ class TagController extends Controller
      */
     public function detach($leadId): JsonResource
     {
+        $this->validate(request(), [
+            'tag_id' => 'required|integer|exists:tags,id',
+        ]);
+
         Event::dispatch('leads.tag.delete.before', $leadId);
 
-        $lead = $this->leadRepository->find($leadId);
+        $lead = $this->leadRepository->findOrFail($leadId);
 
         $lead->tags()->detach(request()->input('tag_id'));
 

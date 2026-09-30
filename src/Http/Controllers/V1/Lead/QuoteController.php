@@ -21,9 +21,17 @@ class QuoteController extends Controller
      */
     public function delete(int $leadId): JsonResponse
     {
+        $this->validate(request(), [
+            'quote_id' => 'required|integer|exists:quotes,id',
+        ]);
+
         Event::dispatch('leads.quote.delete.before', $leadId);
 
-        $lead = $this->leadRepository->find($leadId);
+        /**
+         * A lead id that matches no record reached the relation call as null and failed with a
+         * member-function error instead of reporting the lead as not found.
+         */
+        $lead = $this->leadRepository->findOrFail($leadId);
 
         $lead->quotes()->detach(request('quote_id'));
 

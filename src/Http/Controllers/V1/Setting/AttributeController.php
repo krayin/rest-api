@@ -7,6 +7,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Validation\Rule;
+use Webkul\Attribute\Models\AttributeValue;
 use Webkul\Attribute\Repositories\AttributeRepository;
 use Webkul\Core\Contracts\Validations\Code;
 use Webkul\RestApi\Http\Controllers\V1\Controller;
@@ -37,7 +39,7 @@ class AttributeController extends Controller
      */
     public function show(int $id): AttributeResource
     {
-        $resource = $this->attributeRepository->find($id);
+        $resource = $this->attributeRepository->findOrFail($id);
 
         return new AttributeResource($resource);
     }
@@ -70,7 +72,12 @@ class AttributeController extends Controller
         $this->validate(request(), [
             'code' => ['required', 'unique:attributes,code,NULL,NULL,entity_type,'.request('entity_type'), new Code],
             'name' => 'required',
-            'type' => 'required',
+            /**
+             * An unrecognised type is stored happily but has no value column, so every later
+             * write to that entity fails with an undefined index error deep in the attribute
+             * repository. The allowed set comes from the value model itself.
+             */
+            'type' => ['required', Rule::in(array_keys(AttributeValue::$attributeTypeFields))],
         ]);
 
         Event::dispatch('settings.attribute.create.before');
@@ -95,7 +102,12 @@ class AttributeController extends Controller
         $this->validate(request(), [
             'code' => ['required', 'unique:attributes,code,NULL,NULL,entity_type,'.$id, new Code],
             'name' => 'required',
-            'type' => 'required',
+            /**
+             * An unrecognised type is stored happily but has no value column, so every later
+             * write to that entity fails with an undefined index error deep in the attribute
+             * repository. The allowed set comes from the value model itself.
+             */
+            'type' => ['required', Rule::in(array_keys(AttributeValue::$attributeTypeFields))],
         ]);
 
         Event::dispatch('settings.attribute.update.before', $id);
@@ -143,7 +155,7 @@ class AttributeController extends Controller
     /**
      * Mass delete the specified resources.
      */
-    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource
+    public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
         $attributeIds = $massDestroyRequest->input('indices', []);
 
@@ -152,7 +164,11 @@ class AttributeController extends Controller
         foreach ($attributeIds as $attributeId) {
             $attribute = $this->attributeRepository->find($attributeId);
 
-            if (! $attribute->is_user_defined) {
+            /**
+             * An id that matches no record produced a 500 here, because the property was read
+             * before checking that the attribute was found.
+             */
+            if (! $attribute || ! $attribute->is_user_defined) {
                 continue;
             }
 
@@ -166,9 +182,7 @@ class AttributeController extends Controller
         }
 
         if (! $count) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.attributes.delete-failed'),
-            ], 500);
+            return $this->errorResponse(trans('rest-api::app.settings.attributes.delete-failed'), 400);
         }
 
         return new JsonResource([

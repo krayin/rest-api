@@ -143,10 +143,13 @@ return [
         ],
 
         'roles' => [
-            'create-success' => 'Rol başarıyla oluşturuldu.',
-            'update-success' => 'Rol başarıyla güncellendi.',
-            'delete-success' => 'Rol başarıyla silindi.',
-            'delete-failed'  => 'Rol silme işlemi başarısız oldu.',
+            'create-success'            => 'Rol başarıyla oluşturuldu.',
+            'update-success'            => 'Rol başarıyla güncellendi.',
+            'delete-success'            => 'Rol başarıyla silindi.',
+            'delete-failed'             => 'Rol silme işlemi başarısız oldu.',
+            'being-used'                => 'Rol bir kullanıcıya atandığı için silinemez.',
+            'last-delete-error'         => 'En az bir rol gereklidir.',
+            'current-role-delete-error' => 'Geçerli kullanıcıya atanmış rol silinemez.',
         ],
 
         'users' => [

@@ -41,7 +41,7 @@ class OrganizationController extends Controller
      */
     public function show(int $id)
     {
-        $resource = $this->organizationRepository->find($id);
+        $resource = $this->organizationRepository->findOrFail($id);
 
         return new OrganizationResource($resource);
     }

@@ -1,0 +1,19 @@
+{
+    "id": "b1d4e2a7-5c38-4f9b-8e10-krayinlocalenv",
+    "name": "Krayin Local",
+    "values": [
+        {
+            "key": "base_url",
+            "value": "http://krayin-local.com",
+            "type": "default",
+            "enabled": true
+        },
+        {
+            "key": "token",
+            "value": "",
+            "type": "secret",
+            "enabled": true
+        }
+    ],
+    "_postman_variable_scope": "environment"
+}

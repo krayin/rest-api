@@ -31,7 +31,7 @@ class EventController extends Controller
      */
     public function show(int $id): EventResource
     {
-        $resource = $this->eventRepository->find($id);
+        $resource = $this->eventRepository->findOrFail($id);
 
         return new EventResource($resource);
     }
@@ -85,8 +85,16 @@ class EventController extends Controller
     /**
      * Remove the specified marketing event from storage.
      */
-    public function destroy(int $id): JsonResource
+    public function destroy(int $id)
     {
+        /**
+         * The repository clones the model it finds, so deleting an id that matches no
+         * record raised a PHP error instead of reporting it as not found.
+         */
+        if (! $this->eventRepository->find($id)) {
+            return $this->errorResponse(trans('rest-api::app.common.resource-not-found'), 404);
+        }
+
         Event::dispatch('settings.marketing.events.delete.before', $id);
 
         $this->eventRepository->delete($id);

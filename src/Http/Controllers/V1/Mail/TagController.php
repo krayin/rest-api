@@ -21,9 +21,13 @@ class TagController extends Controller
      */
     public function attach(int $id): JsonResponse
     {
+        $this->validate(request(), [
+            'tag_id' => 'required|integer|exists:tags,id',
+        ]);
+
         Event::dispatch('mails.tag.create.before', $id);
 
-        $mail = $this->emailRepository->find($id);
+        $mail = $this->emailRepository->findOrFail($id);
 
         if (! $mail->tags->contains(request()->input('tag_id'))) {
             $mail->tags()->attach(request()->input('tag_id'));
@@ -41,9 +45,13 @@ class TagController extends Controller
      */
     public function detach(int $mailId): JsonResponse
     {
+        $this->validate(request(), [
+            'tag_id' => 'required|integer|exists:tags,id',
+        ]);
+
         Event::dispatch('mails.tag.delete.before', $mailId);
 
-        $mail = $this->emailRepository->find($mailId);
+        $mail = $this->emailRepository->findOrFail($mailId);
 
         $mail->tags()->detach(request()->input('tag_id'));
 

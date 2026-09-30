@@ -85,7 +85,7 @@ class LeadController extends Controller
 
         $data['status'] = 1;
 
-        if ($data['lead_pipeline_stage_id']) {
+        if (! empty($data['lead_pipeline_stage_id'])) {
             $stage = $this->stageRepository->findOrFail($data['lead_pipeline_stage_id']);
 
             $data['lead_pipeline_id'] = $stage->lead_pipeline_id;
@@ -122,7 +122,7 @@ class LeadController extends Controller
 
         $data = $request->all();
 
-        if ($data['lead_pipeline_stage_id']) {
+        if (! empty($data['lead_pipeline_stage_id'])) {
             $stage = $this->stageRepository->findOrFail($data['lead_pipeline_stage_id']);
 
             $data['lead_pipeline_id'] = $stage->lead_pipeline_id;
@@ -151,6 +151,16 @@ class LeadController extends Controller
      */
     public function createByAI()
     {
+        /**
+         * The uploads were read straight from the request, so a call that sent no `files` at all
+         * reached the loop with null and failed with a foreach type error instead of reporting
+         * the missing input.
+         */
+        $this->validate(request(), [
+            'files'   => 'required|array|min:1',
+            'files.*' => 'required|file|extensions:'.str_replace(' ', '', self::SUPPORTED_TYPES),
+        ]);
+
         $leadData = [];
 
         $errorMessages = [];

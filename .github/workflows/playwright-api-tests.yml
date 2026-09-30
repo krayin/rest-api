@@ -1,0 +1,258 @@
+name: Playwright API Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  playwright-api-tests:
+    name: Krayin CRM REST API Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: krayin
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      APP_URL: http://127.0.0.1:8000
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: krayin
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      TEST_USER_EMAIL: admin@example.com
+      TEST_DEVICE_NAME: playwright-api-tests
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Defined here because the runner context is not available in job-level env
+      - name: Define application directory
+        run: echo "APP_DIR=${RUNNER_TEMP}/krayin-app" >> "$GITHUB_ENV"
+
+      # The admin account exists only for the lifetime of this ephemeral job, so
+      # its password is generated per run and masked rather than committed.
+      - name: Generate throwaway admin password
+        run: |
+          PASSWORD=$(openssl rand -base64 24)
+          echo "::add-mask::$PASSWORD"
+          echo "TEST_USER_PASSWORD=$PASSWORD" >> "$GITHUB_ENV"
+
+      - name: Setup PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: curl, dom, fileinfo, filter, gd, hash, iconv, intl, json, libxml, mbstring, openssl, pcre, pdo_mysql, session, simplexml, sodium, tokenizer, xml, zip
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Pinned to 2.1.* because the REST API module targets Krayin v2.1 (Laravel 10);
+      # Krayin v2.2+ (Laravel 12) drops App\Exceptions\Handler which the module extends.
+      - name: Install Krayin CRM
+        run: composer create-project krayin/laravel-crm "${{ env.APP_DIR }}" "2.1.*" --no-interaction --prefer-dist --no-progress
+
+      - name: Configure Krayin environment
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          sed -i "s#^APP_URL=.*#APP_URL=${{ env.APP_URL }}#" .env
+          sed -i "s/^DB_HOST=.*/DB_HOST=${{ env.DB_HOST }}/" .env
+          sed -i "s/^DB_PORT=.*/DB_PORT=${{ env.DB_PORT }}/" .env
+          sed -i "s/^DB_DATABASE=.*/DB_DATABASE=${{ env.DB_DATABASE }}/" .env
+          sed -i "s/^DB_USERNAME=.*/DB_USERNAME=${{ env.DB_USERNAME }}/" .env
+          sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=${{ env.DB_PASSWORD }}/" .env
+
+          cat >> .env <<'EOF'
+          SANCTUM_STATEFUL_DOMAINS=http://127.0.0.1:8000
+          L5_SWAGGER_UI_PERSIST_AUTHORIZATION=true
+          EOF
+
+          php artisan key:generate --force
+
+      # The REST API module under test is this very repository, registered as a
+      # local composer path repository so CI always validates the checked-out code.
+      - name: Register REST API module from this repository
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          # CI test environment only: allow resolution of framework releases with
+          # open security advisories (blocked by default since Composer 2.9).
+          composer config policy.advisories.block false
+
+          composer config repositories.restapi --json '{"type":"path","url":"${{ github.workspace }}","options":{"symlink":false}}'
+
+      - name: Install REST API module
+        working-directory: ${{ env.APP_DIR }}
+        run: composer require krayin/rest-api:@dev --no-interaction --no-progress --with-all-dependencies
+
+      - name: Run Krayin installer
+        working-directory: ${{ env.APP_DIR }}
+        run: php artisan krayin-crm:install --skip-env-check --skip-admin-creation --no-interaction
+
+      # Admin creation is skipped in the interactive installer, so the admin user
+      # used by the test suite is created here non-interactively.
+      - name: Create admin user
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          HASH=$(php -r 'echo password_hash(getenv("TEST_USER_PASSWORD"), PASSWORD_BCRYPT, ["cost" => 10]);')
+
+          mysql -h"${{ env.DB_HOST }}" -P"${{ env.DB_PORT }}" -u"${{ env.DB_USERNAME }}" -p"${{ env.DB_PASSWORD }}" "${{ env.DB_DATABASE }}" <<SQL
+          INSERT INTO users (id, name, email, password, role_id, status)
+          VALUES (1, 'Admin', '${{ env.TEST_USER_EMAIL }}', '$HASH', 1, 1)
+          ON DUPLICATE KEY UPDATE email = '${{ env.TEST_USER_EMAIL }}', password = '$HASH', role_id = 1, status = 1;
+
+          UPDATE core_config SET value = '1' WHERE code = 'installation.completed';
+          INSERT INTO core_config (code, value, created_at, updated_at)
+          SELECT 'installation.completed', '1', NOW(), NOW()
+          WHERE NOT EXISTS (SELECT 1 FROM core_config WHERE code = 'installation.completed');
+          SQL
+
+          touch storage/installed
+
+      - name: Configure REST API module
+        working-directory: ${{ env.APP_DIR }}
+        run: php artisan krayin-rest-api:install --no-interaction
+
+      # The default Krayin rate limiter allows 60 API requests/min, which throttles
+      # the test suite (429 -> cascading auth failures). This CI-only provider
+      # removes the limit; it lives in the generated app, never in the repository.
+      - name: Lift API rate limiting for test environment
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          cat > app/Providers/CiRateLimitServiceProvider.php <<'PHP'
+          <?php
+
+          namespace App\Providers;
+
+          use Illuminate\Cache\RateLimiting\Limit;
+          use Illuminate\Http\Request;
+          use Illuminate\Support\Facades\RateLimiter;
+          use Illuminate\Support\ServiceProvider;
+
+          class CiRateLimitServiceProvider extends ServiceProvider
+          {
+              public function boot(): void
+              {
+                  RateLimiter::for('api', function (Request $request) {
+                      return Limit::none();
+                  });
+              }
+          }
+          PHP
+
+          cat > /tmp/register-provider.php <<'PHP'
+          <?php
+
+          // Register after Krayin's RouteServiceProvider so this limiter override
+          // wins (providers boot in registration order).
+          $file = 'config/app.php';
+          $contents = file_get_contents($file);
+          $needle = 'App\\Providers\\RouteServiceProvider::class,';
+          $insert = $needle."\n\n        App\\Providers\\CiRateLimitServiceProvider::class,";
+
+          if (! str_contains($contents, 'CiRateLimitServiceProvider')) {
+              if (! str_contains($contents, $needle)) {
+                  fwrite(STDERR, "Could not find provider registration point.\n");
+                  exit(1);
+              }
+
+              file_put_contents($file, str_replace($needle, $insert, $contents));
+
+              echo "Provider registered.\n";
+          }
+          PHP
+
+          php /tmp/register-provider.php
+
+      - name: Start application server
+        working-directory: ${{ env.APP_DIR }}
+        run: |
+          php artisan serve --host=127.0.0.1 --port=8000 > storage/logs/serve.log 2>&1 &
+          echo "Serve log: storage/logs/serve.log"
+
+      - name: Wait for application to be reachable
+        run: |
+          for i in $(seq 1 30); do
+            CODE=$(curl -s -o /dev/null -w '%{http_code}' "${{ env.APP_URL }}/admin/login" || true)
+            echo "Attempt $i -> HTTP $CODE"
+            if [ "$CODE" != "000" ]; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Application did not start in time."
+          exit 1
+
+      - name: Smoke check login endpoint
+        run: |
+          CODE=$(curl -s -o /tmp/login.json -w '%{http_code}' \
+            -X POST "${{ env.APP_URL }}/api/v1/login" \
+            -H 'Content-Type: application/json' \
+            -H 'Accept: application/json' \
+            --data "$(jq -nc --arg e "$TEST_USER_EMAIL" --arg p "$TEST_USER_PASSWORD" --arg d "$TEST_DEVICE_NAME" '{email:$e,password:$p,device_name:$d}')")
+          echo "Login endpoint -> HTTP $CODE"
+          cat /tmp/login.json | head -c 500; echo
+          exit 0
+
+      - name: Install Node dependencies
+        working-directory: tests/playwright-api
+        run: npm ci
+
+      - name: Type-check the test suite
+        working-directory: tests/playwright-api
+        run: npm run typecheck
+
+      - name: Install Playwright browser
+        working-directory: tests/playwright-api
+        run: npx playwright install chromium --with-deps
+
+      # Fast feedback: if the core happy paths are broken there is no point
+      # spending the rest of the job on the full suite.
+      - name: Run smoke tests
+        working-directory: tests/playwright-api
+        env:
+          APP_URL: ${{ env.APP_URL }}
+          TEST_USER_EMAIL: ${{ env.TEST_USER_EMAIL }}
+          TEST_USER_PASSWORD: ${{ env.TEST_USER_PASSWORD }}
+          TEST_DEVICE_NAME: ${{ env.TEST_DEVICE_NAME }}
+        run: npx playwright test --grep @smoke
+
+      - name: Run full regression suite
+        working-directory: tests/playwright-api
+        env:
+          APP_URL: ${{ env.APP_URL }}
+          TEST_USER_EMAIL: ${{ env.TEST_USER_EMAIL }}
+          TEST_USER_PASSWORD: ${{ env.TEST_USER_PASSWORD }}
+          TEST_DEVICE_NAME: ${{ env.TEST_DEVICE_NAME }}
+        run: npx playwright test --grep @regression
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-api-report
+          path: |
+            tests/playwright-api/reports/
+            tests/playwright-api/test-results/
+          retention-days: 7

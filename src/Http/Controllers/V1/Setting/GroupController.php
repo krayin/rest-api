@@ -36,7 +36,7 @@ class GroupController extends Controller
      */
     public function show(int $id)
     {
-        $resource = $this->groupRepository->find($id);
+        $resource = $this->groupRepository->findOrFail($id);
 
         return new GroupResource($resource);
     }
@@ -96,6 +96,14 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
+        /**
+         * The repository clones the model it finds, so deleting an id that matches no
+         * record raised a PHP error instead of reporting it as not found.
+         */
+        if (! $this->groupRepository->find($id)) {
+            return $this->errorResponse(trans('rest-api::app.common.resource-not-found'), 404);
+        }
+
         try {
             Event::dispatch('settings.group.delete.before', $id);
 

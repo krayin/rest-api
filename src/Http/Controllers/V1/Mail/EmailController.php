@@ -46,7 +46,7 @@ class EmailController extends Controller
      */
     public function show($id): JsonResource
     {
-        $resource = $this->emailRepository->find($id);
+        $resource = $this->emailRepository->findOrFail($id);
 
         return new EmailResource($resource);
     }
@@ -235,7 +235,7 @@ class EmailController extends Controller
         }
 
         return response([
-            'message' => trans('rest-api::app.mail.destroy-success'),
+            'message' => trans('rest-api::app.mail.delete-success'),
         ]);
     }
 

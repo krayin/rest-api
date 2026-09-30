@@ -32,7 +32,7 @@ class WorkflowController extends Controller
      */
     public function show(int $id): WorkflowResource
     {
-        $resource = $this->workflowRepository->find($id);
+        $resource = $this->workflowRepository->findOrFail($id);
 
         return new WorkflowResource($resource);
     }
@@ -82,8 +82,16 @@ class WorkflowController extends Controller
     /**
      * Remove the specified workflow from storage.
      */
-    public function destroy(int $id): JsonResource
+    public function destroy(int $id)
     {
+        /**
+         * The repository clones the model it finds, so deleting an id that matches no
+         * record raised a PHP error instead of reporting it as not found.
+         */
+        if (! $this->workflowRepository->find($id)) {
+            return $this->errorResponse(trans('rest-api::app.common.resource-not-found'), 404);
+        }
+
         try {
             Event::dispatch('settings.workflow.delete.before', $id);
 

@@ -1,0 +1,32 @@
+{
+  "name": "krayin-api-tests",
+  "version": "1.0.0",
+  "description": "API tests for Krayin CRM using Playwright",
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
+    "test:crud": "playwright test --grep @crud",
+    "test:negative": "playwright test --grep @negative",
+    "test:auth": "playwright test --grep @auth",
+    "test:validation": "playwright test --grep @validation",
+    "test:security": "playwright test --grep @security",
+    "test:leads": "playwright test tests/api/leads.spec.ts",
+    "test:contacts": "playwright test tests/api/contacts-persons.spec.ts tests/api/contacts-organizations.spec.ts",
+    "test:products": "playwright test tests/api/products.spec.ts",
+    "test:quotes": "playwright test tests/api/quotes.spec.ts",
+    "test:activities": "playwright test tests/api/activities.spec.ts",
+    "test:mails": "playwright test tests/api/mails.spec.ts",
+    "test:dashboard": "playwright test tests/api/dashboard.spec.ts",
+    "test:settings": "playwright test tests/api/settings-*.spec.ts",
+    "test:report": "playwright show-report",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^26.5.1",
+    "dotenv": "^17.4.2",
+    "typescript": "^7.0.2",
+    "zod": "^4.6.5"
+  }
+}
