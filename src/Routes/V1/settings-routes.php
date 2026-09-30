@@ -162,7 +162,11 @@ Route::group([
 
         Route::post('', 'store');
 
-        Route::get('{id}', 'show');
+        /**
+         * Constrained to digits so it does not shadow the literal `download` route below, which
+         * otherwise resolved to `show` and failed with a missing-argument error.
+         */
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
         Route::put('{id}', 'update');
 
