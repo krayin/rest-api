@@ -52,12 +52,42 @@ class QuoteController extends Controller
     }
 
     /**
+     * Validate the quote payload.
+     *
+     * `AttributeForm` only builds rules for attribute codes that are present in the request, so a
+     * payload that simply omits a required relation reached the insert unvalidated and surfaced the
+     * database's own foreign-key failure as a 500. These rules cover the columns the schema
+     * enforces — `person_id` and `user_id` are NOT NULL with foreign keys — plus the item rules the
+     * admin controller already applies, so an invalid payload is answered with a 422 instead.
+     *
+     * On update every field is optional (a partial payload is valid), but a value that is supplied
+     * still has to exist.
+     */
+    protected function validateQuote(bool $isUpdate = false): void
+    {
+        $required = $isUpdate ? 'sometimes' : 'required';
+
+        $this->validate(request(), [
+            'subject' => [$required, 'string', 'max:255'],
+            'person_id' => [$required, 'integer', 'exists:persons,id'],
+            'user_id' => [$required, 'integer', 'exists:users,id'],
+            'expired_at' => ['sometimes', 'nullable', 'date'],
+            'items' => [$required, 'array', 'min:1'],
+            'items.*.product_id' => ['required', 'integer', 'exists:products,id'],
+            'items.*.quantity' => ['required', 'numeric', 'min:0'],
+            'items.*.price' => ['required', 'numeric', 'min:0'],
+        ]);
+    }
+
+    /**
      * Store a newly created quote in storage.
      *
      * @return \Illuminate\Http\Response
      */
     public function store(AttributeForm $request)
     {
+        $this->validateQuote();
+
         Event::dispatch('quote.create.before');
 
         $quote = $this->quoteRepository->create($request->all());
@@ -89,6 +119,10 @@ class QuoteController extends Controller
      */
     public function update(AttributeForm $request, $id)
     {
+        $this->quoteRepository->findOrFail($id);
+
+        $this->validateQuote(isUpdate: true);
+
         Event::dispatch('quote.update.before', $id);
 
         $quote = $this->quoteRepository->update($request->all(), $id);
