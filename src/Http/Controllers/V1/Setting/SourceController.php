@@ -32,7 +32,7 @@ class SourceController extends Controller
      */
     public function show(int $id): SourceResource
     {
-        $resource = $this->sourceRepository->find($id);
+        $resource = $this->sourceRepository->findOrFail($id);
 
         return new SourceResource($resource);
     }
@@ -82,8 +82,16 @@ class SourceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id): JsonResource
+    public function destroy(int $id)
     {
+        /**
+         * The repository clones the model it finds, so deleting an id that matches no
+         * record raised a PHP error instead of reporting it as not found.
+         */
+        if (! $this->sourceRepository->find($id)) {
+            return $this->errorResponse(trans('rest-api::app.common.resource-not-found'), 404);
+        }
+
         try {
             Event::dispatch('settings.source.delete.before', $id);
 

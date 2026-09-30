@@ -33,7 +33,7 @@ class PipelineController extends Controller
      */
     public function show(int $id): PipelineResource
     {
-        $resource = $this->pipelineRepository->find($id);
+        $resource = $this->pipelineRepository->findOrFail($id);
 
         return new PipelineResource($resource);
     }

@@ -68,6 +68,7 @@ class WebFormController extends Controller
             'submit_button_label'    => 'required',
             'submit_success_action'  => 'required',
             'submit_success_content' => 'required',
+            'lead_pipeline_id'       => 'nullable|integer|exists:lead_pipelines,id',
         ]);
 
         Event::dispatch('settings.web_forms.create.before');
@@ -99,6 +100,7 @@ class WebFormController extends Controller
             'submit_button_label'    => 'required',
             'submit_success_action'  => 'required',
             'submit_success_content' => 'required',
+            'lead_pipeline_id'       => 'nullable|integer|exists:lead_pipelines,id',
         ]);
 
         Event::dispatch('settings.web_forms.update.before', $id);
@@ -125,6 +127,14 @@ class WebFormController extends Controller
      */
     public function destroy($id)
     {
+        /**
+         * The repository clones the model it finds, so deleting an id that matches no
+         * record raised a PHP error instead of reporting it as not found.
+         */
+        if (! $this->webFormRepository->find($id)) {
+            return $this->errorResponse(trans('rest-api::app.common.resource-not-found'), 404);
+        }
+
         try {
             Event::dispatch('settings.web_forms.delete.before', $id);
 

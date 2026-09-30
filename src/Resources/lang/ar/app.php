@@ -143,10 +143,13 @@ return [
         ],
 
         'roles' => [
-            'create-success' => 'تم إنشاء الدور بنجاح.',
-            'update-success' => 'تم تحديث الدور بنجاح.',
-            'delete-success' => 'تم حذف الدور بنجاح.',
-            'delete-failed'  => 'فشل حذف الدور.',
+            'create-success'            => 'تم إنشاء الدور بنجاح.',
+            'update-success'            => 'تم تحديث الدور بنجاح.',
+            'delete-success'            => 'تم حذف الدور بنجاح.',
+            'delete-failed'             => 'فشل حذف الدور.',
+            'being-used'                => 'لا يمكن حذف الدور لأنه مُعيَّن لمستخدم.',
+            'last-delete-error'         => 'مطلوب دور واحد على الأقل.',
+            'current-role-delete-error' => 'لا يمكن حذف الدور المُعيَّن للمستخدم الحالي.',
         ],
 
         'users' => [

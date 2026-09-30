@@ -15,7 +15,7 @@ class RestApiServiceProvider extends ServiceProvider
      * @var array
      */
     protected $middlewareAliases = [
-        'sanctum.admin' => \Webkul\RestApi\Middleware\AdminMiddleware::class,
+        'sanctum.admin' => \Webkul\RestApi\Http\Middleware\AdminMiddleware::class,
     ];
 
     /**

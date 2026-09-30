@@ -162,7 +162,11 @@ Route::group([
 
         Route::post('', 'store');
 
-        Route::get('{id}', 'show');
+        /**
+         * Constrained to digits so it does not shadow the literal `download` route below, which
+         * otherwise resolved to `show` and failed with a missing-argument error.
+         */
+        Route::get('{id}', 'show')->where('id', '[0-9]+');
 
         Route::put('{id}', 'update');
 
@@ -173,8 +177,6 @@ Route::group([
         Route::get('lookup/{lookup?}', 'lookup');
 
         Route::get('lookup-entity/{lookup?}', 'lookupEntity');
-
-        Route::post('mass-update', 'massUpdate');
 
         Route::get('download', 'download');
     });
@@ -316,6 +318,10 @@ Route::group([
             Route::get('validate/{id}', 'validateImport');
 
             Route::get('start/{id}', 'start');
+
+            Route::get('link/{id}', 'link');
+
+            Route::get('index/{id}', 'indexData');
 
             Route::get('stats/{id}/{state?}', 'stats');
 

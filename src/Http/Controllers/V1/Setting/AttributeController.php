@@ -37,7 +37,7 @@ class AttributeController extends Controller
      */
     public function show(int $id): AttributeResource
     {
-        $resource = $this->attributeRepository->find($id);
+        $resource = $this->attributeRepository->findOrFail($id);
 
         return new AttributeResource($resource);
     }
@@ -143,7 +143,7 @@ class AttributeController extends Controller
     /**
      * Mass delete the specified resources.
      */
-    public function massDestroy(MassDestroyRequest $massDestroyRequest): JsonResource
+    public function massDestroy(MassDestroyRequest $massDestroyRequest)
     {
         $attributeIds = $massDestroyRequest->input('indices', []);
 
@@ -152,7 +152,11 @@ class AttributeController extends Controller
         foreach ($attributeIds as $attributeId) {
             $attribute = $this->attributeRepository->find($attributeId);
 
-            if (! $attribute->is_user_defined) {
+            /**
+             * An id that matches no record produced a 500 here, because the property was read
+             * before checking that the attribute was found.
+             */
+            if (! $attribute || ! $attribute->is_user_defined) {
                 continue;
             }
 
@@ -166,9 +170,7 @@ class AttributeController extends Controller
         }
 
         if (! $count) {
-            return new JsonResource([
-                'message' => trans('rest-api::app.settings.attributes.delete-failed'),
-            ], 500);
+            return $this->errorResponse(trans('rest-api::app.settings.attributes.delete-failed'), 400);
         }
 
         return new JsonResource([

@@ -110,7 +110,16 @@ return [
              *
              * @see \OpenApi\scan
              */
-            'analyser' => null,
+            /**
+             * l5-swagger 11 defaults to a ReflectionAnalyser that registers only the
+             * AttributeAnnotationFactory, so the `@OA\` docblock annotations under src/Docs are
+             * never read and generation fails with "Required @OA\Info() not found".
+             * Registering the DocBlock factory alongside it supports both annotation styles.
+             */
+            'analyser' => new \OpenApi\Analysers\ReflectionAnalyser([
+                new \OpenApi\Analysers\DocBlockAnnotationFactory(),
+                new \OpenApi\Analysers\AttributeAnnotationFactory(),
+            ]),
 
             /**
              * analysis: defaults to a new \OpenApi\Analysis .
