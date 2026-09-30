@@ -2,6 +2,7 @@
 
 namespace Webkul\RestApi\Http\Controllers\V1;
 
+use Illuminate\Validation\ValidationException;
 use Webkul\Core\Eloquent\Repository;
 use Webkul\RestApi\Http\Controllers\RestApiController;
 
@@ -40,12 +41,40 @@ class Controller extends RestApiController
     {
         $query = $repository->query();
 
+        /**
+         * Filter and sort names arrive straight from the query string and were passed to the
+         * query builder unchecked, so an unknown column produced an unhandled SQL error (a 500)
+         * rather than a validation failure. Both are now matched against the real columns of the
+         * table being queried.
+         */
+        $columns = $this->tableColumns($query);
+
         foreach (request()->except($this->excludeKeys) as $input => $value) {
-            $query = $query->whereIn($input, array_map('trim', explode(',', $value)));
+            if (! in_array($input, $columns, true)) {
+                throw ValidationException::withMessages([
+                    $input => trans('validation.in', ['attribute' => $input]),
+                ]);
+            }
+
+            $query = $query->whereIn($input, array_map('trim', explode(',', (string) $value)));
         }
 
         if ($sort = request()->input('sort')) {
-            $query = $query->orderBy($sort, request()->input('order') ?? 'desc');
+            if (! in_array($sort, $columns, true)) {
+                throw ValidationException::withMessages([
+                    'sort' => trans('validation.in', ['attribute' => 'sort']),
+                ]);
+            }
+
+            $order = strtolower((string) (request()->input('order') ?? 'desc'));
+
+            if (! in_array($order, ['asc', 'desc'], true)) {
+                throw ValidationException::withMessages([
+                    'order' => trans('validation.in', ['attribute' => 'order']),
+                ]);
+            }
+
+            $query = $query->orderBy($sort, $order);
         } else {
             $query = $query->orderBy('id', 'desc');
         }
@@ -55,6 +84,27 @@ class Controller extends RestApiController
         }
 
         return $query->get();
+    }
+
+    /**
+     * Column names of the table the given query targets, cached per request.
+     *
+     * @param  mixed  $query
+     * @return array<int, string>
+     */
+    protected function tableColumns($query): array
+    {
+        static $cache = [];
+
+        $table = $query->getModel()->getTable();
+
+        if (! isset($cache[$table])) {
+            $cache[$table] = $query->getConnection()
+                ->getSchemaBuilder()
+                ->getColumnListing($table);
+        }
+
+        return $cache[$table];
     }
 
     /**

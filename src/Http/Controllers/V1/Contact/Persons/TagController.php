@@ -58,7 +58,7 @@ class TagController extends Controller
         Event::dispatch('persons.tag.delete.after', $person);
 
         return response()->json([
-            'message' => trans('rest-api::app.contacts.persons.view.tags.destroy-success'),
+            'message' => trans('rest-api::app.contacts.persons.view.tags.delete-success'),
         ]);
     }
 }

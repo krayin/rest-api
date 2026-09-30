@@ -235,7 +235,7 @@ class EmailController extends Controller
         }
 
         return response([
-            'message' => trans('rest-api::app.mail.destroy-success'),
+            'message' => trans('rest-api::app.mail.delete-success'),
         ]);
     }
 

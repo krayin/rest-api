@@ -239,8 +239,9 @@ return [
             ],
         ],
 
-        'configuration' => [
-            'save-success' => 'پیکربندی با موفقیت ذخیره شد.',
-        ],
+    ],
+
+    'configuration' => [
+        'save-success' => 'پیکربندی با موفقیت ذخیره شد.',
     ],
 ];
