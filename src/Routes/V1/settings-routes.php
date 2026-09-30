@@ -178,8 +178,6 @@ Route::group([
 
         Route::get('lookup-entity/{lookup?}', 'lookupEntity');
 
-        Route::post('mass-update', 'massUpdate');
-
         Route::get('download', 'download');
     });
 

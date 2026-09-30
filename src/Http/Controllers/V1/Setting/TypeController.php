@@ -32,7 +32,7 @@ class TypeController extends Controller
      */
     public function show(int $id): TypeResource
     {
-        $resource = $this->typeRepository->find($id);
+        $resource = $this->typeRepository->findOrFail($id);
 
         return new TypeResource($resource);
     }
@@ -82,8 +82,16 @@ class TypeController extends Controller
     /**
      * Remove the specified type from storage.
      */
-    public function destroy(int $id): JsonResource
+    public function destroy(int $id)
     {
+        /**
+         * The repository clones the model it finds, so deleting an id that matches no
+         * record raised a PHP error instead of reporting it as not found.
+         */
+        if (! $this->typeRepository->find($id)) {
+            return $this->errorResponse(trans('rest-api::app.common.resource-not-found'), 404);
+        }
+
         try {
             Event::dispatch('settings.type.delete.before', $id);
 

@@ -95,8 +95,16 @@ class CampaignController extends Controller
     /**
      * Remove the specified marketing campaign from storage.
      */
-    public function destroy(int $id): JsonResource
+    public function destroy(int $id)
     {
+        /**
+         * The repository clones the model it finds, so deleting an id that matches no
+         * record raised a PHP error instead of reporting it as not found.
+         */
+        if (! $this->campaignRepository->find($id)) {
+            return $this->errorResponse(trans('rest-api::app.common.resource-not-found'), 404);
+        }
+
         Event::dispatch('settings.marketing.campaigns.delete.before', $id);
 
         $this->campaignRepository->delete($id);

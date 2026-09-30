@@ -23,9 +23,13 @@ class TagController extends Controller
      */
     public function attach($id)
     {
+        $this->validate(request(), [
+            'tag_id' => 'required|integer|exists:tags,id',
+        ]);
+
         Event::dispatch('warehouse.tag.create.before', $id);
 
-        $warehouse = $this->warehouseRepository->find($id);
+        $warehouse = $this->warehouseRepository->findOrFail($id);
 
         if (! $warehouse->tags->contains(request()->input('tag_id'))) {
             $warehouse->tags()->attach(request()->input('tag_id'));
@@ -46,9 +50,13 @@ class TagController extends Controller
      */
     public function detach($warehouseId)
     {
+        $this->validate(request(), [
+            'tag_id' => 'required|integer|exists:tags,id',
+        ]);
+
         Event::dispatch('warehouse.tag.delete.before', $warehouseId);
 
-        $warehouse = $this->warehouseRepository->find($warehouseId);
+        $warehouse = $this->warehouseRepository->findOrFail($warehouseId);
 
         $warehouse->tags()->detach(request()->input('tag_id'));
 

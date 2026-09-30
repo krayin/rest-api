@@ -56,7 +56,7 @@ class RoleController extends Controller
      */
     public function show(int $id): RoleResource
     {
-        $resource = $this->roleRepository->find($id);
+        $resource = $this->roleRepository->findOrFail($id);
 
         return new RoleResource($resource);
     }

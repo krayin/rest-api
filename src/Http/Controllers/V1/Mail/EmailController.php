@@ -46,7 +46,7 @@ class EmailController extends Controller
      */
     public function show($id): JsonResource
     {
-        $resource = $this->emailRepository->find($id);
+        $resource = $this->emailRepository->findOrFail($id);
 
         return new EmailResource($resource);
     }

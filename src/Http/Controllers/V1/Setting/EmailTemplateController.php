@@ -37,7 +37,7 @@ class EmailTemplateController extends Controller
      */
     public function show(int $id): EmailTemplateResource
     {
-        $resource = $this->emailTemplateRepository->find($id);
+        $resource = $this->emailTemplateRepository->findOrFail($id);
 
         return new EmailTemplateResource($resource);
     }
@@ -93,6 +93,14 @@ class EmailTemplateController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
+        /**
+         * The repository clones the model it finds, so deleting an id that matches no
+         * record raised a PHP error instead of reporting it as not found.
+         */
+        if (! $this->emailTemplateRepository->find($id)) {
+            return $this->errorResponse(trans('rest-api::app.common.resource-not-found'), 404);
+        }
+
         try {
             Event::dispatch('settings.email_templates.delete.before', $id);
 

@@ -46,7 +46,7 @@ class QuoteController extends Controller
      */
     public function show(int $id)
     {
-        $quote = $this->quoteRepository->find($id);
+        $quote = $this->quoteRepository->findOrFail($id);
 
         return new QuoteResource($quote);
     }

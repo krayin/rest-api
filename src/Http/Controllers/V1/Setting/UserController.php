@@ -68,7 +68,7 @@ class UserController extends Controller
      */
     public function show(int $id): UserResource
     {
-        $resource = $this->userRepository->find($id);
+        $resource = $this->userRepository->findOrFail($id);
 
         return new UserResource($resource);
     }
@@ -344,7 +344,7 @@ class UserController extends Controller
         }
 
         if (! $count) {
-            return $this->errorResponse(trans('rest-api::app.settings.users.mass-update-failed'), 500);
+            return $this->errorResponse(trans('rest-api::app.settings.users.mass-update-failed'), 400);
         }
 
         return new JsonResource([
@@ -385,7 +385,7 @@ class UserController extends Controller
         }
 
         if (! $count) {
-            return $this->errorResponse(trans('rest-api::app.settings.users.mass-delete-failed'), 500);
+            return $this->errorResponse(trans('rest-api::app.settings.users.mass-delete-failed'), 400);
         }
 
         return new JsonResource([

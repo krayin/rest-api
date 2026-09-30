@@ -46,7 +46,7 @@ class PersonController extends Controller
      */
     public function show(int $id)
     {
-        $resource = $this->personRepository->find($id);
+        $resource = $this->personRepository->findOrFail($id);
 
         return new PersonResource($resource);
     }
@@ -170,7 +170,22 @@ class PersonController extends Controller
     {
         $data = request()->all();
 
-        $data['contact_numbers'] = collect($data['contact_numbers'])->filter(fn ($number) => ! is_null($number['value']))->toArray();
+        /**
+         * The field is optional on update, so an absent key raised an undefined index error.
+         * The key is only set when at least one number survives filtering: the repository
+         * builds the unique id from `contact_numbers[0]` whenever the key is present, and an
+         * empty array there fails just as hard as a missing one.
+         */
+        $contactNumbers = collect($data['contact_numbers'] ?? [])
+            ->filter(fn ($number) => ! is_null($number['value'] ?? null))
+            ->values()
+            ->toArray();
+
+        if ($contactNumbers) {
+            $data['contact_numbers'] = $contactNumbers;
+        } else {
+            unset($data['contact_numbers']);
+        }
 
         return $data;
     }

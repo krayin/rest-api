@@ -38,7 +38,7 @@ class TagController extends Controller
      */
     public function show(int $id)
     {
-        $resource = $this->tagRepository->find($id);
+        $resource = $this->tagRepository->findOrFail($id);
 
         return new TagResource($resource);
     }
