@@ -27,6 +27,84 @@
             "value": "",
             "type": "string",
             "description": "Sanctum token; set automatically by the Login request."
+        },
+        {
+            "key": "lead_source_id",
+            "value": "1",
+            "type": "string",
+            "description": "Set this to an id that exists in your database."
+        },
+        {
+            "key": "lead_type_id",
+            "value": "1",
+            "type": "string",
+            "description": "Set this to an id that exists in your database."
+        },
+        {
+            "key": "lead_pipeline_id",
+            "value": "1",
+            "type": "string",
+            "description": "Set this to an id that exists in your database."
+        },
+        {
+            "key": "lead_pipeline_stage_id",
+            "value": "1",
+            "type": "string",
+            "description": "Set this to an id that exists in your database."
+        },
+        {
+            "key": "user_id",
+            "value": "1",
+            "type": "string",
+            "description": "Set this to an id that exists in your database."
+        },
+        {
+            "key": "person_id",
+            "value": "1",
+            "type": "string",
+            "description": "Set this to an id that exists in your database."
+        },
+        {
+            "key": "organization_id",
+            "value": "1",
+            "type": "string",
+            "description": "Set this to an id that exists in your database."
+        },
+        {
+            "key": "product_id",
+            "value": "1",
+            "type": "string",
+            "description": "Set this to an id that exists in your database."
+        },
+        {
+            "key": "tag_id",
+            "value": "1",
+            "type": "string",
+            "description": "Set this to an id that exists in your database."
+        },
+        {
+            "key": "warehouse_id",
+            "value": "1",
+            "type": "string",
+            "description": "Set this to an id that exists in your database."
+        },
+        {
+            "key": "email_template_id",
+            "value": "1",
+            "type": "string",
+            "description": "Set this to an id that exists in your database."
+        },
+        {
+            "key": "marketing_event_id",
+            "value": "1",
+            "type": "string",
+            "description": "Set this to an id that exists in your database."
+        },
+        {
+            "key": "role_id",
+            "value": "1",
+            "type": "string",
+            "description": "Set this to an id that exists in your database."
         }
     ],
     "item": [
@@ -86,13 +164,86 @@
                                     "    // Set the token in both scopes. An environment variable of the same name takes",
                                     "    // precedence over the collection variable, so writing only one of them can leave",
                                     "    // an empty value shadowing the real token and every later request returns 401.",
-                                    "    pm.collectionVariables.set('token', token);",
+                                    "    const save = (key, value) => {",
+                                    "        pm.collectionVariables.set(key, value);",
                                     "",
-                                    "    if (pm.environment && pm.environment.name) {",
-                                    "        pm.environment.set('token', token);",
+                                    "        if (pm.environment && pm.environment.name) {",
+                                    "            pm.environment.set(key, value);",
+                                    "        }",
+                                    "    };",
+                                    "",
+                                    "    save('token', token);",
+                                    "",
+                                    "    if (body.data && body.data.id) {",
+                                    "        save('user_id', String(body.data.id));",
+                                    "",
+                                    "        if (body.data.role && body.data.role.id) {",
+                                    "            save('role_id', String(body.data.role.id));",
+                                    "        }",
                                     "    }",
                                     "",
                                     "    console.log('Saved token for subsequent requests.');",
+                                    "",
+                                    "    // The example ids in the request bodies are placeholders. Look up one real id per",
+                                    "    // resource so the write requests work against this database without hand editing.",
+                                    "    const lookups = [",
+                                    "        ['lead_source_id', '/api/v1/settings/sources'],",
+                                    "        ['lead_type_id', '/api/v1/settings/types'],",
+                                    "        ['lead_pipeline_id', '/api/v1/settings/pipelines'],",
+                                    "        ['person_id', '/api/v1/contacts/persons'],",
+                                    "        ['organization_id', '/api/v1/contacts/organizations'],",
+                                    "        ['product_id', '/api/v1/products'],",
+                                    "        ['tag_id', '/api/v1/settings/tags'],",
+                                    "        ['warehouse_id', '/api/v1/settings/warehouses'],",
+                                    "        ['email_template_id', '/api/v1/settings/email-templates'],",
+                                    "        ['marketing_event_id', '/api/v1/settings/marketing/events'],",
+                                    "    ];",
+                                    "",
+                                    "    lookups.forEach(function (entry) {",
+                                    "        const key = entry[0];",
+                                    "        const path = entry[1];",
+                                    "",
+                                    "        pm.sendRequest({",
+                                    "            url: pm.variables.replaceIn('{{base_url}}') + path + '?limit=1',",
+                                    "            method: 'GET',",
+                                    "            header: { Accept: 'application/json', Authorization: 'Bearer ' + token },",
+                                    "        }, function (err, res) {",
+                                    "            if (err || !res) {",
+                                    "                return;",
+                                    "            }",
+                                    "",
+                                    "            try {",
+                                    "                const rows = res.json().data;",
+                                    "",
+                                    "                if (Array.isArray(rows) && rows.length && rows[0].id) {",
+                                    "                    save(key, String(rows[0].id));",
+                                    "                }",
+                                    "            } catch (e) {",
+                                    "                // A resource the account cannot read just keeps its default.",
+                                    "            }",
+                                    "        });",
+                                    "    });",
+                                    "",
+                                    "    // The first stage of the chosen pipeline, needed when creating a lead.",
+                                    "    pm.sendRequest({",
+                                    "        url: pm.variables.replaceIn('{{base_url}}') + '/api/v1/settings/pipelines?limit=1',",
+                                    "        method: 'GET',",
+                                    "        header: { Accept: 'application/json', Authorization: 'Bearer ' + token },",
+                                    "    }, function (err, res) {",
+                                    "        if (err || !res) {",
+                                    "            return;",
+                                    "        }",
+                                    "",
+                                    "        try {",
+                                    "            const pipeline = res.json().data[0];",
+                                    "",
+                                    "            if (pipeline && pipeline.stages && pipeline.stages.length) {",
+                                    "                save('lead_pipeline_stage_id', String(pipeline.stages[0].id));",
+                                    "            }",
+                                    "        } catch (e) {",
+                                    "            // Leave the default in place.",
+                                    "        }",
+                                    "    });",
                                     "}"
                                 ]
                             }
@@ -343,7 +494,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"title\": \"Follow-up call\",\n    \"type\": \"call\",\n    \"comment\": \"Discuss the proposal.\",\n    \"schedule_from\": \"2026-10-01 10:00:00\",\n    \"schedule_to\": \"2026-10-01 10:30:00\",\n    \"user_id\": \"1\"\n}",
+                            "raw": "{\n    \"title\": \"Follow-up call\",\n    \"type\": \"call\",\n    \"comment\": \"Discuss the proposal.\",\n    \"schedule_from\": \"2026-10-01 10:00:00\",\n    \"schedule_to\": \"2026-10-01 10:30:00\",\n    \"user_id\": \"{{user_id}}\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -858,7 +1009,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"tag_id\": \"1\"\n}",
+                            "raw": "{\n    \"tag_id\": \"{{tag_id}}\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -932,7 +1083,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"Jane Doe\",\n    \"emails\": [\n        {\n            \"value\": \"jane@example.com\",\n            \"label\": \"work\"\n        }\n    ],\n    \"contact_numbers\": [\n        {\n            \"value\": \"5550100\",\n            \"label\": \"work\"\n        }\n    ],\n    \"user_id\": \"1\"\n}",
+                            "raw": "{\n    \"name\": \"Jane Doe\",\n    \"emails\": [\n        {\n            \"value\": \"jane@example.com\",\n            \"label\": \"work\"\n        }\n    ],\n    \"contact_numbers\": [\n        {\n            \"value\": \"5550100\",\n            \"label\": \"work\"\n        }\n    ],\n    \"user_id\": \"{{user_id}}\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -1492,7 +1643,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"tag_id\": \"1\"\n}",
+                            "raw": "{\n    \"tag_id\": \"{{tag_id}}\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -1597,7 +1748,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"title\": \"New lead from the API collection\",\n    \"description\": \"Created via the REST API.\",\n    \"lead_value\": \"1000\",\n    \"lead_source_id\": \"1\",\n    \"lead_type_id\": \"1\",\n    \"lead_pipeline_id\": \"1\",\n    \"lead_pipeline_stage_id\": \"1\",\n    \"user_id\": \"1\",\n    \"expected_close_date\": \"2026-12-31\"\n}",
+                            "raw": "{\n    \"title\": \"New lead from the API collection\",\n    \"description\": \"Created via the REST API.\",\n    \"lead_value\": \"1000\",\n    \"lead_source_id\": \"{{lead_source_id}}\",\n    \"lead_type_id\": \"{{lead_type_id}}\",\n    \"lead_pipeline_id\": \"{{lead_pipeline_id}}\",\n    \"lead_pipeline_stage_id\": \"{{lead_pipeline_stage_id}}\",\n    \"user_id\": \"{{user_id}}\",\n    \"expected_close_date\": \"2026-12-31\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -1716,7 +1867,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"products\": [\n        {\n            \"product_id\": \"1\",\n            \"quantity\": \"1\",\n            \"price\": \"100\"\n        }\n    ]\n}",
+                            "raw": "{\n    \"products\": [\n        {\n            \"product_id\": \"{{product_id}}\",\n            \"quantity\": \"1\",\n            \"price\": \"100\"\n        }\n    ]\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -1839,7 +1990,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"lead_pipeline_stage_id\": \"2\"\n}",
+                            "raw": "{\n    \"lead_pipeline_stage_id\": \"{{lead_pipeline_stage_id}}\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -2168,7 +2319,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"tag_id\": \"1\"\n}",
+                            "raw": "{\n    \"tag_id\": \"{{tag_id}}\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -2898,7 +3049,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"subject\": \"Quote from the API collection\",\n    \"description\": \"Quote created via the REST API.\",\n    \"expired_at\": \"2026-12-31\",\n    \"user_id\": \"1\",\n    \"person_id\": \"1\",\n    \"billing_address\": {\n        \"address\": \"1 Market St\",\n        \"city\": \"Springfield\",\n        \"state\": \"IL\",\n        \"postcode\": \"62701\",\n        \"country\": \"US\"\n    },\n    \"items\": [\n        {\n            \"product_id\": \"1\",\n            \"name\": \"Item\",\n            \"quantity\": \"1\",\n            \"price\": \"100\"\n        }\n    ]\n}",
+                            "raw": "{\n    \"subject\": \"Quote from the API collection\",\n    \"description\": \"Quote created via the REST API.\",\n    \"expired_at\": \"2026-12-31\",\n    \"user_id\": \"{{user_id}}\",\n    \"person_id\": \"{{person_id}}\",\n    \"billing_address\": {\n        \"address\": \"1 Market St\",\n        \"city\": \"Springfield\",\n        \"state\": \"IL\",\n        \"postcode\": \"62701\",\n        \"country\": \"US\"\n    },\n    \"items\": [\n        {\n            \"product_id\": \"{{product_id}}\",\n            \"name\": \"Item\",\n            \"quantity\": \"1\",\n            \"price\": \"100\"\n        }\n    ]\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -4578,7 +4729,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"Example name\",\n    \"subject\": \"Example subject\",\n    \"marketing_template_id\": \"1\",\n    \"marketing_event_id\": \"1\",\n    \"status\": \"1\"\n}",
+                            "raw": "{\n    \"name\": \"Example name\",\n    \"subject\": \"Example subject\",\n    \"marketing_template_id\": \"{{email_template_id}}\",\n    \"marketing_event_id\": \"{{marketing_event_id}}\",\n    \"status\": \"1\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -4740,7 +4891,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"Example name\",\n    \"subject\": \"Example subject\",\n    \"marketing_template_id\": \"1\",\n    \"marketing_event_id\": \"1\",\n    \"status\": \"1\"\n}",
+                            "raw": "{\n    \"name\": \"Example name\",\n    \"subject\": \"Example subject\",\n    \"marketing_template_id\": \"{{email_template_id}}\",\n    \"marketing_event_id\": \"{{marketing_event_id}}\",\n    \"status\": \"1\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -6105,7 +6256,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"email\": \"user@example.com\",\n    \"name\": \"Example name\",\n    \"password\": \"secret123\",\n    \"confirm_password\": \"secret123\",\n    \"role_id\": \"1\",\n    \"status\": \"1\",\n    \"view_permission\": \"individual\",\n    \"groups\": [\n        \"1\"\n    ]\n}",
+                            "raw": "{\n    \"email\": \"user@example.com\",\n    \"name\": \"Example name\",\n    \"password\": \"secret123\",\n    \"confirm_password\": \"secret123\",\n    \"role_id\": \"{{role_id}}\",\n    \"status\": \"1\",\n    \"view_permission\": \"individual\",\n    \"groups\": [\n        \"1\"\n    ]\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -6226,7 +6377,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"email\": \"user@example.com\",\n    \"name\": \"Example name\",\n    \"password\": \"secret123\",\n    \"confirm_password\": \"secret123\",\n    \"role_id\": \"1\",\n    \"status\": \"1\",\n    \"view_permission\": \"individual\",\n    \"groups\": [\n        \"1\"\n    ]\n}",
+                            "raw": "{\n    \"email\": \"user@example.com\",\n    \"name\": \"Example name\",\n    \"password\": \"secret123\",\n    \"confirm_password\": \"secret123\",\n    \"role_id\": \"{{role_id}}\",\n    \"status\": \"1\",\n    \"view_permission\": \"individual\",\n    \"groups\": [\n        \"1\"\n    ]\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -6492,7 +6643,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"tag_id\": \"1\"\n}",
+                            "raw": "{\n    \"tag_id\": \"{{tag_id}}\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -6529,7 +6680,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"Main Warehouse\",\n    \"user_id\": \"1\"\n}",
+                            "raw": "{\n    \"name\": \"Main Warehouse\",\n    \"user_id\": \"{{user_id}}\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -6765,7 +6916,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"title\": \"Example title\",\n    \"submit_button_label\": \"Example submit button label\",\n    \"submit_success_action\": \"Example submit success action\",\n    \"submit_success_content\": \"Example submit success content\",\n    \"lead_pipeline_id\": \"1\"\n}",
+                            "raw": "{\n    \"title\": \"Example title\",\n    \"submit_button_label\": \"Example submit button label\",\n    \"submit_success_action\": \"Example submit success action\",\n    \"submit_success_content\": \"Example submit success content\",\n    \"lead_pipeline_id\": \"{{lead_pipeline_id}}\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -6810,7 +6961,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"title\": \"Example title\",\n    \"submit_button_label\": \"Example submit button label\",\n    \"submit_success_action\": \"Example submit success action\",\n    \"submit_success_content\": \"Example submit success content\",\n    \"lead_pipeline_id\": \"1\"\n}",
+                            "raw": "{\n    \"title\": \"Example title\",\n    \"submit_button_label\": \"Example submit button label\",\n    \"submit_success_action\": \"Example submit success action\",\n    \"submit_success_content\": \"Example submit success content\",\n    \"lead_pipeline_id\": \"{{lead_pipeline_id}}\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
