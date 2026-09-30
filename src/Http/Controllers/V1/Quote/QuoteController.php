@@ -64,7 +64,11 @@ class QuoteController extends Controller
 
         if ($leadId = request()->input('lead_id')) {
 
-            $lead = $this->leadRepository->find($leadId);
+            /**
+             * An unknown lead id reached the relation call as null, so linking a quote to a lead
+             * that does not exist failed with a member-function error.
+             */
+            $lead = $this->leadRepository->findOrFail($leadId);
 
             $lead->quotes()->attach($quote->id);
         }
@@ -92,7 +96,11 @@ class QuoteController extends Controller
         $quote->leads()->detach();
 
         if ($leadId = request()->input('lead_id')) {
-            $lead = $this->leadRepository->find($leadId);
+            /**
+             * An unknown lead id reached the relation call as null, so linking a quote to a lead
+             * that does not exist failed with a member-function error.
+             */
+            $lead = $this->leadRepository->findOrFail($leadId);
 
             $lead->quotes()->attach($quote->id);
         }

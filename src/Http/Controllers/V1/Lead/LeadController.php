@@ -151,6 +151,16 @@ class LeadController extends Controller
      */
     public function createByAI()
     {
+        /**
+         * The uploads were read straight from the request, so a call that sent no `files` at all
+         * reached the loop with null and failed with a foreach type error instead of reporting
+         * the missing input.
+         */
+        $this->validate(request(), [
+            'files'   => 'required|array|min:1',
+            'files.*' => 'required|file|extensions:'.str_replace(' ', '', self::SUPPORTED_TYPES),
+        ]);
+
         $leadData = [];
 
         $errorMessages = [];
