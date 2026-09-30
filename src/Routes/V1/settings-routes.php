@@ -317,6 +317,10 @@ Route::group([
 
             Route::get('start/{id}', 'start');
 
+            Route::get('link/{id}', 'link');
+
+            Route::get('index/{id}', 'indexData');
+
             Route::get('stats/{id}/{state?}', 'stats');
 
             Route::get('download-sample/{sample?}', 'downloadSample');

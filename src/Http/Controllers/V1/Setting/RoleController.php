@@ -27,7 +27,7 @@ class RoleController extends Controller
     {
         $query = $this->roleRepository->query();
 
-        if ($userIds = bouncer()->getAuthorizedUserIds()) {
+        if ($userIds = $this->authorizedUserIds()) {
             $query->where(function ($query) use ($userIds) {
                 $query->whereIn('roles.created_by', $userIds)
                     ->orWhere('roles.id', auth()->guard()->user()->role_id);

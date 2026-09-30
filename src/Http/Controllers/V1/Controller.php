@@ -56,4 +56,51 @@ class Controller extends RestApiController
 
         return $query->get();
     }
+
+    /**
+     * Return a message-only error response carrying the given HTTP status code.
+     *
+     * `new JsonResource([...], $code)` does not work: JsonResource's constructor takes only the
+     * resource, so the status code is discarded and the response is sent as 200. Authorization
+     * failures in particular must be detectable by status code, not just by message text.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function errorResponse(string $message, int $statusCode)
+    {
+        return response()->json(['message' => $message], $statusCode);
+    }
+
+    /**
+     * Return the user ids the authenticated user is allowed to see, or null for unrestricted.
+     *
+     * This mirrors `bouncer()->getAuthorizedUserIds()`, but resolves the acting user from the
+     * request rather than the `user` guard. The core helper reads `auth()->guard('user')`, which
+     * is always null on an API request authenticated through Sanctum, so calling it here raises
+     * "Attempt to read property view_permission on null".
+     *
+     * @return array<int>|null
+     */
+    protected function authorizedUserIds(): ?array
+    {
+        $user = auth()->guard()->user();
+
+        if ($user->view_permission == 'global') {
+            return null;
+        }
+
+        if ($user->view_permission == 'group') {
+            return $user->groups()
+                ->with('users:id')
+                ->get()
+                ->pluck('users')
+                ->flatten()
+                ->pluck('id')
+                ->unique()
+                ->values()
+                ->toArray();
+        }
+
+        return [$user->id];
+    }
 }

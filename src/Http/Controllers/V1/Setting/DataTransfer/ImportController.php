@@ -288,6 +288,124 @@ class ImportController extends Controller
     }
 
     /**
+     * Link the imported resources.
+     *
+     * Importers such as persons and leads need this phase after `start`, so without it an
+     * API driven import stops short of the completed state.
+     */
+    public function link(int $id): JsonResponse
+    {
+        $import = $this->importRepository->findOrFail($id);
+
+        if (! $import->processed_rows_count) {
+            return new JsonResponse([
+                'message' => trans('rest-api::app.settings.data-transfer.imports.nothing-to-import'),
+            ], 400);
+        }
+
+        $this->importHelper->setImport($import);
+
+        if (! $this->importHelper->isValid()) {
+            return new JsonResponse([
+                'message' => trans('rest-api::app.settings.data-transfer.imports.not-valid'),
+            ], 400);
+        }
+
+        /**
+         * Set the import state to linking
+         */
+        if ($import->state == Import::STATE_PROCESSED) {
+            $this->importHelper->linking();
+        }
+
+        /**
+         * Get the first processed batch to link
+         */
+        $importBatch = $import->batches->where('state', Import::STATE_PROCESSED)->first();
+
+        if ($importBatch) {
+            /**
+             * Start the resource linking process
+             */
+            try {
+                $this->importHelper->link($importBatch);
+            } catch (\Exception $e) {
+                return new JsonResponse([
+                    'message' => $e->getMessage(),
+                ], 400);
+            }
+        } else {
+            if ($this->importHelper->isIndexingRequired()) {
+                $this->importHelper->indexing();
+            } else {
+                $this->importHelper->completed();
+            }
+        }
+
+        return new JsonResponse([
+            'stats'  => $this->importHelper->stats(Import::STATE_LINKED),
+            'import' => $this->importHelper->getImport()->unsetRelations(),
+        ]);
+    }
+
+    /**
+     * Index the imported resources, the final phase before an import is marked completed.
+     */
+    public function indexData(int $id): JsonResponse
+    {
+        $import = $this->importRepository->findOrFail($id);
+
+        if (! $import->processed_rows_count) {
+            return new JsonResponse([
+                'message' => trans('rest-api::app.settings.data-transfer.imports.nothing-to-import'),
+            ], 400);
+        }
+
+        $this->importHelper->setImport($import);
+
+        if (! $this->importHelper->isValid()) {
+            return new JsonResponse([
+                'message' => trans('rest-api::app.settings.data-transfer.imports.not-valid'),
+            ], 400);
+        }
+
+        /**
+         * Set the import state to indexing
+         */
+        if ($import->state == Import::STATE_LINKED) {
+            $this->importHelper->indexing();
+        }
+
+        /**
+         * Get the first linked batch to index
+         */
+        $importBatch = $import->batches->where('state', Import::STATE_LINKED)->first();
+
+        if ($importBatch) {
+            /**
+             * Start the resource indexing process
+             */
+            try {
+                $this->importHelper->index($importBatch);
+            } catch (\Exception $e) {
+                return new JsonResponse([
+                    'message' => $e->getMessage(),
+                ], 400);
+            }
+        } else {
+            /**
+             * Set the import state to completed
+             */
+            $this->importHelper->completed();
+        }
+
+        return new JsonResponse([
+            'stats'  => $this->importHelper->stats(Import::STATE_INDEXED),
+            'import' => $this->importHelper->getImport()->unsetRelations(),
+        ]);
+    }
+
+    /**
      * Returns import stats
      */
     public function stats(int $id, string $state = Import::STATE_PROCESSED): JsonResponse

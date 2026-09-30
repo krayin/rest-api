@@ -23,6 +23,7 @@ class WebFormResource extends JsonResource
             'submit_success_action'    => $this->submit_success_action,
             'submit_success_content'   => $this->submit_success_content,
             'create_lead'              => $this->create_lead,
+            'lead_pipeline_id'         => $this->lead_pipeline_id,
             'background_color'         => $this->background_color,
             'form_background_color'    => $this->form_background_color,
             'form_title_color'         => $this->form_title_color,

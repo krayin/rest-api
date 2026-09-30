@@ -68,6 +68,7 @@ class WebFormController extends Controller
             'submit_button_label'    => 'required',
             'submit_success_action'  => 'required',
             'submit_success_content' => 'required',
+            'lead_pipeline_id'       => 'nullable|integer|exists:lead_pipelines,id',
         ]);
 
         Event::dispatch('settings.web_forms.create.before');
@@ -99,6 +100,7 @@ class WebFormController extends Controller
             'submit_button_label'    => 'required',
             'submit_success_action'  => 'required',
             'submit_success_content' => 'required',
+            'lead_pipeline_id'       => 'nullable|integer|exists:lead_pipelines,id',
         ]);
 
         Event::dispatch('settings.web_forms.update.before', $id);
